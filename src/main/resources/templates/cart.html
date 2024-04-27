@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layout :: head}">
+</head>
+<link rel="stylesheet" th:href="@{/assets/css/cart.css}">
+
+<body>
+<header th:replace="~{layout :: header}">
+</header>
+<!-- Contenedor del contenido que limita el ancho -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 cart">
+            <div class="title">
+                <div class="row">
+                    <div class="col"><h4><b>Shopping Cart</b></h4></div>
+                </div>
+            </div> <!-- Iterar sobre los elementos del carrito y mostrarlos -->
+            <div th:each="item : ${cart.carItems}" class="row border-top border-bottom">
+                <div class="row main align-items-center">
+                    <div class="col-2"><img class="img-fluid" th:src="${item.product.getImagePrimary}"></div>
+                    <div class="col">
+                        <div class="row text-muted" th:text="${item.product.name}"></div>
+                        <div class="row" th:text="${item.product.description}"></div>
+                    </div>
+                    <div class="col">
+                        <form>
+                            <input type="number" name="quantity" min="1" th:value="${item.quantity}" class="form-control form-control-sm custom-input"/>
+                        </form>
+                    </div>
+                    <div class="col"><span th:text="'$' + ${item.product.price}" class="close"></span></div>
+                </div>
+            </div>
+            <div class="back-to-shop"><a href="#">&leftarrow;</a><span class="text-muted">Back to shop</span></div>
+        </div>
+        <!-- Inicio del resumen -->
+        <div class="col-md-4 summary">
+            <div><h5><b>Summary</b></h5></div>
+            <hr>
+            <form>
+                <p>SHIPPING</p>
+                <select><option class="text-muted">Standard-Delivery- &euro;5.00</option></select>
+                <p>GIVE CODE</p>
+                <input id="code" placeholder="Enter your code">
+            </form>
+
+            <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
+                <div class="col">TOTAL PRICE</div>
+                <div class="col text-right" th:text="'$' + ${cart.getTotalCart()}" ></div>
+            </div>
+            <form action="#" class="credit-card-div">
+                <div class="panel panel-default" >
+                    <div class="panel-heading">
+
+                        <div class="row ">
+                            <div class="col-md-12">
+                                <input type="text" class="form-control" placeholder="Enter Card Number" />
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <span class="help-block text-muted small-font" > Expiry Month</span>
+                                <input type="text" class="form-control" placeholder="MM" />
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <span class="help-block text-muted small-font" >  Expiry Year</span>
+                                <input type="text" class="form-control" placeholder="YY" />
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <span class="help-block text-muted small-font" >  CCV</span>
+                                <input type="text" class="form-control" placeholder="CCV" />
+                            </div>
+                            <div class="col-md-3 col-sm-3 col-xs-3">
+                                <img src="assets/img/1.png" class="img-rounded" />
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-12 pad-adjust">
+
+                                <input type="text" class="form-control" placeholder="Name On The Card" />
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-12 pad-adjust">
+                                <div class="checkbox">
+                                    <label>
+                                        <input type="checkbox" checked class="text-muted"> Save details for fast payments <a href="#"> learn how ?</a>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row ">
+                            <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
+                                <input type="submit"  class="btn btn-danger" value="CANCEL" />
+                            </div>
+                            <div class="col-md-6 col-sm-6 col-xs-6 pad-adjust">
+                                <input type="submit"  class="btn btn-warning btn-block" value="PAY NOW" />
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </form>
+            <button class="btn">CHECKOUT</button>
+        </div>
+        <!-- Fin del resumen -->
+    </div>
+</div>
+<!-- Fin del contenedor -->
+<!-- Start Footer -->
+<footer th:replace="~{layout :: footer}">
+</footer>
+<!-- End Footer -->
+
+<!-- Start Script -->
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/templatemo.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+
+<!-- End Script -->
+<!-- Your custom scripts -->
+
+<!-- End Slider Script -->
+</body>
+
+</html>

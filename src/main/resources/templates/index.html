@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:replace="~{layout :: head}">
+</head>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<body>
+<header th:replace="~{layout :: header}">
+</header>
+    <!-- Start Banner Hero -->
+    <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
+        <ol class="carousel-indicators" >
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="0" class="active"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="1"></li>
+            <li data-bs-target="#template-mo-zay-hero-carousel" data-bs-slide-to="2"></li>
+        </ol>
+        <div class="carousel-inner">
+            <div class="carousel-item active">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./assets/img/banner_img_01.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left align-self-center">
+                                <h1 class="h1 text-success"><b>Bienvenido a Tutienda</b></h1>
+                                <h3 class="h2">Tu Destino para una Experiencia de Compra Sin Contratiempos</h3>
+                                <p>
+                                    Bienvenido a Tutienda, tu destino principal para experimentar el futuro de las compras en línea.
+                                    Nuestra plataforma está meticulosamente diseñada con las últimas tecnologías para brindarte un viaje de compras sin contratiempos y agradable.
+                                    Explora nuestra vasta colección de productos, cuidadosamente seleccionada para satisfacer tus diversas necesidades y preferencias.
+                                    Con una interfaz fácil de usar y opciones de pago seguras, comprar en Tutienda no solo es conveniente, sino también un placer.
+                                    Siéntete libre de navegar por nuestras ofertas, descubrir nuevas tendencias y embarcarte en una aventura de compras como nunca antes.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./assets/img/banner_img_02.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 class="h1">Descubre lo que te hace único</h1>
+                                <h3 class="h2">Encuentra tu estilo con nosotros</h3>
+                                <p>
+                                    En Tutienda, te ofrecemos una experiencia de compra única, donde cada producto cuenta una historia y cada compra es una oportunidad para expresarte. ¡Explora nuestra colección y descubre lo que te hace destacar!
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="carousel-item">
+                <div class="container">
+                    <div class="row p-5">
+                        <div class="mx-auto col-md-8 col-lg-6 order-lg-last">
+                            <img class="img-fluid" src="./assets/img/banner_img_03.jpg" alt="">
+                        </div>
+                        <div class="col-lg-6 mb-0 d-flex align-items-center">
+                            <div class="text-align-left">
+                                <h1 class="h1">Bienvenido a Tutienda</h1>
+                                <h2 class="h2">¡Tu destino para una experiencia de compra sin contratiempos!</h2>
+                                <p>
+                                    "¡Descubre la emoción de encontrar lo que necesitas y más en Tutienda! ¡Cada compra es una oportunidad para explorar nuevas tendencias, satisfacer tus deseos y hacer realidad tus sueños! ¡No esperes más, el mundo de las compras te espera con infinitas posibilidades en Tutienda!"
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <a class="carousel-control-prev text-decoration-none w-auto ps-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="prev">
+            <i class="fas fa-chevron-left"></i>
+        </a>
+        <a class="carousel-control-next text-decoration-none w-auto pe-3" href="#template-mo-zay-hero-carousel" role="button" data-bs-slide="next">
+            <i class="fas fa-chevron-right"></i>
+        </a>
+    </div>
+    <!-- End Banner Hero -->
+
+
+    <!-- Start Categories of The Month -->
+    <section class="container py-5">
+        <div class="row text-center pt-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Categorías</h1>
+                <p>
+                    Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia
+                    deserunt mollit anim id est laborum.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+                <h5 class="text-center mt-3 mb-3">Relojes</h5>
+                <p class="text-center"><a class="btn btn-success" th:href="@{/shop}">Ir a tienda</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a ><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">Zapatos</h2>
+                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_04.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">Ropa</h2>
+                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">Gafas</h2>
+                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_05.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">Bolsos</h2>
+                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+            </div>
+            <div class="col-12 col-md-4 p-5 mt-3">
+                <a href="#"><img src="./assets/img/category_img_06.jpg" class="rounded-circle img-fluid border"></a>
+                <h2 class="h5 text-center mt-3 mb-3">Joyas</h2>
+                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+            </div>
+        </div>
+    </section>
+    <!-- End Categories of The Month -->
+
+
+    <!-- Start Featured Product -->
+<section class="bg-light">
+    <div class="container py-5">
+        <div class="row text-center py-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Mejores Valorados</h1>
+                <p>
+                    Reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.
+                    Excepteur sint occaecat cupidatat non proident.
+                </p>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Iterar sobre los productos mejor valorados -->
+            <div th:each="product : ${products}" class="col-12 col-md-4 mb-4">
+                <div class="card h-100">
+                    <a th:href="@{'/shop-single/' + ${product.id}}">
+                        <img th:src="${product.imageUrl.get(0).url}" class="card-img-top img-fluid" style="height: 400px; object-fit: cover;" alt="" />
+                    </a>
+                    <div class="card-body">
+                        <ul class="list-unstyled d-flex justify-content-between">
+                            <li>
+                                <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${product.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${product.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${product.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
+                            </li>
+                            <li class="text-muted text-right" th:text="${'$' + product.price}"></li>
+                        </ul>
+                        <a th:href="@{'/shop-single/' + ${product.id}}" class="h2 text-decoration-none text-dark" th:text="${product.name}">Product Name</a>
+                        <p class="card-text" th:text="${product.description}">Product Description</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- End Featured Product -->
+    <!-- Start Footer -->
+<footer th:replace="~{layout :: footer}">
+
+</footer>
+
+<!-- End Footer -->
+    <!-- Start Script -->
+    <script src="assets/js/jquery-1.11.0.min.js"></script>
+    <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+    <script src="assets/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/js/templatemo.js"></script>
+    <script src="assets/js/custom.js"></script>
+   <script src="assets/js/cartdesdejava.js"></script>
+    <!-- End Script -->
+<!-- Agrega SweetAlert JS -->
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+<script>
+    window.onload = function() {
+        Swal.fire({
+            title: '¡Bienvenido a Tutienda!',
+            text: 'Por favor, ten en cuenta que Tutienda es un proyecto de demostración y no representa una tienda de comercio electrónico real. Es parte de mi portafolio para mostrar habilidades en el desarrollo de aplicaciones web con tecnologías  como Spring Boot y Thymeleaf.',
+            icon: 'info',
+            confirmButtonText: 'Entendido'
+        });
+    };
+</script>
+</body>
+
+</html>
