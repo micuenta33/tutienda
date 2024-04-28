@@ -89,17 +89,18 @@ public class ProductController {
     }
     @PostMapping("/product/add")
     public String saveProducts(@ModelAttribute("product") Product product, Model model,
-                               @RequestParam("images") List<MultipartFile> images) {
+                               @RequestParam("images") List<MultipartFile> images,
+                               @RequestParam(name = "imag",required = false) MultipartFile imag) throws IOException {
 
         // Check if images are uploaded
-        if (images != null && !images.isEmpty()) {
+        if (imag != null && !imag.isEmpty() || images != null && !images.isEmpty()) {
             List<ImageUrl> imageUrls = new ArrayList<>();
-
             // Process each image
             for (MultipartFile image : images) {
                 try {
                     // Save each image to the server
                     imageUrls.add(iUploadFileService.save(image));
+
                 } catch (IOException e) {
                     // Handle exception if image saving fails
                     e.printStackTrace();
@@ -107,6 +108,7 @@ public class ProductController {
                 }
             }
             // Set the image URLs in the product
+            product.setImagePrimary(iUploadFileService.save(imag).getUrl());
             product.setImageUrl(imageUrls);
         }
         Product productResult = iProductService.save(product);

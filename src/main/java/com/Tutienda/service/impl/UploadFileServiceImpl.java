@@ -7,18 +7,17 @@ import com.Tutienda.service.IUploadFileService;
 import com.google.auth.oauth2.GoogleCredentials;
 import com.google.cloud.storage.*;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Calendar;
+
 import java.util.Objects;
 import java.util.UUID;
 
@@ -27,7 +26,8 @@ import java.util.UUID;
 public class UploadFileServiceImpl implements IUploadFileService {
     private final IImageUrlService iImageUrlService;
     private final static String BUCKET_NAME = "pruebajwt-8d391.appspot.com";
-    private final static String privateKeyFirebase = "private-key-firebase.json";
+    @Value("${FIREBASE_PRIVATE_KEY}")
+    private String privateKeyFirebase;
 
 
     public UploadFileServiceImpl(IImageUrlService iImageUrlService) {
@@ -40,7 +40,7 @@ public class UploadFileServiceImpl implements IUploadFileService {
     }
     @Override
     public ImageUrl save(MultipartFile image) throws IOException {
-        InputStream credentialsStream = getClass().getClassLoader().getResourceAsStream(privateKeyFirebase);
+        InputStream credentialsStream = new ByteArrayInputStream(privateKeyFirebase.getBytes());
         GoogleCredentials credentials = GoogleCredentials.fromStream(credentialsStream);
 
         InputStream inputStream = image.getInputStream();
