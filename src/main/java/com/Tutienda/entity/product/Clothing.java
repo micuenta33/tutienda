@@ -11,7 +11,6 @@ import lombok.Setter;
 import java.util.List;
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name = "clothing")
 @DiscriminatorValue("clothing")

@@ -10,7 +10,6 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name = "glasses")
 @DiscriminatorValue("glass")

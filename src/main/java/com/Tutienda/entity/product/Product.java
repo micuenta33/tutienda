@@ -13,7 +13,6 @@ import java.util.List;
 @Builder
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name = "products")
 @DiscriminatorColumn(name="product_type")

@@ -9,7 +9,6 @@ import lombok.*;
 
 @Getter
 @Setter
-@Data
 @Entity
 @Table(name = "watches")
 @DiscriminatorValue("watch")
