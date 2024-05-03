@@ -1,6 +1,6 @@
 package com.Tutienda.repository;
 
-import com.Tutienda.entity.usuarios.User;
+import com.Tutienda.entity.users.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import org.springframework.stereotype.Repository;

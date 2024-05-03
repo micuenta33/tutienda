@@ -21,19 +21,20 @@ public class Clothing extends Product {
             joinColumns = @JoinColumn(name = "product_id"),
             inverseJoinColumns = @JoinColumn(name = "Clothing_size_id"))
     private List<ClothingSize> clothingSizes;
+
+    private Integer stockSizeXSmall;
     private Integer stockSizeSmall;
     private Integer stockSizeMedium;
     private Integer stockSizeLarge;
     private Integer stockSizeXLarge;
     private Integer stockSizeXXLarge;
-    private Integer stockSizeXXXLarge;
 
     @Enumerated(EnumType.STRING)
     private ClothingTypeEnum type;
 
     @Override
     protected Integer stockTotal() {
-        Integer stock = stockSizeSmall + stockSizeMedium + stockSizeLarge + stockSizeXLarge + stockSizeXXLarge + stockSizeXXXLarge;
+        Integer stock = stockSizeSmall + stockSizeMedium + stockSizeLarge + stockSizeXLarge + stockSizeXXLarge ;
         return stock;
     }
 

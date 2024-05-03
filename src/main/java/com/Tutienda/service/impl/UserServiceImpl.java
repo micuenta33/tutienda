@@ -1,7 +1,7 @@
 package com.Tutienda.service.impl;
 
 
-import com.Tutienda.entity.usuarios.User;
+import com.Tutienda.entity.users.User;
 import com.Tutienda.repository.IUserRepository;
 import com.Tutienda.service.IUserService;
 import org.springframework.stereotype.Service;

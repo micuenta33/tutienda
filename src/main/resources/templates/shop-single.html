@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: head}">
+<head th:replace="~{layout/layout :: head}">
 </head>
 <link rel="stylesheet" type="text/css" href="/assets/css/slick.min.css" th:href="@{/assets/css/slick.min.css}">
 <link rel="stylesheet" type="text/css" href="/assets/css/slick-theme.css" th:href="@{/assets/css/slick-theme.css}">
 <body>
-<header th:replace="~{layout :: header}">
+<header th:replace="~{layout/layout :: header}">
 </header>
 <section class="bg-light" th:object="${product}">
     <div class="container pb-5">
@@ -58,6 +58,7 @@
                         </div>
                         <!--End Slides-->
                     </div>
+
                     <!--End Carousel Wrapper-->
                     <!--Start Controls-->
                     <div class="col-1 align-self-center">
@@ -81,12 +82,9 @@
                         <p  th:text="${product.description}"></p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
-                                <h6>Available Color :</h6>
+                                <h6>Color : <span th:text="${product.color}"></span> </h6>
                             </li>
-<!--                            <li class="list-inline-item" th:each="color, iterStat : ${product.colors}">-->
-<!--                                <span th:text="${color.name}"></span>-->
-<!--                                <span th:if="${!iterStat.last}"> / </span>-->
-<!--                            </li>-->
+
                         </ul>
                         <p class="py-2">
                             <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
@@ -100,18 +98,40 @@
                             <input type="hidden" name="product-title" value="Activewear">
                             <div class="row">
                                 <div class="col-auto">
-                                    <ul class="list-inline pb-3">
+                                    <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
                                         <li class="list-inline-item">Size :</li>
-<!--                                        <li class="list-inline-item" th:each="size : ${product.sizes}">-->
-<!--                                            <span class="btn btn-success btn-size" th:text="${size.getSize().name()}"></span>-->
-<!--                                        </li>-->
-                                    </ul>
+                                            <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
+                                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
+                                                <!-- Iterar sobre las tallas de ropa -->
+                                                <th:block th:each="size : ${product.clothingSizes}">
+                                                    <li>
+                                                        <span th:text="${size.clothingSize.name()}"></span>
+                                                        <!-- Mostrar el separador '/' si no es el último tamaño -->
+                                                        <span th:unless="${sizeStat.last}"> / </span>
+                                                    </li>
+                                                </th:block>
+                                            </th:block>
+                                            <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
+                                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
+                                                <!-- Iterar sobre las tallas de zapatos -->
+                                                <th:block th:each="size : ${product.shoeSizes}">
+                                                    <li>
+                                                        <span th:text="${size.shoeSize.name().replace('SIZE_', ' ')}"></span>
+                                                        <!-- Mostrar el separador '/' si no es el último tamaño -->
+                                                        <span th:unless="${sizeStat.last}"> / </span>
+                                                    </li>
+                                                </th:block>
+                                            </th:block>
+                                        <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Watch)}">
+                                            <!-- Mostrar el tipo de reloj -->
+                                            <li>
+                                                <span th:text="${product.watchType.type}"></span>
+                                            </li>
+                                        </th:block>
+                                        </ul>
                                 </div>
                             </div>
                             <div class="row pb-3">
-                                <div class="col d-grid">
-                                    <a type="submit" class="btn btn-success btn-lg" name="submit" value="buy">Buy</a>
-                                </div>
                                 <div class="col d-grid">
                                     <a class="btn btn-success btn-lg" th:onclick="addToCart([[${product}]])">
                                         <i class="fas fa-cart-plus"></i> Add To Cart
@@ -127,7 +147,7 @@
     </div>
 </section>
 <!-- Start Article -->
-<section class="py-5">
+<section id="related-products-section" class="py-5">
     <div class="container">
         <div class="row text-left p-2 pb-3">
             <h4>Related Products</h4>
@@ -137,11 +157,11 @@
             <div class="p-2 pb-3" th:each="product : ${products}">
                 <div class="product-wap card rounded-0">
                     <div class="card rounded-0">
-                        <img class="card-img rounded-0 img-fluid"   th:src="${product.getImagePrimary}" alt="Card image cap" style="height: 400px; object-fit: cover;">
+                        <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
                                 <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                <li><a class="btn btn-success text-white mt-2" th:href="@{/shop-single/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
+                                <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
                                 <li>
                                     <a id="add-to-cart-button" class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])">
                                         <i class="fas fa-cart-plus"></i>
@@ -151,15 +171,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <a href="shop-single.html" class="h3 text-decoration-none" th:text="${product.name}"></a>
-                        <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
-<!--                            <li th:each="size, iterStat : ${product.sizes}">-->
-<!--                                <span th:text="${size.getSize().name()-->
-<!--                                }"></span>-->
-<!--                                <span th:if="${!iterStat.last}"> / </span>-->
-<!--                            </li>-->
-                        </ul>
-
+                        <a th:href="@{/producto/{id}(id=${product.id})}" class="h3 text-decoration-none" th:text="${product.name}"></a>
                         <ul class="list-unstyled d-flex justify-content-center mb-1">
                             <li>
                                 <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
@@ -178,7 +190,7 @@
 </section>
 <!-- End Article -->
 <!-- Start Footer -->
-<footer th:replace="~{layout :: footer}">
+<footer th:replace="~{layout/layout :: footer}">
 </footer>
 <!-- End Footer -->
 <!-- Start Script -->
@@ -225,6 +237,8 @@
         });
     });
 </script>
+<script src="/assets/js/cartService.js"></script>
+
 <!-- End Slider Script -->
 </body>
 </html>

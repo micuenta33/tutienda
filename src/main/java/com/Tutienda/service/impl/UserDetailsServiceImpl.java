@@ -1,7 +1,7 @@
 package com.Tutienda.service.impl;
 
 
-import com.Tutienda.entity.usuarios.Role;
+import com.Tutienda.entity.users.Role;
 import com.Tutienda.repository.IUserRepository;
 
 

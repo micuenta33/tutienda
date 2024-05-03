@@ -2,7 +2,7 @@ package com.Tutienda.service;
 
 
 
-import com.Tutienda.entity.usuarios.User;
+import com.Tutienda.entity.users.User;
 
 import java.util.Optional;
 

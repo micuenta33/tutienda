@@ -21,6 +21,7 @@
         })
         .then(data => {
 
+              console.log(data)
               quantity = data.quantityProduct;
               updateCart(quantity);
 

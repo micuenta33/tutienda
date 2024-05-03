@@ -31,16 +31,16 @@
 --INSERT INTO image_url (id, url, product_id) VALUES (20, 'https://m.media-amazon.com/images/I/61psfqTFCML._AC_SX679_.jpg', 4);
 --INSERT INTO image_url (id, url, product_id) VALUES (21, 'https://m.media-amazon.com/images/I/61ZuIzYRvTL._AC_SX679_.jpg', 4);
 --
-INSERT INTO colors (id, name) VALUES (1,'Rojo');
-INSERT INTO colors (id, name) VALUES (2,'Verde');
-INSERT INTO colors (id, name) VALUES (3,'Azul');
-INSERT INTO colors (id, name) VALUES (4,'Blanco');
-INSERT INTO colors (id, name) VALUES (5,'Negro');
-INSERT INTO colors (id, name) VALUES (6,'Rosa');
-INSERT INTO colors (id, name) VALUES (7,'Gris');
-INSERT INTO colors (id, name) VALUES (8,'Amarillo');
-INSERT INTO colors (id, name) VALUES (9,'Marron');
-INSERT INTO colors (id, name) VALUES (10,'Azul suave');
+--INSERT INTO colors (id, name) VALUES (1,'Rojo');
+--INSERT INTO colors (id, name) VALUES (2,'Verde');
+--INSERT INTO colors (id, name) VALUES (3,'Azul');
+--INSERT INTO colors (id, name) VALUES (4,'Blanco');
+--INSERT INTO colors (id, name) VALUES (5,'Negro');
+--INSERT INTO colors (id, name) VALUES (6,'Rosa');
+--INSERT INTO colors (id, name) VALUES (7,'Gris');
+--INSERT INTO colors (id, name) VALUES (8,'Amarillo');
+--INSERT INTO colors (id, name) VALUES (9,'Marron');
+--INSERT INTO colors (id, name) VALUES (10,'Azul suave');
 
 --INSERT INTO product_color (product_id, color_id) VALUES (1,1)
 --INSERT INTO product_color (product_id, color_id) VALUES (1,2)

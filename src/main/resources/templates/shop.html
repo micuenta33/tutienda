@@ -1,16 +1,16 @@
 <!DOCTYPE html>
 <html lang="Spanish"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
-<head th:replace="~{layout :: head}">
+<head th:replace="~{layout/layout :: head}">
 </head>
 <body>
-<header th:replace="~{layout :: header}">
+<header th:replace="~{layout/layout :: header}">
 </header>
 <!-- Modal -->
 <!-- Start Content -->
 <div class="container py-5">
     <div class="row">
-        <div class="col-lg-3">
+        <div class="col-lg-2">
             <h1 class="h2 pb-4">Categorías</h1>
             <ul class="list-unstyled templatemo-accordion">
                 <li class="pb-3">
@@ -23,16 +23,6 @@
                         <li><a class="text-decoration-none" href="#">Mujer</a></li>
                     </ul>
                 </li>
-<!--                <li class="pb-3">-->
-<!--                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">-->
-<!--                        Sale-->
-<!--                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>-->
-<!--                    </a>-->
-<!--                    <ul id="collapseTwo" class="collapse list-unstyled pl-3">-->
-<!--                        <li><a class="text-decoration-none" href="#">Sport</a></li>-->
-<!--                        <li><a class="text-decoration-none" href="#">Luxury</a></li>-->
-<!--                    </ul>-->
-<!--                </li>-->
                 <li class="pb-3">
                     <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
                         Productos
@@ -48,20 +38,9 @@
                 </li>
             </ul>
         </div>
-        <div class="col-lg-9">
+        <div class="col-lg-10">
             <div class="row">
                 <div class="col-md-6">
-<!--                    <ul class="list-inline shop-top-menu pb-3 pt-1">-->
-<!--                        <li class="list-inline-item">-->
-<!--                            <a class="h3 text-dark text-decoration-none mr-3" href="#">All</a>-->
-<!--                        </li>-->
-<!--                        <li class="list-inline-item">-->
-<!--                            <a class="h3 text-dark text-decoration-none mr-3" href="#">Men's</a>-->
-<!--                        </li>-->
-<!--                        <li class="list-inline-item">-->
-<!--                            <a class="h3 text-dark text-decoration-none" href="#">Women's</a>-->
-<!--                        </li>-->
-<!--                    </ul>-->
                 </div>
                 <div class="col-md-6 pb-4">
                     <div class="d-flex">
@@ -79,43 +58,49 @@
                     <div class="col-md-4" th:each="product : ${products}">
                         <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                                    <img class="card-img rounded-0 img-fluid" th:src="${product.getImagePrimary}"  style="height: 438px; width: 526px; object-fit: cover;">
+                                <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
                                         <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2"  th:href="@{/shop-single/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
-                                        <li><a id="add-to-cart-button"  class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])"><i class="fas fa-cart-plus"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
+                                        <li><a id="add-to-cart-button" class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])"><i class="fas fa-cart-plus"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
                             <div class="card-body">
-                                <a  class="h3 text-decoration-none" th:href="@{/shop-single/{id}(id=${product.id})}" th:text="${product.name}">Oupidatat non</a>
+                                <a class="h3 text-decoration-none" th:href="@{/producto/{id}(id=${product.id})}" th:text="${product.name}">Oupidatat non</a>
                                 <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
                                     <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
                                     <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
                                         <!-- Iterar sobre las tallas de ropa -->
                                         <th:block th:each="size : ${product.clothingSizes}">
                                             <li>
-                                                <span th:text="${size.clothingSize.name()}"></span>
-                                                <!-- Mostrar el separador '/' si no es el último tamaño -->
-                                                <span th:unless="${sizeStat.last}"> / </span>
+                                                <span th:text="${size.clothingSize.name()+'&nbsp;'}"></span>
                                             </li>
                                         </th:block>
                                     </th:block>
-
                                     <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
                                     <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
                                         <!-- Iterar sobre las tallas de zapatos -->
                                         <th:block th:each="size : ${product.shoeSizes}">
                                             <li>
-                                                <span th:text="${size.shoeSize.name().replace('SIZE_', ' ')}"></span>
-                                                <!-- Mostrar el separador '/' si no es el último tamaño -->
-                                                <span th:unless="${sizeStat.last}"> / </span>
+                                                <span th:text="${size.shoeSize.getSize()} +'&nbsp;'"></span>
                                             </li>
                                         </th:block>
                                     </th:block>
+                                    <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Watch)}">
+                                        <!-- Mostrar el tipo de reloj -->
+                                        <li>
+                                            <span th:text="${product.watchType.type}"></span>
+                                        </li>
+                                    </th:block>
+                                    <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Glass)}">
+                                        <!-- Mostrar el tipo de reloj -->
+                                        <li>
+                                            <span th:text="${product.UVProtectionLevel.getDescription()}"></span>
+                                        </li>
+                                    </th:block>
                                 </ul>
-
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
                                     <li>
                                         <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
@@ -125,7 +110,7 @@
                                         <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
                                     </li>
                                 </ul>
-                                <p class="text-center mb-0" th:text="${product.price + ' €'}"></p>
+                                <p class="text-center mb-0" th:text="${#numbers.formatDecimal(product.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
                             </div>
                         </div>
                     </div>
@@ -137,9 +122,9 @@
                             <span th:if="${not page.isHasPrevius}" class="page-link">&laquo;</span>
                             <a th:if="${page.isHasPrevius}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.url}(page=${page.paginaActual-2})}">&laquo;</a>
                         </li>
-                        <li class="page-item" th:each="item: ${page.paginas}" th:class="${item.actual}? 'page-item active':'page-item'" >
+                        <li class="page-item" th:each="item: ${page.paginas}" th:class="${item.actual}? 'page-item active':'page-item'">
                             <span th:if="${item.actual}" th:text="${item.numero}" class="page-link"></span>
-                            <a th:if="${not item.actual}"  class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
+                            <a th:if="${not item.actual}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
                         </li>
                         <li class="page-item" th:class="${not page.isHasNext}? 'page-item disabled':'page-item'">
                             <span th:if="${not page.isHasNext}" class="page-link">&raquo;</span>
@@ -258,7 +243,7 @@
 
 
 <!-- Start Footer -->
-<footer th:replace="~{layout :: footer}">
+<footer th:replace="~{layout/layout :: footer}">
 
 </footer>
 <!-- End Footer -->
@@ -269,7 +254,7 @@
 <script src="assets/js/bootstrap.bundle.min.js"></script>
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
-<script src="assets/js/cartdesdejava.js"></script>
+<script src="assets/js/cartService.js"></script>
 <!-- End Script -->
 </body>
 

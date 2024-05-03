@@ -42,20 +42,19 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz->
                         authz.requestMatchers(resources).permitAll()
-                                .requestMatchers("/index","/","/shop","/shop-single/**","/register","/about","/contact").permitAll()
-                                .requestMatchers(HttpMethod.POST,"/add").permitAll()
+                                .requestMatchers("/","/tienda","/producto/**","/registro","/iniciar-sesion","/sobre-nosotros","/contacto").permitAll()
                                 .anyRequest().authenticated())
                 .formLogin((form) -> form
-                        .loginPage("/login")
-                        .defaultSuccessUrl("/index")
+                        .loginPage("/iniciar-sesion")
+                        .defaultSuccessUrl("/")
                         .loginProcessingUrl("/login")
-                        .failureUrl("/login?error=true")
+                        .failureUrl("/iniciar-sesion?error=true")
                         .passwordParameter("password")
                         .usernameParameter("username")
                         .permitAll()
                 ).logout(
                         logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/logout")).permitAll());
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/cerrar-sesion")).permitAll());
 
         return http.build();
 

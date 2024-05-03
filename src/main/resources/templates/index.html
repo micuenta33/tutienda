@@ -1,11 +1,11 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 
-<head th:replace="~{layout :: head}">
+<head th:replace="~{layout/layout :: head}">
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
 <body>
-<header th:replace="~{layout :: header}">
+<header th:replace="~{layout/layout :: header}">
 </header>
     <!-- Start Banner Hero -->
     <div id="template-mo-zay-hero-carousel" class="carousel slide" data-bs-ride="carousel">
@@ -172,7 +172,7 @@
 
 <!-- End Featured Product -->
     <!-- Start Footer -->
-<footer th:replace="~{layout :: footer}">
+<footer th:replace="~{layout/layout :: footer}">
 
 </footer>
 
@@ -197,6 +197,8 @@
         });
     };
 </script>
+<script src="/assets/js/cartService.js"></script>
+
 </body>
 
 </html>
