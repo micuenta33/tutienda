@@ -56,10 +56,10 @@ public class ProductController {
                 System.out.println(watch);
             }
         });
-        PageRender<Product> pageRender = new PageRender<>("/shop", productList);
+        PageRender<Product> pageRender = new PageRender<>("/tienda", productList);
         model.addAttribute("products",productList);
         model.addAttribute("page", pageRender);
-        model.addAttribute("title", "Shop");
+        model.addAttribute("title", "Tienda");
         return "shop";
     }
 

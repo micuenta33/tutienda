@@ -4,6 +4,8 @@
 <head th:replace="~{layout/layout :: head}">
 </head>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
+<link rel="stylesheet"  th:href="@{/assets/css/index.css}">
+
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
@@ -144,14 +146,54 @@
             </div>
         </div>
         <div class="row">
-            <!-- Iterar sobre los productos mejor valorados -->
-            <div th:each="product : ${products}" class="col-12 col-md-4 mb-4">
-                <div class="card h-100">
-                    <a th:href="@{'/shop-single/' + ${product.id}}">
-                        <img th:src="${product.imageUrl.get(0).url}" class="card-img-top img-fluid" style="height: 400px; object-fit: cover;" alt="" />
-                    </a>
+            <!-- Iterar sobre la lista de productos -->
+            <div class="col-md-4" th:each="product : ${products}">
+                <div class="card mb-4 product-wap rounded-0">
+                    <div class="card rounded-0">
+                        <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
+                        <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                            <ul class="list-unstyled">
+                                <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
+                                <li><a id="add-to-cart-button" class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])"><i class="fas fa-cart-plus"></i></a></li>
+                            </ul>
+                        </div>
+                    </div>
                     <div class="card-body">
-                        <ul class="list-unstyled d-flex justify-content-between">
+                        <a class="h3 text-decoration-none" th:href="@{/producto/{id}(id=${product.id})}" th:text="${product.name}">Oupidatat non</a>
+                        <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
+                            <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
+                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
+                                <!-- Iterar sobre las tallas de ropa -->
+                                <th:block th:each="size : ${product.clothingSizes}">
+                                    <li>
+                                        <span th:text="${size.clothingSize.name()+'&nbsp;'}"></span>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                            <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
+                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
+                                <!-- Iterar sobre las tallas de zapatos -->
+                                <th:block th:each="size : ${product.shoeSizes}">
+                                    <li>
+                                        <span th:text="${size.shoeSize.getSize()} +'&nbsp;'"></span>
+                                    </li>
+                                </th:block>
+                            </th:block>
+                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Watch)}">
+                                <!-- Mostrar el tipo de reloj -->
+                                <li>
+                                    <span th:text="${product.watchType.type}"></span>
+                                </li>
+                            </th:block>
+                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Glass)}">
+                                <!-- Mostrar el tipo de reloj -->
+                                <li>
+                                    <span th:text="${product.UVProtectionLevel.getDescription()}"></span>
+                                </li>
+                            </th:block>
+                        </ul>
+                        <ul class="list-unstyled d-flex justify-content-center mb-1">
                             <li>
                                 <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
                                 <i class="fa fa-star" th:classappend="${product.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
@@ -159,10 +201,8 @@
                                 <i class="fa fa-star" th:classappend="${product.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
                                 <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
                             </li>
-                            <li class="text-muted text-right" th:text="${'$' + product.price}"></li>
                         </ul>
-                        <a th:href="@{'/shop-single/' + ${product.id}}" class="h2 text-decoration-none text-dark" th:text="${product.name}">Product Name</a>
-                        <p class="card-text" th:text="${product.description}">Product Description</p>
+                        <p class="text-center mb-0" th:text="${#numbers.formatDecimal(product.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
                     </div>
                 </div>
             </div>
