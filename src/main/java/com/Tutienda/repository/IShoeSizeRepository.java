@@ -1,6 +1,7 @@
 package com.Tutienda.repository;
 
 import com.Tutienda.entity.*;
+import com.Tutienda.entity.enums.ShoeSizeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 

@@ -2,9 +2,8 @@ package com.Tutienda.entity.product;
 
 
 import com.Tutienda.entity.ClothingSize;
-import com.Tutienda.entity.ClothingTypeEnum;
+import com.Tutienda.entity.enums.ClothingTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -21,11 +20,17 @@ public class Clothing extends Product {
             inverseJoinColumns = @JoinColumn(name = "Clothing_size_id"))
     private List<ClothingSize> clothingSizes;
 
+    @Column(name = "stock_size_xsmall")
     private Integer stockSizeXSmall;
+    @Column(name = "stock_size_small")
     private Integer stockSizeSmall;
+    @Column(name = "stock_size_medium")
     private Integer stockSizeMedium;
+    @Column(name = "stock_size_large")
     private Integer stockSizeLarge;
+    @Column(name = "stock_size_xlarge")
     private Integer stockSizeXLarge;
+    @Column(name = "stock_size_xxl")
     private Integer stockSizeXXLarge;
 
     @Enumerated(EnumType.STRING)

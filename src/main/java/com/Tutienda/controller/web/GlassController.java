@@ -1,12 +1,10 @@
 package com.Tutienda.controller.web;
 
-import com.Tutienda.entity.Gender;
+import com.Tutienda.entity.enums.Gender;
 import com.Tutienda.entity.ImageUrl;
-import com.Tutienda.entity.UVProtectionLevelEnum;
-import com.Tutienda.entity.WatchTypeEnum;
+import com.Tutienda.entity.enums.UVProtectionLevelEnum;
 import com.Tutienda.entity.product.Glass;
 import com.Tutienda.entity.product.Product;
-import com.Tutienda.entity.product.Watch;
 import com.Tutienda.service.IProductService;
 import com.Tutienda.service.IUploadFileService;
 import org.springframework.stereotype.Controller;
@@ -19,7 +17,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 @Controller

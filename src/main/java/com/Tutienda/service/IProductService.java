@@ -15,8 +15,6 @@ public interface IProductService {
     Product save(Product product);
     void deleteById(Long id);
     Optional<Product> findById(Long id);
-
-    List<Product> findAllProductsByIds(List<Long> idsProductos);
-
     List<Product> findAllByBestRating(Integer rating);
+
 }

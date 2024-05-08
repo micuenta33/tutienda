@@ -2,7 +2,7 @@ package com.Tutienda.service.impl;
 
 
 import com.Tutienda.entity.ShoeSize;
-import com.Tutienda.entity.ShoeSizeEnum;
+import com.Tutienda.entity.enums.ShoeSizeEnum;
 import com.Tutienda.repository.IShoeSizeRepository;
 import com.Tutienda.service.IShoeSizeService;
 import org.springframework.stereotype.Service;

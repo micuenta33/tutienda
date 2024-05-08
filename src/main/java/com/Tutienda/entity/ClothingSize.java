@@ -1,5 +1,6 @@
 package com.Tutienda.entity;
 
+import com.Tutienda.entity.enums.ClothingSizeEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

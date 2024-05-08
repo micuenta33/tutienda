@@ -1,6 +1,4 @@
-package com.Tutienda.entity;
-
-import java.util.Locale;
+package com.Tutienda.entity.enums;
 
 public enum UVProtectionLevelEnum {
     UV_0("0UV No protección"),

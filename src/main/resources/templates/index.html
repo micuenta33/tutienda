@@ -1,11 +1,7 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-
 <head th:replace="~{layout/layout :: head}">
 </head>
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10">
-<link rel="stylesheet"  th:href="@{/assets/css/index.css}">
-
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
@@ -25,7 +21,7 @@
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left align-self-center">
-                                <h1 class="h1 text-success"><b>Bienvenido a Tutienda</b></h1>
+                                <h1 class="h1 text-success">Bienvenido a <b>Tutienda</b></h1>
                                 <h3 class="h2">Tu Destino para una Experiencia de Compra Sin Contratiempos</h3>
                                 <p>
                                     Bienvenido a Tutienda, tu destino principal para experimentar el futuro de las compras en línea.
@@ -84,8 +80,6 @@
         </a>
     </div>
     <!-- End Banner Hero -->
-
-
     <!-- Start Categories of The Month -->
     <section class="container py-5">
         <div class="row text-center pt-3">
@@ -99,34 +93,41 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
+                <a th:href="@{/tienda(categoria=${'watches'})}">
+                    <img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
                 <h5 class="text-center mt-3 mb-3">Relojes</h5>
-                <p class="text-center"><a class="btn btn-success" th:href="@{/shop}">Ir a tienda</a></p>
+                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(categoria=${'watches'})}">Ir a tienda</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a ><img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
+                <a th:href="@{/tienda(categoria=${'shoes'})}">
+                    <img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Zapatos</h2>
-                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(categoria=${'shoes'})}">Ir a tienda</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_04.jpg" class="rounded-circle img-fluid border"></a>
+                <a th:href="@{/tienda(categoria=${'clothing'})}">
+                    <img src="./assets/img/category_img_04.jpg" class="rounded-circle img-fluid border">
+                </a>
                 <h2 class="h5 text-center mt-3 mb-3">Ropa</h2>
-                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(categoria=${'clothing'})}">Ir a tienda</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
+                <a th:href="@{/tienda(categoria=${'glasses'})}">
+                    <img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Gafas</h2>
-                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(categoria=${'glasses'})}" >Ir a tienda</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_05.jpg" class="rounded-circle img-fluid border"></a>
+                <a th:href="@{/tienda(categoria=${'bags'})}">
+                    <img src="./assets/img/category_img_05.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Bolsos</h2>
-                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(categoria=${'bags'})}">Ir a tienda</a></p>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3">
-                <a href="#"><img src="./assets/img/category_img_06.jpg" class="rounded-circle img-fluid border"></a>
+                <a th:href="@{/tienda(categoria=${'jewelry'})}">
+                    <img src="./assets/img/category_img_06.jpg" class="rounded-circle img-fluid border"></a>
                 <h2 class="h5 text-center mt-3 mb-3">Joyas</h2>
-                <p class="text-center"><a class="btn btn-success">Ir a tienda</a></p>
+                <p class="text-center"><a th:href="@{/tienda(categoria=${'jewelry'})}" class="btn btn-success">Ir a tienda</a></p>
             </div>
         </div>
     </section>
@@ -223,7 +224,8 @@
     <script src="assets/js/bootstrap.bundle.min.js"></script>
     <script src="assets/js/templatemo.js"></script>
     <script src="assets/js/custom.js"></script>
-   <script src="assets/js/cartdesdejava.js"></script>
+   <script src="/assets/js/cartService.js"></script>
+
     <!-- End Script -->
 <!-- Agrega SweetAlert JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
@@ -237,7 +239,6 @@
         });
     };
 </script>
-<script src="/assets/js/cartService.js"></script>
 
 </body>
 

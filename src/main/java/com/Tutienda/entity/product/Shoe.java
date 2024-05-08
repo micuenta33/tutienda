@@ -1,9 +1,8 @@
 package com.Tutienda.entity.product;
 
 import com.Tutienda.entity.ShoeSize;
-import com.Tutienda.entity.ShoeTypeEnum;
+import com.Tutienda.entity.enums.ShoeTypeEnum;
 import jakarta.persistence.*;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

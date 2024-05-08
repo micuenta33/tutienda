@@ -1,6 +1,6 @@
 package com.Tutienda.entity.product;
 
-import com.Tutienda.entity.Gender;
+import com.Tutienda.entity.enums.Gender;
 import com.Tutienda.entity.ImageUrl;
 import jakarta.persistence.*;
 import lombok.*;
@@ -40,5 +40,4 @@ public  class Product  {
         Integer stock = 0;
         return stock;
     }
-
 }

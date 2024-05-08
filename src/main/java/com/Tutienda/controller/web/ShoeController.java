@@ -1,6 +1,9 @@
 package com.Tutienda.controller.web;
 
 import com.Tutienda.entity.*;
+import com.Tutienda.entity.enums.Gender;
+import com.Tutienda.entity.enums.ShoeSizeEnum;
+import com.Tutienda.entity.enums.ShoeTypeEnum;
 import com.Tutienda.entity.product.Product;
 import com.Tutienda.entity.product.Shoe;
 import com.Tutienda.service.IProductService;

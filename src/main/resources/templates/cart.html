@@ -4,7 +4,6 @@
 <head th:replace="~{layout/layout :: head}">
 </head>
 <link rel="stylesheet" th:href="@{/assets/css/cart.css}">
-
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
@@ -61,7 +60,7 @@
                     </div>
                 </div>
             </form>
-            <button class="btn"> PAGAR </button>
+            <button class="btn" onclick="sendCartDataToBackend()"> PAGAR </button>
         </div>
         <!-- Fin del resumen -->
     </div>
@@ -80,6 +79,7 @@
 <script th:src="@{/assets/js/custom.js}"></script>
 <!-- Asegúrate de incluir cartService.js antes de este script -->
 <script src="/assets/js/cartService.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
     // Función para calcular y actualizar el precio total incluyendo el costo de envío
     function updateTotalPrice() {

@@ -1,7 +1,7 @@
 package com.Tutienda.service.impl;
 
 import com.Tutienda.entity.ClothingSize;
-import com.Tutienda.entity.ClothingSizeEnum;
+import com.Tutienda.entity.enums.ClothingSizeEnum;
 import com.Tutienda.repository.IClothingSizeRepository;
 import com.Tutienda.service.IClothingSizeService;
 import org.springframework.stereotype.Service;

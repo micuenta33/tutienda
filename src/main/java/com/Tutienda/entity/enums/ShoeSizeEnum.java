@@ -1,4 +1,4 @@
-package com.Tutienda.entity;
+package com.Tutienda.entity.enums;
 
 public enum ShoeSizeEnum {
     SIZE_35("35"),

@@ -1,7 +1,7 @@
 package com.Tutienda.repository;
 
 import com.Tutienda.entity.ClothingSize;
-import com.Tutienda.entity.ClothingSizeEnum;
+import com.Tutienda.entity.enums.ClothingSizeEnum;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;

@@ -19,8 +19,9 @@
                         <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Hombres</a></li>
-                        <li><a class="text-decoration-none" href="#">Mujer</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(gender=${'men'})}">Hombres</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(gender=${'women'})}">Mujer</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(gender=${'unisex'})}">Unisex</a></li>
                     </ul>
                 </li>
                 <li class="pb-3">
@@ -29,11 +30,12 @@
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" href="#">Ropa</a></li>
-                        <li><a class="text-decoration-none" href="#">Zapatos</a></li>
-                        <li><a class="text-decoration-none" href="#">Accesorios</a></li>
-                        <li><a class="text-decoration-none" href="#">Bolsos</a></li>
-                        <li><a class="text-decoration-none" href="#">Gafas</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'clothing'})}">Ropa</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'shoes'})}">Zapatos</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'watches'})}">Relojes</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'bags'})}" >Bolsos</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'glasses'})}">Gafas</a></li>
+                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'jewelry'})}">Joyas</a></li>
                     </ul>
                 </li>
             </ul>

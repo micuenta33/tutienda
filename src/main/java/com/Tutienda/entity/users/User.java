@@ -1,5 +1,6 @@
 package com.Tutienda.entity.users;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -23,6 +24,7 @@ public class User implements Serializable {
     @Column(unique = true,length = 30)
     private String username;
     @Column(length = 60)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Role> roles=new HashSet<>() ;

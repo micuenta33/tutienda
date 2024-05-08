@@ -1,9 +1,8 @@
 package com.Tutienda.controller.web;
 
-import com.Tutienda.entity.DisplayTypeEnum;
-import com.Tutienda.entity.Gender;
+import com.Tutienda.entity.enums.Gender;
 import com.Tutienda.entity.ImageUrl;
-import com.Tutienda.entity.WatchTypeEnum;
+import com.Tutienda.entity.enums.WatchTypeEnum;
 import com.Tutienda.entity.product.Product;
 import com.Tutienda.entity.product.Watch;
 import com.Tutienda.service.IProductService;

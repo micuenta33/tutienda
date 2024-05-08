@@ -57,13 +57,11 @@ public class ProductServiceImpl implements IProductService {
         return iProductRepository.findById(id);
     }
 
-    @Override
-    public List<Product> findAllProductsByIds(List<Long> idsProductos) {
-        return iProductRepository.findAllById(idsProductos);
-    }
+
 
     @Override
     public List<Product> findAllByBestRating(Integer rating ) {
         return iProductRepository.findAllByRatingGreaterThan(rating);
     }
+
 }

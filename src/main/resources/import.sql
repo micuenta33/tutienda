@@ -48,11 +48,12 @@
 --INSERT INTO product_color (product_id, color_id) VALUES (1,4)
 --INSERT INTO product_color (product_id, color_id) VALUES (1,5)
 --
-INSERT INTO clothing_sizes (id, clothing_size) VALUES (1, 'S');
-INSERT INTO clothing_sizes (id, clothing_size) VALUES (2, 'M');
-INSERT INTO clothing_sizes (id, clothing_size) VALUES (3, 'L');
-INSERT INTO clothing_sizes (id, clothing_size) VALUES (4, 'XL');
-INSERT INTO clothing_sizes (id, clothing_size) VALUES (5, 'XXL');
+INSERT INTO clothing_sizes (id, clothing_size) VALUES (1, 'XS');
+INSERT INTO clothing_sizes (id, clothing_size) VALUES (2, 'S');
+INSERT INTO clothing_sizes (id, clothing_size) VALUES (3, 'M');
+INSERT INTO clothing_sizes (id, clothing_size) VALUES (4, 'L');
+INSERT INTO clothing_sizes (id, clothing_size) VALUES (5, 'XL');
+INSERT INTO clothing_sizes (id, clothing_size) VALUES (6, 'XXL');
 
 --INSERT INTO product_size (product_id, size_id) VALUES (1,1)
 --INSERT INTO product_size (product_id, size_id) VALUES (1,2)

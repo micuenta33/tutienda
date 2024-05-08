@@ -1,10 +1,9 @@
 package com.Tutienda.entity.product;
 
-import com.Tutienda.entity.UVProtectionLevelEnum;
+import com.Tutienda.entity.enums.UVProtectionLevelEnum;
 import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 

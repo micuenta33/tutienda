@@ -65,31 +65,35 @@ function findCartItemByProduct(product) {
 
 // Función para renderizar los elementos del carrito
 function renderCartItems() {
-
     updateCartQuantityFromLocalStorage();
     const cartTableBody = document.querySelector('#cartTable tbody');
-    // Limpiar el cuerpo de la tabla antes de volver a agregar los elementos
-    cartTableBody.innerHTML = '';
-    // Iterar sobre los elementos del carrito y agregarlos al cuerpo de la tabla
-    cart.carItems.forEach((item, index) => {
-        item = new CarItem(item.product, item.quantity, item.price);
-        // Crear una nueva fila de la tabla
-        const cartTableRow = document.createElement('tr');
-        cartTableRow.innerHTML = `
-            <td class="col-2"><img class="img-fluid" src="${item.product.imagePrimary}" alt="Product Image"></td>
-            <td class="col-2">${item.product.name}</td>
-            <td class="col-2">
-                <button onclick="decrementQuantity(${index})">-</button>
-                <span id="quantity_${item.product.id}">${item.quantity}</span>
-                <button onclick="incrementQuantity(${index})">+</button>
-            </td>
-            <td class="col-2">${item.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
-            <td class="col-2">${item.getPriceQuantity().toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
-            <td class="col-2"><button class="btn-danger" onclick="removeItemFromCart(${index})">Eliminar</button></td>
-        `;
-        cartTableBody.appendChild(cartTableRow);
-    });
+    // Verificar si cartTableBody es null
+    if (cartTableBody) {
+        // Limpiar el cuerpo de la tabla antes de volver a agregar los elementos
+        cartTableBody.innerHTML = '';
+        // Iterar sobre los elementos del carrito y agregarlos al cuerpo de la tabla
+        cart.carItems.forEach((item, index) => {
+            item = new CarItem(item.product, item.quantity, item.price);
+            // Crear una nueva fila de la tabla
+            const cartTableRow = document.createElement('tr');
+            cartTableRow.innerHTML = `
+                <td class="col-2"><img class="img-fluid" src="${item.product.imagePrimary}" alt="Product Image"></td>
+                <td class="col-2">${item.product.name}</td>
+                <td class="col-2">
+                    <button onclick="decrementQuantity(${index})">-</button>
+                    <span  id="quantity_${item.product.id}" th:field="*{items.quantity}" >${item.quantity}</span>
+                    <button onclick="incrementQuantity(${index})">+</button>
+                </td>
+                <td class="col-2" >${item.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
+                <td class="col-2" th:field="*{items.totalPrice}">${item.getPriceQuantity().toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
+                <td class="col-2"><button class="btn-danger" onclick="removeItemFromCart(${index})">Eliminar</button></td>
+            `;
+            cartTableBody.appendChild(cartTableRow);
+        });
         updateTotalCart();
+    } else {
+     console.log('#cartTable tbody no encontrado');
+    }
 }
 // Función para eliminar un elemento del carrito
 function removeItemFromCart(index) {
@@ -146,13 +150,23 @@ function calculateTotalCart() {
 
 // Función para actualizar el total del carrito en la interfaz de usuario
 function updateTotalCart() {
-    // Calcular el total del carrito
-    const totalCart = calculateTotalCart().toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
-    console.log("total",totalCart)
-    // Actualizar el total del carrito en la interfaz de usuario
-    document.getElementById('totalPrice').textContent = totalCart;
+    // Obtener el elemento del total del carrito
+    const totalPriceElement = document.getElementById('totalPrice');
+    // Verificar si totalPriceElement es null
+    if (totalPriceElement) {
+        // Calcular el total del carrito
+        const totalCart = calculateTotalCart().toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
+        console.log("total", totalCart);
+        // Actualizar el total del carrito en la interfaz de usuario
+        totalPriceElement.textContent = totalCart;
+    } else {
+        console.log('#totalPrice no encontrado');
+    }
 }
+
+// Llamar a la función updateTotalCart cuando se haya cargado el DOM
 document.addEventListener('DOMContentLoaded', updateTotalCart);
+
 
 // Función para obtener la cantidad del carrito desde localStorage y actualizar el elemento HTML
 function updateCartQuantityFromLocalStorage() {
@@ -175,10 +189,54 @@ function updateCartQuantityFromLocalStorage() {
     }
 
 }
+function sendCartDataToBackend() {
+    const cartData = JSON.parse(localStorage.getItem('cart'));
+    console.log('cart',cartData);
+    // Crear un nuevo objeto con los datos necesarios para la compra
+    const purchaseData = {
+        user: cartData.user,
+        items: cartData.carItems.map(item => ({
+            product: item.product,
+            quantity: item.quantity,
+            totalPrice: item.quantity * item.price  // Calcular el precio total aquí
+        })),
+        totalPurchase: calculateTotalCart(),
+        date: new Date().toISOString()
+    };
+    console.log('purchase',purchaseData);
+    // Crear una solicitud HTTP POST
+    fetch('/purchase', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(purchaseData)
+    })
+    .then(response => {
+        if (response.ok) {
+            console.log('Purchase successful');
+            // Limpiar el carrito después de que la compra sea exitosa
+            localStorage.removeItem('cart');
+           Swal.fire({
+                          title: '¡Compra realizada con éxito!',
+                          icon: 'success',
+                          confirmButtonText: 'Entendido'
+                      }).then(() => {
+                          // Redirigir a la página principal
+                          window.location.href = '/';
+                      });
+        } else {
+            console.error('Purchase failed');
+        }
+    })
+    .catch(error => {
+        console.error('Error sending cart data to backend:', error);
+    });
+}
 
 // Llamar a la función para actualizar la cantidad del carrito al cargar la página
 updateCartQuantityFromLocalStorage();
-
 // Llamar a renderCartItems al cargar la página para mostrar los elementos del carrito
 renderCartItems();
+
 
