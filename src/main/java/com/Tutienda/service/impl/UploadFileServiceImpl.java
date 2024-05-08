@@ -26,7 +26,7 @@ import java.util.UUID;
 public class UploadFileServiceImpl implements IUploadFileService {
     private final IImageUrlService iImageUrlService;
     private final static String BUCKET_NAME = "pruebajwt-8d391.appspot.com";
-    @Value("${FIREBASE_PRIVATE_KEY}")
+    @Value("${firebase_private_key}")
     private String privateKeyFirebase;
 
 
