@@ -28,7 +28,7 @@
                         <!--Start Slides-->
                         <div class="carousel-inner product-links-wap" role="listbox">
                             <!--First slide-->
-                            <div class="carousel-item active">
+                            <div class="carousel-item active item ">
                                 <div class="row">
                                     <!--Check if product has images and display up to 3-->
                                     <div th:each="image, index : ${product.imageUrl}" th:if="${index.index < 3}" class="col-4">
@@ -42,7 +42,7 @@
                             </div>
                             <!--/.First slide-->
                             <!--Second slide-->
-                            <div class="carousel-item">
+                            <div class="carousel-item item ">
                                 <div class="row">
                                     <!--Check if product has images and display up to 6-->
                                     <div th:each="image, index : ${product.imageUrl}" th:if="${index.index >= 3 and index.index < 6}" class="col-4">

@@ -4,6 +4,13 @@
     object-fit: contain; /* Ajusta la imagen dentro del contenedor sin distorsionarla */
     object-position: center; /* Centra la imagen horizontal y verticalmente */
 }
+.item img {
+    width: 100px; /* Ancho de la plantilla */
+    height: 100px; /* Altura de la plantilla */
+    background-color: white; /* Color de fondo blanco */
+    object-fit: contain; /* Ajusta la imagen dentro del contenedor sin distorsionarla */
+    object-position: center; /* Centra la imagen horizontal y verticalmente */
+}
 #product-detail {
     width: 600px;
     height: 500px;
