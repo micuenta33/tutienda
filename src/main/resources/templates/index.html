@@ -154,7 +154,7 @@
                         <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
-                                <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
+                                <li><a class="btn btn-success text-white" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-heart"></i></a></li>
                                 <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
                                 <li><a id="add-to-cart-button" class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])"><i class="fas fa-cart-plus"></i></a></li>
                             </ul>

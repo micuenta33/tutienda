@@ -16,7 +16,8 @@ public class HomeController {
 
     @GetMapping(value = {"/página-principal","/"})
     public String index(Model model) {
-        model.addAttribute("products", productService.findAllByBestRating(4));
+
+        model.addAttribute("products", productService.findByBestRatingGreaterThanEqual(4));
         return "index";
     }
     @GetMapping("/sobre-nosotros")

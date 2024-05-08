@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 public interface IProductRepository extends JpaRepository<Product,Long> {
-    List<Product> findAllByRatingGreaterThan(Integer rating );
+    List<Product> findByRatingGreaterThanEqual(Integer rating );
 }

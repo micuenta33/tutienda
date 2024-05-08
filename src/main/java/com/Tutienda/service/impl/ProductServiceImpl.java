@@ -60,8 +60,8 @@ public class ProductServiceImpl implements IProductService {
 
 
     @Override
-    public List<Product> findAllByBestRating(Integer rating ) {
-        return iProductRepository.findAllByRatingGreaterThan(rating);
+    public List<Product> findByBestRatingGreaterThanEqual(Integer rating) {
+        return iProductRepository.findByRatingGreaterThanEqual(rating);
     }
 
 }
