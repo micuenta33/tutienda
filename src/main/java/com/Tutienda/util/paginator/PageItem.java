@@ -1,20 +1,20 @@
 package com.Tutienda.util.paginator;
 
 public class PageItem {
-    private int numero;
+    private int number;
     private boolean actual;
 
     public PageItem(int numero, boolean actual) {
-        this.numero = numero;
+        this.number = numero;
         this.actual = actual;
     }
 
-    public int getNumero() {
-        return numero;
+    public int getNumber() {
+        return number;
     }
 
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setNumber(int number) {
+        this.number = number;
     }
 
     public boolean isActual() {

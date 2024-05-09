@@ -122,15 +122,15 @@
                     <ul class="pagination pagination-lg justify-content-end">
                         <li class="page-item disabled" th:class="${not page.isHasPrevius}? 'page-item disabled':'page-item'">
                             <span th:if="${not page.isHasPrevius}" class="page-link">&laquo;</span>
-                            <a th:if="${page.isHasPrevius}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.url}(page=${page.paginaActual-2})}">&laquo;</a>
+                            <a th:if="${page.isHasPrevius}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.getUrlWithParams(page.actualPage-2)}}" aria-label="Previous">&laquo;</a>
                         </li>
-                        <li class="page-item" th:each="item: ${page.paginas}" th:class="${item.actual}? 'page-item active':'page-item'">
-                            <span th:if="${item.actual}" th:text="${item.numero}" class="page-link"></span>
-                            <a th:if="${not item.actual}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.url}(page=${item.numero-1})}" th:text="${item.numero}"></a>
+                        <li class="page-item" th:each="item: ${page.pages}" th:class="${item.actual}? 'page-item active':'page-item'">
+                            <span th:if="${item.actual}" th:text="${item.number}" class="page-link"></span>
+                            <a th:if="${not item.actual}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.getUrlWithParams(item.number-1)}}" th:text="${item.number}"></a>
                         </li>
                         <li class="page-item" th:class="${not page.isHasNext}? 'page-item disabled':'page-item'">
                             <span th:if="${not page.isHasNext}" class="page-link">&raquo;</span>
-                            <a th:if="${page.isHasNext}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.url}(page=${page.paginaActual})}">&raquo;</a>
+                            <a th:if="${page.isHasNext}" class="page-link rounded-0 mr-3 shadow-sm border-top-0 border-left-0 text-dark" th:href="@{${page.getUrlWithParams(page.actualPage)}}" aria-label="Next">&raquo;</a>
                         </li>
                     </ul>
                 </div>

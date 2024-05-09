@@ -1,77 +1,78 @@
 package com.Tutienda.util.paginator;
 
+import lombok.Getter;
 import org.springframework.data.domain.Page;
 
 import java.util.ArrayList;
 import java.util.List;
-
+@Getter
 public class PageRender<T> {
-    private String url;
-    private Page<T> page;
-    private int totalPaginas;
-    private int numElementosPorPagina;
-    private int paginaActual;
-    private List<PageItem> paginas;
-    public PageRender(String url, Page<T> page) {
+    private final String url;
+    private final Page<T> page;
+    private final int totalPages;
+    private final int numberOfItemsByPage;
+    private final int actualPage;
+    private String[] queryParams; // Array para almacenar los parámetros de filtro
+    private final List<PageItem> pages = new ArrayList<>(); // Inicialización directa al declarar
+
+    public PageRender(String url, Page<T> page, String... queryParams) {
         this.url = url;
         this.page = page;
+        if (queryParams != null && queryParams.length > 0) {
+            this.queryParams = queryParams;// Almacenar los parámetros de filtro
+        }
+        numberOfItemsByPage = page.getSize();
+        totalPages = page.getTotalPages();
+        actualPage = page.getNumber() + 1;
 
-
-        this.paginas=new ArrayList<PageItem>();
-        numElementosPorPagina = page.getSize();
-        totalPaginas = page.getTotalPages();
-        paginaActual = page.getNumber()+1;
-
-
-        int desde,hasta;
-        if(totalPaginas <= numElementosPorPagina){
-            desde= 1;
-            hasta= totalPaginas;
-        }else {
-            if(paginaActual <= numElementosPorPagina/2){
-                desde=1;
-                hasta=numElementosPorPagina;
-            }else if (paginaActual >= totalPaginas - numElementosPorPagina/2){
-                desde=totalPaginas - numElementosPorPagina + 1;
-                hasta=numElementosPorPagina;
-            }else {
-                desde= paginaActual - numElementosPorPagina/2;
-                hasta= numElementosPorPagina;
+        int desde, hasta;
+        if (totalPages <= numberOfItemsByPage) {
+            desde = 1;
+            hasta = totalPages;
+        } else {
+            if (actualPage <= numberOfItemsByPage / 2) {
+                desde = 1;
+                hasta = numberOfItemsByPage;
+            } else if (actualPage >= totalPages - numberOfItemsByPage / 2) {
+                desde = totalPages - numberOfItemsByPage + 1;
+                hasta = numberOfItemsByPage;
+            } else {
+                desde = actualPage - numberOfItemsByPage / 2;
+                hasta = numberOfItemsByPage;
             }
         }
-        for (int i=0; i<hasta; i++){
-            paginas.add(new PageItem(desde +i ,paginaActual ==desde + i));
+        for (int i = 0; i < hasta; i++) {
+            pages.add(new PageItem(desde + i, actualPage == desde + i));
         }
     }
 
-    public String getUrl() {
-        return url;
-    }
-
-
-
-    public int getTotalPaginas() {
-        return totalPaginas;
-    }
-
-
-    public int getPaginaActual() {
-        return paginaActual;
-    }
-
-    public List<PageItem> getPaginas() {
-        return paginas;
-    }
-    public boolean isFirst(){
+    public boolean isFirst() {
         return page.isFirst();
     }
-    public boolean isLast(){
+
+    public boolean isLast() {
         return page.isLast();
     }
-    public boolean isHasNext(){
+
+    public boolean isHasNext() {
         return page.hasNext();
     }
-    public boolean isHasPrevius(){
+
+    public boolean isHasPrevius() {
         return page.hasPrevious();
+    }
+
+    // Método para generar la URL con los parámetros de filtro
+    public String getUrlWithParams(int page) {
+        StringBuilder builder = new StringBuilder(url);
+        builder.append("?page=").append(page); // Añadir número de página
+
+        // Añadir los parámetros de filtro si existen
+        if (queryParams != null && queryParams.length > 0) {
+            for (String param : queryParams) {
+                builder.append("&").append(param);
+            }
+        }
+        return builder.toString();
     }
 }
