@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="Spanish"  xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="Spanish" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head th:replace="~{layout/layout :: head}">
 </head>
@@ -15,43 +15,102 @@
             <ul class="list-unstyled templatemo-accordion">
                 <li class="pb-3">
                     <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Género
-                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul class="collapse show list-unstyled pl-3">
-                        <li><a class="text-decoration-none" th:href="@{/tienda(gender=${'men'})}">Hombres</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(gender=${'women'})}">Mujer</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(gender=${'unisex'})}">Unisex</a></li>
-                    </ul>
-                </li>
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
                         Productos
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
                     <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'clothing'})}">Ropa</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'shoes'})}">Zapatos</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'watches'})}">Relojes</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'bags'})}" >Bolsos</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'glasses'})}">Gafas</a></li>
-                        <li><a class="text-decoration-none" th:href="@{/tienda(categoria=${'jewelry'})}">Joyas</a></li>
+                        <li class="pb-2">
+                            <a class="text-decoration-none" href="#" id="clothing">Ropa
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="clothing-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'camisa'})}">Camisas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'camiseta'})}">Camisetas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'sudadera'})}">Sudaderas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'pantalon'})}">Pantalones</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'ropa deportiva'})}">Ropa deportiva</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'polo'})}">Polos</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'vestido'})}">Vestidos</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'falda'})}">Faldas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'chaqueta'})}">Chaquetas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'chaqueta Ligera'})}">Chaquetas ligeras</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'otros'})}">Otros</a></li>
+                            </ul>
+                        </li>
+                        <li class="pb-2 " >
+                            <a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'})}" id="shoes"> Calzado
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="shoes-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatos'})}">Zapatos</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatos clásicos'})}">Zapatos clásicos</C></a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatillas'})}">Zapatillas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatillas deportivas'})}">Zapatillas deportivas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'sandalias'})}">Sandalías</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'botas'})}">Botas</a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'tacones'})}">Tacones</a></li>
+                            </ul>
+                        </li>
+                        <li class="pb-2 ">
+                            <a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'})}" id="accces"> Accesorios
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="accces-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
+                                <li><a class="text-dark text-decoration-none mr-3" th:href="@{/tienda(category=${'shoes'},type=${'cinturones'})}"> Cinturones </a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'},type=${'joyas'})}"> Joyas </a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'},type=${'carteras'})}"> Carteras </a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'},type=${'carteras'})}"> Monederos </a></li>
+                            </ul>
+                        </li>
+                        <li class="pb-2 ">
+                            <a class="text-decoration-none" th:href="@{/tienda(category=${'bags'})}" id="bags" >Bolsos
+                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                            </a>
+                            <ul id="bags-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
+                                <li><a class="text-dark text-decoration-none mr-3" th:href="@{/tienda(category=${'bags'},type=${'bolsos'})}"> Bolsos </a></li>
+                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'bags'},type=${'mochilas'})}"> Mochilas  </a></li>
+                            </ul>
+                        </li>
+                        <li class="pb-2 ">
+                            <a class="text-decoration-none" th:href="@{/tienda(category=${'watches'})}" >Relojes</a>
+                        </li> 
+                        <li class="pb-2 ">
+                            <a class="text-decoration-none" th:href="@{/tienda(category=${'glasses'})}">Gafas</a>
+                        </li>
+
+                    </ul>
+                </li>
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        Género
+                        <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
+                    </a>
+                    <ul class="collapse show list-unstyled pl-3" >
+                        <li><a class="text-decoration-none gender-link" href="#" data-gender="hombre">Hombre</a></li>
+                        <li><a class="text-decoration-none gender-link" href="#" data-gender="mujer">Mujer</a></li>
+                        <li><a class="text-decoration-none gender-link" href="#" data-gender="unisex">Unisex</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
+
         <div class="col-lg-10">
             <div class="row">
                 <div class="col-md-6">
-                </div>
-                <div class="col-md-6 pb-4">
-                    <div class="d-flex">
-                        <select class="form-control">
-                            <option>Featured</option>
-                            <option>A to Z</option>
-                            <option>Item</option>
-                        </select>
-                    </div>
+                    <ul class="list-inline shop-top-menu pb-3 pt-1">
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" th:href="@{/tienda}">Todos </a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none mr-3" th:href="@{/tienda(gender=${'hombre'})}">Hombres</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none" th:href="@{/tienda(gender=${'mujer'})}">Mujeres</a>
+                        </li>
+                        <li class="list-inline-item">
+                            <a class="h3 text-dark text-decoration-none" th:href="@{/tienda(gender=${'unisex'})}">Unisex</a>
+                        </li>
+                    </ul>
                 </div>
             </div>
             <div class="container">
@@ -249,8 +308,85 @@
 
 </footer>
 <!-- End Footer -->
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ropaButton = document.getElementById("clothing");
+        const filtrosRopa = document.getElementById("clothing-filter");
 
-<!-- Start Script -->
+        ropaButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            filtrosRopa.classList.toggle("show");
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ropaButton = document.getElementById("shoes");
+        const filtrosRopa = document.getElementById("shoes-filter");
+
+        ropaButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            filtrosRopa.classList.toggle("show");
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ropaButton = document.getElementById("accces");
+        const filtrosRopa = document.getElementById("accces-filter");
+
+        ropaButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            filtrosRopa.classList.toggle("show");
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        const ropaButton = document.getElementById("bags");
+        const filtrosRopa = document.getElementById("bags-filter");
+
+        ropaButton.addEventListener("click", function(event) {
+            event.preventDefault();
+            filtrosRopa.classList.toggle("show");
+        });
+    });
+</script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+     // Selecciona todos los enlaces de género
+     const genderLinks = document.querySelectorAll('.gender-link');
+
+     // Asigna un evento de clic a cada enlace de género
+     genderLinks.forEach(function(link) {
+         link.addEventListener('click', function(event) {
+             event.preventDefault(); // Evita la acción predeterminada del enlace
+             const gender = link.getAttribute('data-gender'); // Obtiene el valor del género
+             updateUrlParameter('gender', gender); // Actualiza el parámetro 'gender' en la URL
+         });
+     });
+ });
+
+ function updateUrlParameter(key, value) {
+     // Obtiene la URL actual
+     let urlString = window.location.href;
+
+     // Reemplaza el valor del parámetro o agrega el nuevo parámetro si no existe
+     const regex = new RegExp('([?&])' + key + '=.*?(&|$)', 'i');
+     const separator = urlString.indexOf('?') !== -1 ? '&' : '?';
+     if (urlString.match(regex)) {
+         // Si el parámetro ya existe en la URL, reemplaza su valor
+         urlString = urlString.replace(regex, '$1' + key + '=' + value + '$2');
+     } else {
+         // Si el parámetro no existe en la URL, agrégalo al final
+         urlString = urlString + separator + key + '=' + value;
+     }
+
+     // Redirige a la nueva URL
+     window.location.href = urlString;
+ }
+
+</script>
 <script src="assets/js/jquery-1.11.0.min.js"></script>
 <script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
 <script src="assets/js/bootstrap.bundle.min.js"></script>

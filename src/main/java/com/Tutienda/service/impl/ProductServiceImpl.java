@@ -1,8 +1,5 @@
 package com.Tutienda.service.impl;
 
-
-
-import com.Tutienda.entity.enums.Gender;
 import com.Tutienda.entity.product.*;
 
 import com.Tutienda.repository.IProductRepository;
@@ -44,37 +41,60 @@ public class ProductServiceImpl implements IProductService {
     }
 
     @Override
-    public Page<Product> findFilteredAndPaginatedProducts(int page, String categoria, String gender, int pageSize) {
+    public Page<Product> findFilteredAndPaginatedProducts(int page, String category, String gender,String type, int pageSize) {
         Pageable pageRequest = PageRequest.of(page, pageSize);
         List<Product> filteredProducts = productRepository.findAll();
-        if (categoria != null) {
-            filteredProducts = filterProductsByCategory(categoria, filteredProducts);
+        if (category != null && !category.isEmpty()) {
+            filteredProducts = filterProductsByCategory(category, filteredProducts,gender,type);
         }
-        if (gender != null) {
+        if (gender != null && !gender.isEmpty()) {
             filteredProducts = filterProductsByGender(gender, filteredProducts);
         }
         return PageUtils.createPage(filteredProducts, pageRequest);
     }
 
-    private List<Product> filterProductsByCategory(String categoria, List<Product> productList) {
+    private List<Product> filterProductsByCategory(String category, List<Product> productList,String gender,String type) {
         List<Product> filteredProducts = new ArrayList<>();
-
         // Filtrar la lista de productos según la categoría
-        switch (categoria) {
+        switch (category) {
             case "clothing":
                 filteredProducts = productList.stream()
                         .filter(product -> product instanceof Clothing)
                         .collect(Collectors.toList());
+                if (type != null && !type.isEmpty()) {
+                    filteredProducts = filteredProducts.stream()
+                            .filter(product -> ((Clothing) product).getType().getTypeEnum().equalsIgnoreCase(type))
+                            .collect(Collectors.toList());
+                }
+                if (gender != null && !gender.isEmpty()) {
+                    filteredProducts = filterProductsByGender(gender, filteredProducts);
+                }
                 break;
             case "shoes":
                 filteredProducts = productList.stream()
                         .filter(product -> product instanceof Shoe)
                         .collect(Collectors.toList());
+                if (type != null && !type.isEmpty()) {
+                    filteredProducts = filteredProducts.stream()
+                            .filter(product -> ((Shoe) product).getType().getTypeEnum().equalsIgnoreCase(type))
+                            .collect(Collectors.toList());
+                }
+                if (gender != null && !gender.isEmpty()) {
+                    filteredProducts = filterProductsByGender(gender, filteredProducts);
+                }
                 break;
             case "watches":
                 filteredProducts = productList.stream()
                         .filter(product -> product instanceof Watch)
                         .collect(Collectors.toList());
+                if (type != null) {
+                    filteredProducts = filteredProducts.stream()
+                            .filter(product -> ((Watch) product).getWatchType().getType().equalsIgnoreCase(type))
+                            .collect(Collectors.toList());
+                }
+                if (gender != null && !gender.isEmpty()) {
+                    filteredProducts = filterProductsByGender(gender, filteredProducts);
+                }
                 break;
             case "glasses":
                 filteredProducts = productList.stream()
@@ -90,6 +110,9 @@ public class ProductServiceImpl implements IProductService {
                 filteredProducts = productList.stream()
                         .filter(product -> product instanceof Bag)
                         .collect(Collectors.toList());
+                if (gender != null && !gender.isEmpty()) {
+                    filteredProducts = filterProductsByGender(gender, filteredProducts);
+                }
                 break;
             default:
                 // Si la categoría no coincide, mantener la lista sin cambios
@@ -98,29 +121,11 @@ public class ProductServiceImpl implements IProductService {
         }
         return filteredProducts;
     }
-
     private List<Product> filterProductsByGender(String gender, List<Product> productList) {
-        List<Product> filteredProducts = new ArrayList<>();
-        switch (gender) {
-            case "women":
-                filteredProducts = productList.stream()
-                        .filter(product -> product.getGender() == Gender.MUJER)
-                        .collect(Collectors.toList());
-                break;
-            case "men":
-                filteredProducts = productList.stream()
-                        .filter(product -> product.getGender() == Gender.HOMBRE)
-                        .collect(Collectors.toList());
-                break;
-            case "unisex":
-                filteredProducts = productList.stream()
-                        .filter(product -> product.getGender() == Gender.UNISEX)
-                        .collect(Collectors.toList());
-                break;
-        }
-        return filteredProducts;
+        return  productList.stream()
+                .filter(product -> product.getGender().getGenderEnum().equalsIgnoreCase(gender))
+                .toList();
     }
-
 
     @Override
     @Transactional
@@ -146,6 +151,11 @@ public class ProductServiceImpl implements IProductService {
     @Override
     public List<Product> findByBestRatingGreaterThanEqual(Integer rating) {
         return productRepository.findByRatingGreaterThanEqual(rating);
+    }
+
+    @Override
+    public List<Product> findByName(String term) {
+        return productRepository.findByNameContainingIgnoreCase(term);
     }
 
 }

@@ -12,11 +12,12 @@ import java.util.Optional;
 public interface IProductService {
     Page<Product> findAll(Pageable pageable);
     List<Product> findAll();
-    Page<Product> findFilteredAndPaginatedProducts(int page, String categoria, String gender, int pageSize);
+    Page<Product> findFilteredAndPaginatedProducts(int page, String categoria, String gender,String type, int pageSize);
 
     Product save(Product product);
     void deleteById(Long id);
     Optional<Product> findById(Long id);
     public List<Product> findByBestRatingGreaterThanEqual(Integer rating);
 
+    List<Product> findByName(String term);
 }

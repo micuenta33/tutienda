@@ -14,4 +14,6 @@ import java.util.List;
 @Repository
 public interface IProductRepository extends JpaRepository<Product,Long> {
     List<Product> findByRatingGreaterThanEqual(Integer rating );
+
+    List<Product> findByNameContainingIgnoreCase(String term);
 }

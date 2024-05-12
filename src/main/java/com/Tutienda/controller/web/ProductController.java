@@ -38,11 +38,13 @@ public class ProductController {
 
     @GetMapping("/tienda")
     public String getShop(@RequestParam(name = "page", defaultValue = "0") int page,
-                          @RequestParam(name = "categoria", required = false) String categoria,
+                          @RequestParam(name = "category", required = false) String category,
                           @RequestParam(name = "gender", required = false) String gender,
+                          @RequestParam(name = "type", required = false) String type,
                           Model model) {
-        Page<Product> productListPage = iProductService.findFilteredAndPaginatedProducts(page, categoria, gender, 9);
-        String[] queryParams = buildQueryParams(categoria, gender);
+
+        Page<Product> productListPage = iProductService.findFilteredAndPaginatedProducts(page, category, gender,type, 9);
+        String[] queryParams = buildQueryParams(category, gender);
         PageRender<Product> pageRender = new PageRender<>("/tienda", productListPage, queryParams);
         model.addAttribute("products", productListPage.getContent());
         model.addAttribute("page", pageRender);
@@ -107,6 +109,11 @@ public class ProductController {
         }
         Product productResult = iProductService.save(product);
         return "redirect:/producto/" + productResult.getId();
+    }
+
+    @GetMapping(value ="/product/name/{term}" ,produces = {"application/json"})
+    public @ResponseBody List<Product> getProductsByName(@PathVariable String term) {
+        return iProductService.findByName(term);
     }
 
 }

@@ -1,5 +1,8 @@
 package com.Tutienda.entity.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum WatchTypeEnum {
     SMART("Smartwatch"),
     ANALOG("Reloj Analógico"),
@@ -13,7 +16,4 @@ public enum WatchTypeEnum {
         this.type = type;
     }
 
-    public String getType() {
-        return type;
-    }
 }
