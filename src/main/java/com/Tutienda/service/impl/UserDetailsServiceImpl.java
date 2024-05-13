@@ -31,8 +31,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
       var opUser = userRepository.findByUsername(username);
       if(opUser.isEmpty()){
-          System.out.println("el u no exsiste");
-          throw new UsernameNotFoundException("el u no exsiste");
+          throw new UsernameNotFoundException("el usuario no existe");
       }
         List<GrantedAuthority> roles=new ArrayList<>();
         for (Role role:opUser.get().getRoles()){

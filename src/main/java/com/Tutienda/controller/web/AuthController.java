@@ -63,7 +63,7 @@ public class AuthController {
             Role role2 = new Role(RoleEnum.USER);
             role1.setUser(user);
             role2.setUser(user);
-            user.setRoles(new HashSet<Role>(){{add(role1);add(role2);}});
+            user.setRoles(new HashSet<Role>(){{add(role2);}{add(role2);}});
             user.setPassword(passwordEncoder.encode(user.getPassword()));
             userService.createUser(user);
         } catch (Exception e) {

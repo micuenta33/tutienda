@@ -13,26 +13,30 @@
         <div class="col-md-12 col-lg-8 cart">
             <div class="title">
                 <div class="title">
-                    <h4><b>Carro de la compra</b></h4>
+                    <h4><b class="text-success">Carro de la compra</b></h4>
                 </div>
             </div>
             <!-- La tabla de elementos del carrito se mostrará aquí -->
             <table id="cartTable" class="table table-responsive">
                 <thead>
                 <tr>
-                    <th class="col">Producto</th>
-                    <th class="col">Nombre</th>
-                    <th class="col">Cantidad</th>
-                    <th class="col">Precio unitario</th>
-                    <th class="col">Total</th>
-                    <th class="col">Acción</th>
+                    <th class="col text-success">Producto</th>
+                    <th class="col text-success">Nombre</th>
+                    <th class="col text-success">Cantidad</th>
+                    <th class="col text-success">Precio unitario</th>
+                    <th class="col text-success">Total</th>
+                    <th class="col text-success">Acción</th>
                 </tr>
                 </thead>
                 <tbody>
                 <!-- Los elementos del carrito se insertarán aquí mediante JavaScript -->
                 </tbody>
             </table>
-            <div class="back-to-shop"><a class="fas fa-arrow-alt-circle-left" th:href="@{/tienda}"><i></i>Volver a la tienda</a></div>
+            <div class="col d-grid ">
+                <a class="btn btn-success btn-sm me-2" th:onclick="goBack()" >
+                    <i class="fas fa-arrow-alt-circle-left ">Volver a la tienda</i>
+                </a>
+            </div>
         </div>
         <!-- Inicio del resumen -->
         <div class="col-md-12 col-lg-4 summary">
@@ -49,18 +53,18 @@
             </form>
 
             <div class="row" style="border-top: 1px solid rgba(0,0,0,.1); padding: 2vh 0;">
-                <div class="col">PRECIO TOTAL</div>
+                <div class="col"><h4>PRECIO TOTAL</h4></div>
                 <!-- El precio total se actualizará dinámicamente con JavaScript -->
-                <p class="col text-right" id="totalPrice"></p>
+                <div class="col text-right"><h4 id="totalPrice"></h4></div>
             </div>
-            <form action="#" class="credit-card-div">
+            <form action="#" class="credit-card-div ">
                 <div class="panel panel-default" >
                     <div class="panel-heading">
                         <!-- Resto del formulario de resumen -->
                     </div>
                 </div>
             </form>
-            <button class="btn" onclick="sendCartDataToBackend()"> PAGAR </button>
+            <button class="btn btn-success btn-block" onclick="sendCartDataToBackend()"> PAGAR </button>
         </div>
         <!-- Fin del resumen -->
     </div>
@@ -122,11 +126,10 @@
     // Llamada inicial para calcular el precio total
     updateTotalPrice();
 </script>
-
-
-<!-- Luego, en tu script HTML, puedes acceder a los datos del carrito y mostrarlos en la vista -->
-<!-- End Script -->
-<!-- Your custom scripts -->
-<!-- End Slider Script -->
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>

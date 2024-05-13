@@ -1,6 +1,8 @@
 package com.Tutienda.config.security;
 
 
+import com.Tutienda.entity.users.Role;
+import com.Tutienda.entity.users.RoleEnum;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -42,7 +44,8 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz->
                         authz.requestMatchers(resources).permitAll()
-                                .requestMatchers("/","/tienda","/producto/**","/registro","/iniciar-sesion","/sobre-nosotros","/contacto").permitAll()
+                                .requestMatchers("/","/tienda","/producto/**","/registro","/iniciar-sesion","/sobre-nosotros","/contacto","/error").permitAll()
+                                .requestMatchers("/agregar/**").hasAuthority("ADMIN")
                                 .anyRequest().authenticated())
                 .formLogin((form) -> form
                         .loginPage("/iniciar-sesion")
@@ -54,8 +57,9 @@ public class WebSecurityConfig {
                         .permitAll()
                 ).logout(
                         logout -> logout
-                                .logoutRequestMatcher(new AntPathRequestMatcher("/cerrar-sesion")).permitAll());
-
+                                .logoutRequestMatcher(new AntPathRequestMatcher("/cerrar-sesion"))
+                                .logoutSuccessUrl("/")
+                                .permitAll());
         return http.build();
 
     }

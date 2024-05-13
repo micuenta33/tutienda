@@ -70,8 +70,6 @@
                     <!--End Controls-->
                 </div>
             </div>
-
-
         <!-- col end -->
             <div  class="col-lg-7 mt-5">
                 <div class="card">
@@ -135,7 +133,12 @@
                             <div class="row pb-3 mt-3">
                                 <div class="col d-grid">
                                     <a class="btn btn-success btn-lg" th:onclick="addToCart([[${product}]])">
-                                        <i class="fas fa-cart-plus"></i> Add To Cart
+                                        <i class="fas fa-cart-plus"></i> Añadir a la cesta
+                                    </a>
+                                </div>
+                                <div class="col d-grid">
+                                    <a class="btn btn-success btn-lg" th:onclick="goBack()" >
+                                        <i class="fas fa-arrow-alt-circle-left"></i> Volver a la tienda
                                     </a>
                                 </div>
                             </div>
@@ -229,6 +232,10 @@
         });
     });
 </script>
-
+<script>
+    function goBack() {
+        window.history.back();
+    }
+</script>
 </body>
 </html>

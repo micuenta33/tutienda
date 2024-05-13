@@ -86,7 +86,11 @@ function renderCartItems() {
                             </td>
                             <td class="col-12 col-md-2" >${item.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
                             <td class="col-12 col-md-2" th:field="*{items.totalPrice}">${item.getPriceQuantity().toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
-                            <td class="col-12 col-md-2"><button class="btn-danger" onclick="removeItemFromCart(${index})">Eliminar</button></td>
+                            <td class="col-12 col-md-2"><a class="remove-link" onclick="removeItemFromCart(${index})">
+                                                    <img src="/assets/img/icons/borrar.png" class="img-responsive"
+                                                         style="width: 30px; height: 30px;"/>
+                                                    </a>
+                                                    </td>
                         `;
                         cartTableBody.appendChild(cartTableRow);
         });
@@ -218,12 +222,13 @@ function sendCartDataToBackend() {
             // Limpiar el carrito después de que la compra sea exitosa
             localStorage.removeItem('cart');
            Swal.fire({
-                          title: '¡Compra realizada con éxito!',
                           icon: 'success',
-                          confirmButtonText: 'Entendido'
+                          title: '¡Compra realizada con éxito!',
+                          showConfirmButton: false,
+                          timer: 2000
                       }).then(() => {
                           // Redirigir a la página principal
-                          window.location.href = '/';
+                          window.location.href = '/tienda ';
                       });
         } else {
             console.error('Purchase failed');
