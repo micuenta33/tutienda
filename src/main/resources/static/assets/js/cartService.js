@@ -77,18 +77,18 @@ function renderCartItems() {
             // Crear una nueva fila de la tabla
             const cartTableRow = document.createElement('tr');
             cartTableRow.innerHTML = `
-                <td class="col-2"><img class="img-fluid" src="${item.product.imagePrimary}" alt="Product Image"></td>
-                <td class="col-2">${item.product.name}</td>
-                <td class="col-2">
-                    <button onclick="decrementQuantity(${index})">-</button>
-                    <span  id="quantity_${item.product.id}" th:field="*{items.quantity}" >${item.quantity}</span>
-                    <button onclick="incrementQuantity(${index})">+</button>
-                </td>
-                <td class="col-2" >${item.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
-                <td class="col-2" th:field="*{items.totalPrice}">${item.getPriceQuantity().toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
-                <td class="col-2"><button class="btn-danger" onclick="removeItemFromCart(${index})">Eliminar</button></td>
-            `;
-            cartTableBody.appendChild(cartTableRow);
+                            <td class="col-12 col-md-2"><img class="img-fluid" src="${item.product.imagePrimary}" alt="Product Image"></td>
+                            <td class="col-12 col-md-2">${item.product.name}</td>
+                            <td class="col-12 col-md-2">
+                                <button onclick="decrementQuantity(${index})">-</button>
+                                <span  id="quantity_${item.product.id}" th:field="*{items.quantity}" >${item.quantity}</span>
+                                <button onclick="incrementQuantity(${index})">+</button>
+                            </td>
+                            <td class="col-12 col-md-2" >${item.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
+                            <td class="col-12 col-md-2" th:field="*{items.totalPrice}">${item.getPriceQuantity().toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
+                            <td class="col-12 col-md-2"><button class="btn-danger" onclick="removeItemFromCart(${index})">Eliminar</button></td>
+                        `;
+                        cartTableBody.appendChild(cartTableRow);
         });
         updateTotalCart();
     } else {

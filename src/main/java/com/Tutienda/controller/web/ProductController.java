@@ -11,6 +11,7 @@ import com.Tutienda.service.IUploadFileService;
 import com.Tutienda.util.paginator.PageRender;
 
 import com.Tutienda.util.paginator.PageUtils;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -37,13 +38,20 @@ public class ProductController {
     }
 
     @GetMapping("/tienda")
-    public String getShop(@RequestParam(name = "page", defaultValue = "0") int page,
+    public String getShop(HttpServletRequest request, @RequestParam(name = "page", defaultValue = "0") int page,
                           @RequestParam(name = "category", required = false) String category,
                           @RequestParam(name = "gender", required = false) String gender,
                           @RequestParam(name = "type", required = false) String type,
                           Model model) {
+        String userAgent = request.getHeader("User-Agent");
+        int itemsPerPage = 9; // Número predeterminado de elementos por página
 
-        Page<Product> productListPage = iProductService.findFilteredAndPaginatedProducts(page, category, gender,type, 9);
+        // Verificar si el User-Agent indica que es un dispositivo móvil
+        if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
+            itemsPerPage = 10; // Ajustar el número de elementos por página para dispositivos móviles
+        }
+
+        Page<Product> productListPage = iProductService.findFilteredAndPaginatedProducts(page, category, gender,type, itemsPerPage);
         String[] queryParams = buildQueryParams(category, gender);
         PageRender<Product> pageRender = new PageRender<>("/tienda", productListPage, queryParams);
         model.addAttribute("products", productListPage.getContent());

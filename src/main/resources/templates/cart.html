@@ -10,22 +10,22 @@
 <!-- Contenedor del contenido que limita el ancho -->
 <div class="container py-5">
     <div class="row justify-content-center">
-        <div class="col-md-8 cart">
+        <div class="col-md-12 col-lg-8 cart">
             <div class="title">
-                <div class="row">
-                    <div class="col"><h4><b>Carro de la compra</b></h4></div>
+                <div class="title">
+                    <h4><b>Carro de la compra</b></h4>
                 </div>
             </div>
             <!-- La tabla de elementos del carrito se mostrará aquí -->
-            <table id="cartTable" class="table">
+            <table id="cartTable" class="table table-responsive">
                 <thead>
                 <tr>
-                    <th>Producto</th>
-                    <th>Nombre</th>
-                    <th>Cantidad</th>
-                    <th>Precio unitario</th>
-                    <th>Total</th>
-                    <th>Accion</th>
+                    <th class="col">Producto</th>
+                    <th class="col">Nombre</th>
+                    <th class="col">Cantidad</th>
+                    <th class="col">Precio unitario</th>
+                    <th class="col">Total</th>
+                    <th class="col">Acción</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -35,7 +35,7 @@
             <div class="back-to-shop"><a class="fas fa-arrow-alt-circle-left" th:href="@{/tienda}"><i></i>Volver a la tienda</a></div>
         </div>
         <!-- Inicio del resumen -->
-        <div class="col-md-4 summary">
+        <div class="col-md-12 col-lg-4 summary">
             <div><h5><b>Summary</b></h5></div>
             <hr>
             <form>

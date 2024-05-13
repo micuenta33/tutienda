@@ -99,26 +99,27 @@
                             <div class="row">
                                 <div class="col-auto">
                                     <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
-                                        <li class="list-inline-item">Size :</li>
                                             <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
                                             <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
                                                 <!-- Iterar sobre las tallas de ropa -->
+                                                <li class="list-inline-item">Talla :
+                                                    <input type="hidden" name="product-size" id="product-size" value="S">
+                                                </li>
                                                 <th:block th:each="size : ${product.clothingSizes}">
-                                                    <li>
-                                                        <span th:text="${size.clothingSize.name()}"></span>
-                                                        <!-- Mostrar el separador '/' si no es el último tamaño -->
-                                                        <span th:unless="${sizeStat.last}"> / </span>
+                                                    <li class="list-inline-item">
+                                                        <span th:text="${size.clothingSize.name()}" class="btn btn-success btn-size"></span>
                                                     </li>
                                                 </th:block>
                                             </th:block>
                                             <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
                                             <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
                                                 <!-- Iterar sobre las tallas de zapatos -->
+                                                <li class="list-inline-item">Talla :
+                                                    <input type="hidden" name="product-size" id="shoe-size " value="S">
+                                                </li>
                                                 <th:block th:each="size : ${product.shoeSizes}">
-                                                    <li>
-                                                        <span th:text="${size.shoeSize.name().replace('SIZE_', ' ')}"></span>
-                                                        <!-- Mostrar el separador '/' si no es el último tamaño -->
-                                                        <span th:unless="${sizeStat.last}"> / </span>
+                                                    <li class="list-inline-item">
+                                                        <span th:text="${size.shoeSize.name().replace('SIZE_', ' ')}" class="btn btn-success btn-size"></span>
                                                     </li>
                                                 </th:block>
                                             </th:block>
@@ -131,7 +132,7 @@
                                         </ul>
                                 </div>
                             </div>
-                            <div class="row pb-3">
+                            <div class="row pb-3 mt-3">
                                 <div class="col d-grid">
                                     <a class="btn btn-success btn-lg" th:onclick="addToCart([[${product}]])">
                                         <i class="fas fa-cart-plus"></i> Add To Cart
@@ -139,7 +140,6 @@
                                 </div>
                             </div>
                         </form>
-
                     </div>
                 </div>
             </div>
@@ -162,11 +162,6 @@
                             <ul class="list-unstyled">
                                 <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
                                 <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
-                                <li>
-                                    <a id="add-to-cart-button" class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])">
-                                        <i class="fas fa-cart-plus"></i>
-                                    </a>
-                                </li>
                             </ul>
                         </div>
                     </div>
@@ -199,11 +194,8 @@
 <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/js/templatemo.js}"></script>
 <script th:src="@{/assets/js/custom.js}"></script>
-<!-- End Script -->
-
-<!-- Start Slider Script -->
+<script src="/assets/js/cartService.js"></script>
 <script th:src="@{/assets/js/slick.min.js}"></script>
-<script th:src="@{/assets/js/cartdesdejava.js}"></script>
 <script th:inline="javascript">
     $(document).ready(function() {
         $('#carousel-related-product').slick({
@@ -237,8 +229,6 @@
         });
     });
 </script>
-<script src="/assets/js/cartService.js"></script>
 
-<!-- End Slider Script -->
 </body>
 </html>

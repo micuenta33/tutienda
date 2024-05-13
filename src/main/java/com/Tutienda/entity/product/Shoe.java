@@ -33,4 +33,22 @@ public class Shoe extends Product {
     private Integer stockSize45;
     private Integer stockSize46;
 
+    @Override
+    protected Integer stockTotal() {
+        Integer total = 0;
+        total += this.stockSize35;
+        total += this.stockSize36;
+        total += this.stockSize37;
+        total += this.stockSize38;
+        total += this.stockSize39;
+        total += this.stockSize40;
+        total += this.stockSize41;
+        total += this.stockSize42;
+        total += this.stockSize43;
+        total += this.stockSize44;
+        total += this.stockSize45;
+        total += this.stockSize46;
+        return total;
+    }
+
 }

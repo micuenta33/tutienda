@@ -1,5 +1,8 @@
 package com.Tutienda.entity.enums;
 
+import lombok.Getter;
+
+@Getter
 public enum UVProtectionLevelEnum {
     UV_0("0UV No protección"),
     UV_100("100UV Baja protección"),
@@ -12,9 +15,4 @@ public enum UVProtectionLevelEnum {
     UVProtectionLevelEnum(String description) {
         this.description = description;
     }
-
-    public String getDescription() {
-        return description;
-    }
-
 }

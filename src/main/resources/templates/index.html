@@ -81,46 +81,65 @@
     <section class="container py-5">
         <div class="row text-center pt-3">
             <div class="col-lg-6 m-auto">
-                <h1 class="h1">Categorías</h1>
+                <h1 class="h1 text-success"><strong>Categorías</strong></h1>
             </div>
         </div>
         <div class="row">
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-4 p-5 mt-3 fila">
                 <a th:href="@{/tienda(category=${'watches'})}">
-                    <img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border"></a>
-                <h5 class="text-center mt-3 mb-3">Relojes</h5>
-                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(category=${'watches'})}">Ir a tienda</a></p>
+                    <img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border">
+                </a>
+                <div class="text-center mt-3 mb-3">
+                <a class="text-decoration-none" th:href="@{/tienda(category=${'watches'})}"  >
+                    <i class="h5 text-success">Relojes</i>
+                </a>
+                </div>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-4 p-5 mt-3 fila" >
                 <a th:href="@{/tienda(category=${'shoes'})}">
                     <img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3"> Calzado  </h2>
-                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(category=${'shoes'})}">Ir a tienda</a></p>
+                <div class="text-center mt-3 mb-3">
+                    <a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'})}"  >
+                        <i class="h5 text-success">Calzado</i>
+                    </a>
+                </div>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-4 p-5 mt-3 fila">
                 <a th:href="@{/tienda(category=${'clothing'})}">
                     <img src="./assets/img/category_img_04.jpg" class="rounded-circle img-fluid border">
                 </a>
-                <h2 class="h5 text-center mt-3 mb-3">Ropa</h2>
-                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(category=${'clothing'})}">Ir a tienda</a></p>
+                <div class="text-center mt-3 mb-3">
+                    <a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'})}"  >
+                        <i class="h5 text-success">Ropa</i>
+                    </a>
+                </div>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-4 p-5 mt-3 fila">
                 <a th:href="@{/tienda(category=${'glasses'})}">
                     <img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3">Gafas</h2>
-                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(category=${'glasses'})}" >Ir a tienda</a></p>
+                <div class="text-center mt-3 mb-3">
+                    <a class="text-decoration-none" th:href="@{/tienda(category=${'glasses'})}" >
+                        <i class="h5 text-success">Gafas</i>
+                    </a>
+                </div>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-4 p-5 mt-3 fila">
                 <a th:href="@{/tienda(category=${'bags'})}">
                     <img src="./assets/img/category_img_05.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3">Bolsos</h2>
-                <p class="text-center"><a class="btn btn-success" th:href="@{/tienda(category=${'bags'})}">Ir a tienda</a></p>
+                <div class="text-center mt-3 mb-3">
+                    <a class="text-decoration-none" th:href="@{/tienda(category=${'bags'})}" >
+                        <i class="h5 text-success">Bolsos</i>
+                    </a>
+                </div>
             </div>
-            <div class="col-12 col-md-4 p-5 mt-3">
+            <div class="col-12 col-md-4 p-5 mt-3 fila">
                 <a th:href="@{/tienda(category=${'jewelry'})}">
                     <img src="./assets/img/category_img_06.jpg" class="rounded-circle img-fluid border"></a>
-                <h2 class="h5 text-center mt-3 mb-3"> Accesorios  </h2>
-                <p class="text-center"><a th:href="@{/tienda(category=${'jewelry'})}" class="btn btn-success">Ir a tienda</a></p>
+                <div class="text-center mt-3 mb-3">
+                    <a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'})}"  >
+                        <i class="h5 text-success">Accesorios </i>
+                    </a>
+                </div>
             </div>
         </div>
     </section>
@@ -131,20 +150,18 @@
     <div class="container  py-5">
         <div class="row text-center py-3">
             <div class="row  p-2 pb-3">
-                <h1 class="h1" >Mejor Valorados</h1>
+                <h1 class="h1 text-success" ><strong>Mejor Valorados</strong></h1>
             </div>
         </div>
-        <!--Start Carousel Wrapper-->
-        <div id="carousel-related-product" class="row" th:data-products="${products}">
-            <div class="col-md-4" th:each="product : ${products}">
-                <div class="card mb-4 product-wap rounded-0">
+        <div id="carousel-related-product" th:data-products="${products}">
+            <div class="p-2 pb-3" th:each="product : ${products}">
+                <div class="product-wap card rounded-0">
                     <div class="card rounded-0">
                         <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
-                                <li><a class="btn btn-success text-white" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-heart"></i></a></li>
+                                <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
                                 <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
-                                <li><a id="add-to-cart-button" class="btn btn-success text-white mt-2" th:onclick="addToCart([[${product}]])"><i class="fas fa-cart-plus"></i></a></li>
                             </ul>
                         </div>
                     </div>
@@ -196,6 +213,7 @@
                 </div>
             </div>
         </div>
+        </div>
     </div>
 </section>
 <!-- End Featured Product -->
@@ -203,9 +221,6 @@
 <footer th:replace="~{layout/layout :: footer}">
 
 </footer>
-
-<!-- End Footer -->
-    <!-- Start Script -->
 <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
 <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
@@ -213,8 +228,6 @@
 <script th:src="@{/assets/js/custom.js}"></script>
 <script th:src="@{/assets/js/slick.min.js}"></script>
 <script th:src="@{/assets/js/cartService.js}"></script>
-
-    <!-- End Script -->
 <!-- Agrega SweetAlert JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>
@@ -232,8 +245,8 @@
         $('#carousel-related-product').slick({
             infinite: true,
             arrows: false,
-            slidesToShow: 3,
-            slidesToScroll: 2,
+            slidesToShow: 4,
+            slidesToScroll: 4,
             dots: true,
             responsive: [{
                     breakpoint: 1024,
@@ -260,8 +273,5 @@
         });
     });
 </script>
-
-
 </body>
-
 </html>

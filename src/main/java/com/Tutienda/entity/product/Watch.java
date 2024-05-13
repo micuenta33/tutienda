@@ -14,4 +14,10 @@ import lombok.*;
 public class Watch extends Product {
     private WatchTypeEnum watchType;
     private boolean waterResistant;
+    private Integer stock;
+
+    @Override
+    protected Integer stockTotal() {
+        return this.stock;
+    }
 }
