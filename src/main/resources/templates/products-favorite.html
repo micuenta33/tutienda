@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head th:replace="~{layout/layout :: head}">
+</head>
+<link rel="stylesheet" th:href="@{/assets/css/cart.css}">
+<body>
+<header th:replace="~{layout/layout :: header}">
+</header>
+<!-- Contenedor del contenido que limita el ancho -->
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-12 col-lg-8 cart">
+            <div class="title">
+                <div class="title">
+                    <h4><b class="text-success">Favoritos</b></h4>
+                </div>
+            </div>
+            <!-- La tabla de elementos del carrito se mostrará aquí -->
+            <table id="cartTable" class="table table-responsive">
+                <thead>
+                <tr>
+                    <th class="col text-success">Producto</th>
+                    <th class="col text-success">Nombre</th>
+                    <th class="col text-success">Acción</th>
+                </tr>
+                </thead>
+                <tbody>
+
+                </tbody>
+            </table>
+            <div class="col d-grid ">
+                <a class="btn btn-success btn-sm me-2" th:onclick="goBack()" >
+                    <i class="fas fa-arrow-alt-circle-left ">Volver a la tienda</i>
+                </a>
+            </div>
+        </div>
+</div>
+</div>
+<!-- Fin del contenedor -->
+<!-- Start Footer -->
+<footer th:replace="~{layout/layout :: footer}">
+</footer>
+<!-- End Footer -->
+
+<!-- Start Script -->
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/templatemo.js}"></script>
+    <script>
+        function goBack() {
+            window.history.back();
+        }
+    </script>1
+</body>
+</html>

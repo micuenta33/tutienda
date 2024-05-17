@@ -17,7 +17,7 @@
                     <h4 class="card-title">Registrar Usuario</h4>
                 </div>
                 <div class="card-body">
-                    <form th:action="@{/registro}" th:object="${user}" method="post" >
+                    <form th:action="@{/registro}" method="post" th:object="${user}">
                         <div class="form-group">
                             <label for="firstname">Nombre</label>
                             <div class="input-group">

@@ -81,23 +81,27 @@
                 <div class="navbar align-self-center d-flex">
                     <!-- Botón "Añadir producto" -->
                     <a  id="add-product-icon" class="nav-icon d-inline " sec:authorize="hasAuthority('ADMIN')" data-bs-toggle="modal" href="#exampleModal" data-bs-target="#exampleModal">
-                        <i class="fas fa-plus-circle text-success mr-2">Añadir producto</i>
+                        <i class="fas fa-plus-circle text-success mr-2"></i>
                     </a>
                     <a id="cart-icon" class="nav-icon position-relative text-decoration-none" th:href="@{/cart}">
                         <i class="fa fa-fw fa-cart-arrow-down text-dark mr-1"></i>
                         <span id="cart-count" class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
+                    </a>
+                    <a class="nav-icon position-relative text-decoration-none" th:href="@{/favoritos}">
+                        <i class="fa fa-fw fa-heart text-dark mr-3"></i>
+                        <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <a class="nav-icon position-relative text-decoration-none" sec:authorize="!isAuthenticated()" th:href="@{/iniciar-sesion}" >
                         <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         <span class="position-absolute top-0 left-100 translate-middle badge rounded-pill bg-light text-dark"></span>
                     </a>
                     <div class="nav-item dropdown position-relative text-decoration-none" sec:authorize="isAuthenticated()">
-                        <a class="nav-link dropdown-toggle"  href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                             <i class="fa fa-fw fa-user text-dark mr-3"></i>
                         </a>
-                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                            <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/cerrar-sesion}">Cerrar sesión</a>
+                        <div class="dropdown-menu dropdown-menu-end" aria-labelledby="navbarDropdown">
                             <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/perfil}">Perfil</a>
+                            <a class="dropdown-item" sec:authorize="isAuthenticated()" th:href="@{/cerrar-sesion}">Cerrar sesión</a>
                         </div>
                     </div>
                 </div>

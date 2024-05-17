@@ -1,95 +1,55 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-<head>
-	<title>Tutienda</title>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<!-- Incluir el icono -->
-	<link rel="icon" type="image/png" th:href="@{/assets/img/icons/favicon.ico}"/>
-	<!-- Incluir Bootstrap -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/bootstrap/css/bootstrap.min.css}">
-	<!-- Incluir FontAwesome -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/fonts/font-awesome-4.7.0/css/font-awesome.min.css}">
-	<!-- Incluir Material Design Iconic Font -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/fonts/iconic/css/material-design-iconic-font.min.css}">
-	<!-- Incluir Animate.css -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/animate/animate.css}">
-	<!-- Incluir Hamburgers -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/css-hamburgers/hamburgers.min.css}">
-	<!-- Incluir Animsition -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/animsition/css/animsition.min.css}">
-	<!-- Incluir Select2 -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/select2/select2.min.css}">
-	<!-- Incluir DateRangePicker -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/vendor/daterangepicker/daterangepicker.css}">
-	<!-- Incluir tus estilos personalizados -->
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/util.css}">
-	<link rel="stylesheet" type="text/css" th:href="@{/assets/css/main.css}">
-
-<!--===============================================================================================-->
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout/layout :: head}">
 </head>
 <body>
-	
-	<div class="limiter">
-		<div class="container-login100" style="background-image: url('/assets/img/bg-01.jpg');">
-			<div class="wrap-login100">
-				<form class="login100-form validate-form" th:action="@{/login}"  method="post">
-					<span class="login100-form-logo">
-						<i class="zmdi zmdi-landscape"></i>
-					</span>
-					<span class="login100-form-title p-b-34 p-t-27">
-						Log in
-					</span>
-					<div class="wrap-input100 validate-input" data-validate = "Enter username">
-						<input class="input100" type="text" name="username" placeholder="Username">
-						<span class="focus-input100" data-placeholder="&#xf207;"></span>
-					</div>
-					<div class="wrap-input100 validate-input" data-validate="Enter password">
-						<input class="input100" type="password" name="password" placeholder="Password">
-						<span class="focus-input100" data-placeholder="&#xf191;"></span>
-					</div>
-					<div class="contact100-form-checkbox">
-						<input class="input-checkbox100" id="ckb1" type="checkbox" name="remember-me">
-						<label class="label-checkbox100" for="ckb1">
-							Remember me
-						</label>
-					</div>
-
-					<div class="container-login100-form-btn">
-						<button class="login100-form-btn" type="submit">
-							Login
-						</button>
-					</div>
-					<div class="text-center p-t-90">
-						<a class="txt1" href="#">
-							Forgot Password?
-						</a>
-					</div>
-					<div class="text-center p-t-90">
-						<a class="txt1" th:href="@{/registro}">
-							Don't have an account?
-						</a>
-					</div>
-				</form>
+<header th:replace="~{layout/layout :: header}"></header>
+<div class="container mt-5 mb-5">
+	<div class="row justify-content-center">
+		<div class="col-md-6">
+			<div class="card bg-green text-success"> <!-- Aplicar fondo verde y texto blanco -->
+				<div class="card-header text-center">
+					<h4 class="card-title text-center ">Iniciar Sesión</h4>
+				</div>
+				<div class="card-body">
+					<form th:action="@{/login}"  method="post">
+						<div class="form-group">
+							<label for="username" class="text-success">Nombre de usuario</label>
+							<div class="input-group">
+								<span class="input-group-text bg-white text-dark"><i class="fa fa-user"></i></span>
+								<input type="text" id="username" name="username" class="form-control" placeholder="Nombre de usuario" required>
+							</div>
+						</div>
+						<div class="form-group mt-3">
+							<label for="password" class="text-success">Contraseña</label>
+							<div class="input-group">
+								<span class="input-group-text bg-white text-dark"><i class="fa fa-lock"></i></span>
+								<input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
+							</div>
+						</div>
+						<div class="form-group form-check mt-3">
+							<input type="checkbox" class="form-check-input" id="rememberMe" name="remember-me">
+							<label class="form-check-label" for="rememberMe">Recordarme</label>
+						</div>
+						<div class="text-center mt-3">
+							<button type="submit" class="btn btn-success btn-block">Iniciar Sesión</button>
+						</div>
+					</form>
+				</div>
+				<div class="card-footer text-center">
+					<a th:href="@{/registro}" class="text-success">¿No tienes una cuenta? Regístrate aquí</a>
+				</div>
 			</div>
 		</div>
 	</div>
-	<div id="dropDownSelect1"></div>
-	<!-- Incluir jQuery -->
-	<script th:src="@{/assets/vendor/jquery/jquery-3.2.1.min.js}"></script>
-	<!-- Incluir Animsition -->
-	<script th:src="@{/assets/vendor/animsition/js/animsition.min.js}"></script>
-	<!-- Incluir Popper.js y Bootstrap -->
-	<script th:src="@{/assets/vendor/bootstrap/js/popper.js}"></script>
-	<script th:src="@{/assets/vendor/bootstrap/js/bootstrap.min.js}"></script>
-	<!-- Incluir Select2 -->
-	<script th:src="@{/assets/vendor/select2/select2.min.js}"></script>
-	<!-- Incluir Moment.js y DateRangePicker -->
-	<script th:src="@{/assets/vendor/daterangepicker/moment.min.js}"></script>
-	<script th:src="@{/assets/vendor/daterangepicker/daterangepicker.js}"></script>
-	<!-- Incluir CountdownTime -->
-	<script th:src="@{/assets/vendor/countdowntime/countdowntime.js}"></script>
-	<!-- Incluir tu archivo main.js -->
-	<script th:src="@{/assets/js/main.js}"></script>
+</div>
+<footer th:replace="~{layout/layout :: footer}"></footer>
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/templatemo.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+<script th:src="@{/assets/js/slick.min.js}"></script>
+<script th:src="@{/assets/js/cartService.js}"></script>
 </body>
 </html>
