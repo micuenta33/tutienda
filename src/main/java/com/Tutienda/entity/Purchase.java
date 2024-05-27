@@ -3,18 +3,20 @@ package com.Tutienda.entity;
 import com.Tutienda.entity.users.User;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.format.annotation.DateTimeFormat;
 
+import java.io.Serializable;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-@Data
+@ToString
 @AllArgsConstructor
 @NoArgsConstructor
 @Setter
 @Getter
 @Entity
 @Table(name = "purchases")
-public class Purchase {
+public class Purchase  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -24,5 +26,6 @@ public class Purchase {
     @OneToMany(mappedBy = "purchase", cascade = CascadeType.ALL, orphanRemoval = true)
     List<Item> items = new ArrayList<>();
     private double totalPurchase;
+    @DateTimeFormat(pattern = "yyyyy-MM-dd")
     private LocalDateTime date;
 }

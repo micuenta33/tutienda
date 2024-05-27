@@ -3,6 +3,8 @@ package com.Tutienda.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.io.Serializable;
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -10,20 +12,10 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "image_url")
-public class ImageUrl {
+public class ImageUrl implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String url;
-
-
-
-    @Override
-    public String toString() {
-        return "ImageUrl{" +
-                "id=" + id +
-                ", url='" + url + '\'' +
-                '}';
-    }
 }

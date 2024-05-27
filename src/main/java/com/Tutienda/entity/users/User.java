@@ -43,6 +43,4 @@ public class User implements Serializable {
     private Address address;
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "user", cascade = CascadeType.ALL)
     private Set<Role> roles=new HashSet<>() ;
-
-
 }

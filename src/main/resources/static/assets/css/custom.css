@@ -208,3 +208,31 @@
 .remove-link:hover {
     opacity: 0.7; /* Reduce la opacidad cuando el cursor está sobre el enlace */
 }
+/* Contenedor de la lista de tallas */
+.size-list {
+    display: grid;
+    grid-template-columns: repeat(9, auto); /* 9 columnas automáticas */
+    gap: 2px; /* Espacio entre las tallas */
+    padding: 0;
+    margin: 0;
+    list-style: none; /* Eliminar el estilo de lista predeterminado */
+    min-height: calc(2 * 1.5em + 2px); /* Altura mínima para 2 líneas */
+    max-height: calc(2 * 1.5em + 2px); /* Altura máxima para 2 líneas */
+    overflow: hidden; /* Ocultar cualquier talla adicional */
+}
+
+.size-list li {
+    text-align: center;
+    padding: 2px;
+    white-space: nowrap; /* Prevenir el salto de línea dentro de un ítem */
+}
+
+.shoe-sizes {
+    flex-wrap: wrap; /* Permite que los elementos se envuelvan en varias líneas */
+    margin-top: 5px; /* Ajusta el margen superior entre el título y las tallas */
+}
+
+.shoe-sizes li {
+    margin-right: 5px; /* Ajusta el margen derecho entre las tallas de zapatos */
+    margin-bottom: 5px; /* Ajusta el margen inferior entre las líneas de tallas de zapatos */
+}

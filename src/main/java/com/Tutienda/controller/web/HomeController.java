@@ -1,6 +1,6 @@
 package com.Tutienda.controller.web;
 
-import com.Tutienda.service.IProductService;
+import com.Tutienda.service.IShoeService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -8,16 +8,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class HomeController {
 
-    private final IProductService productService;
+    private final IShoeService iShoeService;
 
-    public HomeController(IProductService productService) {
-        this.productService = productService;
+    public HomeController(IShoeService iShoeService) {
+        this.iShoeService = iShoeService;
     }
 
     @GetMapping(value = {"/página-principal","/"})
     public String index(Model model) {
 
-        model.addAttribute("products", productService.findByBestRatingGreaterThanEqual(4));
+        model.addAttribute("shoes", iShoeService.findByBestRatingGreaterThanEqual(4));
         return "index";
     }
     @GetMapping("/sobre-nosotros")

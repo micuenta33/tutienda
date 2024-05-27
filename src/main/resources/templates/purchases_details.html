@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{layout/layout :: head}">
+</head>
+<style>
+    .table td img {
+        width: 80px;
+        height: 50px;
+        background: none !important; /* Eliminar el fondo de la imagen */
+        border: none; /* Eliminar cualquier borde */
+    }
+  .table thead th,
+    .table tbody td {
+        text-align: center; /* Centrar el contenido de las columnas */
+    }
+       .total-amount {
+        text-align: right; /* Alinear el total a la derecha */
+        width: 100%; /* Asegurar que el contenedor ocupe todo el ancho */
+    }
+</style>
+<body>
+<header th:replace="~{layout/layout :: header}">
+</header>
+<div class="container-fluid bg-light py-5">
+    <div class="col-md-6 m-auto text-center">
+        <div class="row text-center py-3">
+            <div class="row  p-2 pb-3">
+                <h1 class="h1 text-success" ><strong>Detalles de la compra</strong></h1>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="container py-4">
+    <div class="card bg-light">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h4 class="text-center text-success" >Detalles de la compra</h4>
+            <h4>
+                <a th:href="@{'/invoice/pdf/'+${purchase.id}(format=pdf)}">
+                    <img th:src="@{/assets/img/pdf.png}" class="img-responsive mx-2" style="width: 30px; height: 30px;"/>
+                </a>
+            </h4>
+        </div>
+        <div class="card-body">
+            <div class="row text-success">
+                <div class="col-md-8 customer-info">
+                    <div>
+                        <h5 th:text="'Datos del cliente'"></h5>
+                        <div>
+                            <strong>Nombre:</strong>
+                            <span th:text="${user.username}"></span>
+                        </div>
+                        <div>
+                            <strong>Apellido:</strong>
+                            <span th:text="${user.firstname}"></span>
+                        </div>
+                        <div>
+                            <strong>Email:</strong>
+                            <span th:text="${user.email}"></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-4 invoice-info">
+                    <div>
+                        <h5 th:text="'Datos de la factura'"></h5>
+                        <div>
+                            <strong>Nº Factura:</strong>
+                            <span th:text="${purchase.id}"></span>
+                        </div>
+                        <div>
+                            <strong>Descripción: Factura de compra</strong>
+                        </div>
+                        <div>
+                            <strong>Fecha:</strong>
+                            <span th:text="${#temporals.format(purchase.date, 'dd/MM/yyyy')}" ></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <div class="total-container">
+            <table  class="table">
+                <thead class="thead-light">
+                <tr>
+                    <th  class="col text-success">Producto</th>
+                    <th class="col text-success">Nombre</th>
+                    <th class="col text-success">Cantidad</th>
+                    <th class="col text-success">Precio Unitario</th>
+                    <th class="col text-success">Importe</th>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr  th:each="item : ${purchase.items}">
+                    <td class="col-12 col-md-2"><img class="img-fluid" th:src="${item.shoe.imagePrimary}" alt="Product Image"></td>
+                    <td th:text="${item.shoe.name}"></td>
+                    <td th:text="${item.quantity}"></td>
+                    <td th:text="${item.shoe.price} + '€'"></td>
+                    <td th:text="${item.totalPrice} + '€'"></td>
+                </tr>
+                </tbody>
+            </table>
+            <hr>
+                <div class="total-amount">
+                    <h2 class="text-success">Total: <span th:text="${purchase.totalPurchase}+'€'"></span></h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{layout/layout :: footer}">
+</footer>
+<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
+<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
+<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/assets/js/templatemo.js}"></script>
+<script th:src="@{/assets/js/custom.js}"></script>
+<script th:src="@{/assets/js/slick.min.js}"></script>
+<script th:src="@{/assets/js/cartService.js}"></script>
+<!-- Agrega SweetAlert JS -->
+</body>
+</html>

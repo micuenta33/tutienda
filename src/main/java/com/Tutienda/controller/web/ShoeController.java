@@ -2,70 +2,122 @@ package com.Tutienda.controller.web;
 
 import com.Tutienda.entity.*;
 import com.Tutienda.entity.enums.Gender;
-import com.Tutienda.entity.enums.ShoeSizeEnum;
 import com.Tutienda.entity.enums.ShoeTypeEnum;
-import com.Tutienda.entity.product.Product;
 import com.Tutienda.entity.product.Shoe;
-import com.Tutienda.service.IProductService;
+import com.Tutienda.repository.IShoeSizeRepository;
+import com.Tutienda.repository.ShoeStockRepository;
+import com.Tutienda.service.IShoeService;
 import com.Tutienda.service.IShoeSizeService;
 import com.Tutienda.service.IUploadFileService;
+import com.Tutienda.util.paginator.PageRender;
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
+
+
 
 @Controller
 public class ShoeController {
-    private final IProductService iProductService;
-    private final IShoeSizeService iShoeSizeService;
+    private final IShoeService iShoeService;
     private final IUploadFileService iUploadFileService;
+    private final   IShoeSizeRepository iShoeSizeRepository;
+    private final ShoeStockRepository shoeStockRepository;
 
-    public ShoeController(IProductService iProductService, IShoeSizeService iShoeSizeService, IUploadFileService iUploadFileService) {
-        this.iProductService = iProductService;
-        this.iShoeSizeService = iShoeSizeService;
+    public ShoeController(IShoeService iShoeService, IUploadFileService iUploadFileService, IShoeSizeRepository iShoeSizeRepository, ShoeStockRepository shoeStockRepository) {
+        this.iShoeService = iShoeService;
         this.iUploadFileService = iUploadFileService;
+        this.iShoeSizeRepository = iShoeSizeRepository;
+        this.shoeStockRepository = shoeStockRepository;
     }
 
-    @GetMapping("/agregar/zapatos")
+    @GetMapping("/tienda")
+    public String getShop(HttpServletRequest request, @RequestParam(name = "page", defaultValue = "0") int page,
+                          @RequestParam(name = "gender", required = false) String gender,
+                          @RequestParam(name = "type", required = false) String type,
+                          Model model) {
+        String userAgent = request.getHeader("User-Agent");
+        int itemsPerPage = 9; // Número predeterminado de elementos por página
+
+        // Verificar si el User-Agent indica que es un dispositivo móvil
+        if (userAgent != null && userAgent.toLowerCase().contains("mobile")) {
+            itemsPerPage = 10; // Ajustar el número de elementos por página para dispositivos móviles
+        }
+
+        Page<Shoe> productListPage = iShoeService.findFilteredAndPaginatedProducts(page,gender,type, itemsPerPage);
+        String[] queryParams = buildQueryParams(type,gender);
+        PageRender<Shoe> pageRender = new PageRender<>("/tienda", productListPage, queryParams);
+        model.addAttribute("shoes", productListPage.getContent());
+        model.addAttribute("page", pageRender);
+        model.addAttribute("title", "Tienda");
+        return "shop";
+    }
+    private String[] buildQueryParams(String type, String gender) {
+        List<String> queryParams = new ArrayList<>();
+        if (type != null && !type.isEmpty()) {
+            queryParams.add("type=" + type);
+        }
+        if (gender != null && !gender.isEmpty()) {
+            queryParams.add("gender=" + gender);
+        }
+        return queryParams.isEmpty() ? null : queryParams.toArray(new String[0]);
+    }
+
+    @GetMapping("/producto/{id}")
+    public String getProduct(@PathVariable Long id, Model model) {
+        Optional<Shoe> shoeOptional = iShoeService.findById(id);
+        if (shoeOptional.isEmpty()) {
+            return "redirect:/tienda";
+        }
+        Shoe shoe = shoeOptional.get();
+        // Filtrar las ShoeStock para excluir aquellas con stock 0
+        List<ShoeStock> filteredShoeStocks = shoe.getShoeStocks().stream()
+                .filter(shoeStock -> shoeStock.getStock() > 0)
+                .toList();
+
+        // Establecer la lista filtrada en el objeto Shoe
+        shoe.setShoeStocks(filteredShoeStocks);
+
+        model.addAttribute("shoe", shoe);
+        model.addAttribute("shoes", iShoeService.findAll());
+        return "shop-single";
+    }
+
+    @GetMapping("/agregar/calzado")
     public String showAddShoeForm(Model model) {
-        model.addAttribute("title", "Añadir zapatos");
+        model.addAttribute("title", "Añadir calzado");
         model.addAttribute("types", ShoeTypeEnum.values());
-        model.addAttribute("sizes", ShoeSizeEnum.values());
+        List<Size> sizes = iShoeSizeRepository.findAll();
+        model.addAttribute("sizes", sizes);
         model.addAttribute("genders", Gender.values());
         model.addAttribute("shoe", new Shoe());
         return "products/add_shoe_form";
     }
 
-
-    @PostMapping("/agregar/zapatos")
-    public String saveShoe(@ModelAttribute("shoe") Shoe shoe, Model model,
+    @PostMapping("/agregar/calzado")
+    public String saveShoe(@ModelAttribute("shoe") Shoe shoe,
                            @RequestParam("images") List<MultipartFile> images,
-                           @RequestParam(name = "sizes", required = false) List<ShoeSizeEnum> sizes,
-                           @RequestParam(name = "quantities", required = false) List<Integer> quantities,
-                           @RequestParam(name = "imag",required = false) MultipartFile imag
-    ) throws IOException {
+                           @RequestParam Map<String, String> formParams,
+                           @RequestParam(name = "imag",required = false) MultipartFile imag,
+                           Model model) throws IOException {
+// Crear un mapa para almacenar los ID de talla y sus respectivos stocks
+        Map<Long, Integer> sizeStockMap = new HashMap<>();
 
-        if(sizes == null || sizes.isEmpty() || quantities == null || quantities.isEmpty()) {
-            return "redirect:/tienda";
+        // Iterar sobre los parámetros del formulario para obtener los datos del stock
+        for (Map.Entry<String, String> entry : formParams.entrySet()) {
+            String paramName = entry.getKey();
+            String paramValue = entry.getValue();
+            if (paramName.startsWith("stock-")) {
+                Long sizeId = Long.parseLong(paramName.substring("stock-".length()));
+                Integer stock = paramValue.isEmpty() ? 0 : Integer.parseInt(paramValue); // Convertir cadena vacía a 0
+                sizeStockMap.put(sizeId, stock);
+            }
         }
-        List<ShoeSize> ShoeSizes = iShoeSizeService.getAllShoeSizes(sizes);
-        shoe.setShoeSizes(ShoeSizes);
-        shoe.setStockSize35(quantities.get(0));
-        shoe.setStockSize36(quantities.get(1));
-        shoe.setStockSize37(quantities.get(2));
-        shoe.setStockSize38(quantities.get(3));
-        shoe.setStockSize39(quantities.get(4));
-        shoe.setStockSize40(quantities.get(5));
-        shoe.setStockSize41(quantities.get(6));
-        shoe.setStockSize42(quantities.get(7));
-        shoe.setStockSize43(quantities.get(8));
-        shoe.setStockSize44(quantities.get(9));
-        shoe.setStockSize45(quantities.get(10));
-        shoe.setStockSize46(quantities.get(11));
 
         // Check if images are uploaded
         if (imag != null && !imag.isEmpty() || images != null && !images.isEmpty()) {
@@ -85,8 +137,26 @@ public class ShoeController {
             shoe.setImagePrimary(iUploadFileService.save(imag).getUrl());
             shoe.setImageUrl(imageUrls);
         }
-        Product productResponse = iProductService.save(shoe);
-        return "redirect:/producto/"+ productResponse.getId();
+
+        // Guardar el zapato primero
+        Shoe savedShoe = iShoeService.save(shoe);
+
+        // Imprimir el mapa de tallas y stocks
+        for (Map.Entry<Long, Integer> entry : sizeStockMap.entrySet()) {
+            Long sizeId = entry.getKey();
+            Integer stock = entry.getValue();
+            // Crear una nueva instancia de ShoeStock
+            ShoeStock shoeStock = new ShoeStock();
+            shoeStock.setId(new ShoeStockId(savedShoe.getId(), sizeId));
+            shoeStock.setShoe(savedShoe);
+            shoeStock.setSize(iShoeSizeRepository.findById(sizeId).orElseThrow(() -> new RuntimeException("Size not found")));
+            shoeStock.setStock(stock);
+
+            // Guardar ShoeStock
+            shoeStockRepository.save(shoeStock);
+        }
+
+        return "redirect:/producto/" + savedShoe.getId();
     }
 
 }

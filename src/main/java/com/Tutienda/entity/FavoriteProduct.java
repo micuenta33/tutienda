@@ -1,31 +1,28 @@
 package com.Tutienda.entity;
 
-
 import com.Tutienda.entity.product.Shoe;
+import com.Tutienda.entity.users.User;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.io.Serializable;
-import java.util.List;
-@ToString
+@Data
 @AllArgsConstructor
 @NoArgsConstructor
-@Getter
+@Builder
 @Setter
+@Getter
 @Entity
-@Table(name = "items")
-public class Item  {
+@Table(name = "favorite_products")
+public class FavoriteProduct {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id")
     private Long id;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "shoe_id")
     private Shoe shoe;
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "purchase_id")
-    @ToString.Exclude
-    private Purchase purchase;
-    private Integer size;
-    private int quantity;
-    private double totalPrice;
 }

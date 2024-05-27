@@ -3,55 +3,197 @@
 
 <head th:replace="~{layout/layout :: head}">
 </head>
-<link rel="stylesheet" th:href="@{/assets/css/cart.css}">
+<style>
+    #productos-container .card {
+        height: auto; /* Ajusta la altura automáticamente */
+    }
+
+    #productos-container .card-body {
+        padding: 10px; /* Ajusta el espacio interno del cuerpo del card */
+    }
+
+    #productos-container .card-img {
+        max-height: 200px; /* Establece la altura máxima de la imagen */
+    }
+</style>
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
-<!-- Contenedor del contenido que limita el ancho -->
+<section class="bg-light py-5">
 <div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-md-12 col-lg-8 cart">
-            <div class="title">
-                <div class="title">
-                    <h4><b class="text-success">Favoritos</b></h4>
+    <div class="col-lg-10">
+        <div class="row">
+            <div class="container" id="productos-container">
+                    <div class="row">
+                        <!-- Iterar sobre la lista de productos favoritos -->
+                        <div class="col-sm-6 col-md-4 col-lg-3" th:each="favorite : ${favoriteProduct}">
+                            <div class="card mb-4 product-wap rounded-0 card-small">
+                                <div class="card rounded-0">
+                                    <img class="card-img" th:src="${favorite.shoe.getImagePrimary}" alt="Imagen del producto">
+                                    <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
+                                        <ul class="list-unstyled">
+                                            <li><a class="btn btn-success text-white" href="#" th:onclick="removeFavoriteProduct([[${favorite.id}]])"><i class="far fa-trash-alt"></i></a></li>
+                                            <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${favorite.shoe.id})}"><i class="far fa-eye"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <a class="h3 text-decoration-none" th:href="@{/producto/{id}(id=${favorite.shoe.id})}" th:text="${favorite.shoe.name}">Oupidatat non</a>
+                                    <ul class="list-unstyled d-flex justify-content-center mb-1">
+                                        <li>
+                                            <i class="fa fa-star" th:classappend="${favorite.shoe.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
+                                            <i class="fa fa-star" th:classappend="${favorite.shoe.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
+                                            <i class="fa fa-star" th:classappend="${favorite.shoe.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
+                                            <i class="fa fa-star" th:classappend="${favorite.shoe.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
+                                            <i class="fa fa-star" th:classappend="${favorite.shoe.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
+                                        </li>
+                                    </ul>
+                                    <p class="text-center mb-0" th:text="${#numbers.formatDecimal(favorite.shoe.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+        </div>
+    </div>
+</div>
+</section>
+<section class="bg-light py-5">
+    <div class="container my-4">
+        <div class="row text-center py-3">
+            <div class="col-lg-6 m-auto">
+                <h1 class="h1">Nuestras marcas</h1>
+            </div>
+            <div class="col-lg-9 m-auto tempaltemo-carousel">
+                <div class="row d-flex flex-row">
+                    <!--Controls-->
+                    <div class="col-1 align-self-center">
+                        <a class="h1" href="#templatemo-slide-brand" role="button" data-bs-slide="prev">
+                            <i class="text-light fas fa-chevron-left"></i>
+                        </a>
+                    </div>
+                    <!--End Controls-->
+
+                    <!--Carousel Wrapper-->
+                    <div class="col">
+                        <div class="carousel slide carousel-multi-item pt-2 pt-md-0" id="templatemo-slide-brand" data-bs-ride="carousel">
+                            <!--Slides-->
+                            <div class="carousel-inner product-links-wap" role="listbox">
+
+                                <!--First slide-->
+                                <div class="carousel-item active">
+                                    <div class="row">
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End First slide-->
+
+                                <!--Second slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Second slide-->
+
+                                <!--Third slide-->
+                                <div class="carousel-item">
+                                    <div class="row">
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_01.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_02.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_03.png" alt="Brand Logo"></a>
+                                        </div>
+                                        <div class="col-3 p-md-5">
+                                            <a href="#"><img class="img-fluid brand-img" src="assets/img/brand_04.png" alt="Brand Logo"></a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!--End Third slide-->
+
+                            </div>
+                            <!--End Slides-->
+                        </div>
+                    </div>
+                    <!--End Carousel Wrapper-->
+
+                    <!--Controls-->
+                    <div class="col-1 align-self-center">
+                        <a class="h1" href="#templatemo-slide-brand" role="button" data-bs-slide="next">
+                            <i class="text-light fas fa-chevron-right"></i>
+                        </a>
+                    </div>
+                    <!--End Controls-->
                 </div>
             </div>
-            <!-- La tabla de elementos del carrito se mostrará aquí -->
-            <table id="cartTable" class="table table-responsive">
-                <thead>
-                <tr>
-                    <th class="col text-success">Producto</th>
-                    <th class="col text-success">Nombre</th>
-                    <th class="col text-success">Acción</th>
-                </tr>
-                </thead>
-                <tbody>
-
-                </tbody>
-            </table>
-            <div class="col d-grid ">
-                <a class="btn btn-success btn-sm me-2" th:onclick="goBack()" >
-                    <i class="fas fa-arrow-alt-circle-left ">Volver a la tienda</i>
-                </a>
-            </div>
         </div>
-</div>
-</div>
+    </div>
+</section>
+
 <!-- Fin del contenedor -->
 <!-- Start Footer -->
 <footer th:replace="~{layout/layout :: footer}">
 </footer>
 <!-- End Footer -->
-
 <!-- Start Script -->
-<script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
-<script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>
-<script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
-<script th:src="@{/assets/js/templatemo.js}"></script>
-    <script>
-        function goBack() {
-            window.history.back();
-        }
-    </script>1
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/cartService.js"></script>
+
+<script>
+    function goBack() {
+        window.history.back();
+    }
+
+    function removeFavoriteProduct(favoriteId) {
+        fetch('/favoritos/' + favoriteId, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Product removed from favorites successfully');
+                location.reload(); // Reload the page to update the list of favorite products
+            } else {
+                console.error('Error removing product from favorites:', response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Error removing product from favorites:', error);
+        });
+    }
+</script>
+
 </body>
 </html>

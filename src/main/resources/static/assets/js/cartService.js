@@ -17,10 +17,11 @@ class Cart {
 }
 
 class CarItem {
-    constructor(product, quantity, price) {
-        this.product = product;
+    constructor(shoe, quantity, price,size) {
+        this.shoe = shoe;
         this.quantity = quantity;
         this.price = price;
+        this.size=size;
     }
 
     getPriceQuantity() {
@@ -31,17 +32,27 @@ class CarItem {
 // Crear una instancia de Cart
 const cart = Cart.getInstance();
 
-function addToCart(product) {
-    console.log('Product added to cart:', product);
-    // Buscar si el producto ya está en el carrito
-    var existingItem = findCartItemByProduct(product);
+function addToCart(shoe,size) {
+    console.log('shoe added to cart:', shoe);
+    console.log('size added to cart:', size);
+  if (size.trim() === '') {
+          Swal.fire({
+              icon: 'warning',
+              title: '¡Selecciona una talla!',
+              text: 'Por favor, selecciona una talla antes de agregar al carrito.',
+              confirmButtonText: 'Entendido'
+          });
+          return; // Salir de la función si no se ha seleccionado ninguna talla
+      }
+    // Verificar si el producto ya está en el carrito con la misma talla
+       var existingItem = findCartItemByProductAndSize(shoe, size);
 
     if (existingItem !== null) {
         // Si el producto ya está en el carrito, incrementar la cantidad
         existingItem.quantity++;
     } else {
         // Si el producto no está en el carrito, agregarlo como nuevo CarItem
-        var newItem = new CarItem(product, 1, product.price);
+   var newItem = new CarItem(shoe, 1, shoe.price, size);
         cart.carItems.push(newItem);
         // Actualizar la cantidad total de productos en el carrito
         cart.quantityProduct++;
@@ -49,14 +60,14 @@ function addToCart(product) {
     localStorage.setItem('cart', JSON.stringify(cart));
     console.log('Cart updated:', cart);
     renderCartItems(); // Renderizar los elementos del carrito en la vista
-    updateCartQuantity(); // Actualizar la cantidad del carrito en la vista
 }
 
 // Función de utilidad para buscar un CarItem por producto dentro del carrito
-function findCartItemByProduct(product) {
+function findCartItemByProductAndSize(shoe, size) {
     for (var i = 0; i < cart.carItems.length; i++) {
         var item = cart.carItems[i];
-        if (item.product.id === product.id) {
+        // Verificar si el producto y la talla coinciden
+        if (item.shoe.id === shoe.id && item.size === size) {
             return item;
         }
     }
@@ -73,15 +84,15 @@ function renderCartItems() {
         cartTableBody.innerHTML = '';
         // Iterar sobre los elementos del carrito y agregarlos al cuerpo de la tabla
         cart.carItems.forEach((item, index) => {
-            item = new CarItem(item.product, item.quantity, item.price);
+            item = new CarItem(item.shoe, item.quantity, item.price);
             // Crear una nueva fila de la tabla
             const cartTableRow = document.createElement('tr');
             cartTableRow.innerHTML = `
-                            <td class="col-12 col-md-2"><img class="img-fluid" src="${item.product.imagePrimary}" alt="Product Image"></td>
-                            <td class="col-12 col-md-2">${item.product.name}</td>
+                            <td class="col-12 col-md-2"><img class="img-fluid" src="${item.shoe.imagePrimary}" alt="Product Image"></td>
+                            <td class="col-12 col-md-2">${item.shoe.name}</td>
                             <td class="col-12 col-md-2">
                                 <button onclick="decrementQuantity(${index})">-</button>
-                                <span  id="quantity_${item.product.id}" th:field="*{items.quantity}" >${item.quantity}</span>
+                                <span  id="quantity_${item.shoe.id}" th:field="*{items.quantity}" >${item.quantity}</span>
                                 <button onclick="incrementQuantity(${index})">+</button>
                             </td>
                             <td class="col-12 col-md-2" >${item.price.toLocaleString('es-ES', { minimumFractionDigits: 2 })}&euro;</td>
@@ -193,21 +204,49 @@ function updateCartQuantityFromLocalStorage() {
     }
 
 }
-function sendCartDataToBackend() {
+
+function sendCartDataToBackend(address) {
     const cartData = JSON.parse(localStorage.getItem('cart'));
-    console.log('cart',cartData);
-    // Crear un nuevo objeto con los datos necesarios para la compra
+
+    // Verificar si el carrito está vacío
+    if (!cartData || !cartData.carItems || cartData.carItems.length === 0) {
+        Swal.fire({
+            icon: 'error',
+            title: 'Carrito vacío',
+            text: 'No hay elementos en el carrito',
+            showConfirmButton: true
+        });
+        return; // Salir de la función si el carrito está vacío
+    }
+
+    // Verificar si el usuario tiene dirección
+    if (!address || !address.street || !address.city || !address.zipCode ){
+        Swal.fire({
+            icon: 'error',
+            title: 'Sin dirección',
+            text: 'No tienes una dirección de envío.',
+            confirmButtonText: 'Añadir dirección',
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = '/perfil'; // Redirigir a la página para añadir dirección
+            }
+        });
+        return; // Salir de la función si el usuario no tiene dirección
+    }
+
     const purchaseData = {
         user: cartData.user,
         items: cartData.carItems.map(item => ({
-            product: item.product,
+            shoe: item.shoe,
             quantity: item.quantity,
+            size: item.size, // Agregar la talla aquí
             totalPrice: item.quantity * item.price  // Calcular el precio total aquí
         })),
         totalPurchase: calculateTotalCart(),
         date: new Date().toISOString()
     };
-    console.log('purchase',purchaseData);
+    console.log('purchase', purchaseData);
+
     // Crear una solicitud HTTP POST
     fetch('/purchase', {
         method: 'POST',
@@ -221,24 +260,29 @@ function sendCartDataToBackend() {
             console.log('Purchase successful');
             // Limpiar el carrito después de que la compra sea exitosa
             localStorage.removeItem('cart');
-           Swal.fire({
-                          icon: 'success',
-                          title: '¡Compra realizada con éxito!',
-                          showConfirmButton: false,
-                          timer: 2000
-                      }).then(() => {
-                          // Redirigir a la página principal
-                          window.location.href = '/tienda ';
-                      });
+            Swal.fire({
+                icon: 'success',
+                title: '¡Compra realizada con éxito!',
+                showConfirmButton: false,
+                timer: 2000
+            }).then(() => {
+                // Redirigir a la página principal
+                window.location.href = '/tienda';
+            });
         } else {
-            console.error('Purchase failed');
+             Swal.fire({
+                      icon: 'error',
+                      title: 'Error ' + response.status,
+                      text: 'Ha ocurrido un error en el servidor.',
+                      showConfirmButton: true
+                       });
+                       return;
         }
     })
     .catch(error => {
         console.error('Error sending cart data to backend:', error);
     });
 }
-
 // Llamar a la función para actualizar la cantidad del carrito al cargar la página
 updateCartQuantityFromLocalStorage();
 // Llamar a renderCartItems al cargar la página para mostrar los elementos del carrito

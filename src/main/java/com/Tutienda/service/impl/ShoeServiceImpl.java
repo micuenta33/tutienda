@@ -1,0 +1,93 @@
+package com.Tutienda.service.impl;
+
+import com.Tutienda.entity.product.*;
+
+
+import com.Tutienda.repository.IShoeRepository;
+import com.Tutienda.service.IShoeService;
+
+import com.Tutienda.util.paginator.PageUtils;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+
+@Service
+public class ShoeServiceImpl implements IShoeService {
+    private final IShoeRepository productRepository;
+
+    public ShoeServiceImpl(IShoeRepository productRepository) {
+        this.productRepository = productRepository;
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<Shoe> findAll(Pageable pageable) {
+        return productRepository.findAll(pageable);
+    }
+
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<Shoe> findAll() {
+        return productRepository.findAll();
+    }
+
+    @Override
+    public Page<Shoe> findFilteredAndPaginatedProducts(int page,String gender,String type, int pageSize) {
+        Pageable pageRequest = PageRequest.of(page, pageSize);
+        List<Shoe> filteredProducts = productRepository.findAll();
+
+        if (gender != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(product -> product.getGender().getGenderEnum().equalsIgnoreCase(gender))
+                    .collect(Collectors.toList());
+        }
+        if (type != null) {
+            filteredProducts = filteredProducts.stream()
+                    .filter(product -> product.getType().getTypeEnum().equalsIgnoreCase(type))
+                    .collect(Collectors.toList());
+        }
+        return PageUtils.createPage(filteredProducts, pageRequest);
+    }
+
+    @Override
+    @Transactional
+    public Shoe save(Shoe product) {
+        product.setCreatedAt(LocalDateTime.now());
+        return productRepository.save(product);
+    }
+
+    @Override
+    @Transactional
+    public void deleteById(Long id) {
+        productRepository.deleteById(id);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Optional<Shoe> findById(Long id) {
+        return productRepository.findById(id);
+    }
+
+
+
+    @Override
+    public List<Shoe> findByBestRatingGreaterThanEqual(Integer rating) {
+        return productRepository.findByRatingGreaterThanEqual(rating);
+    }
+
+    @Override
+    public List<Shoe> findByName(String term) {
+        return productRepository.findByNameContainingIgnoreCase(term);
+    }
+
+}

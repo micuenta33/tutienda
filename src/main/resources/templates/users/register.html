@@ -1,11 +1,6 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout/layout :: head}">
-    <style>
-        .bg-dark-green {
-            background-color: #218838 !important; /* Verde más oscuro */
-        }
-    </style>
 </head>
 <body>
 <header th:replace="~{layout/layout :: header}"></header>
@@ -30,6 +25,13 @@
                             <div class="input-group">
                                 <span class="input-group-text bg-white text-dark"><i class="fa fa-user"></i></span>
                                 <input type="text" id="lastname" name="lastname" class="form-control" placeholder="Apellido" th:field="*{lastname}" required>
+                            </div>
+                        </div>
+                        <div class="form-group mt-3">
+                            <label for="telefono">Telefono</label>
+                            <div class="input-group">
+                                <span class="input-group-text bg-white text-dark"><i class="fa fa-phone"></i></span>
+                                <input type="text" id="telefono" name="email" class="form-control" placeholder="Telefono" th:field="*{mobile}" required>
                             </div>
                         </div>
                         <div class="form-group mt-3">

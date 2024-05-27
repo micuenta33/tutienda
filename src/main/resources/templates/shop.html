@@ -3,6 +3,31 @@
 
 <head th:replace="~{layout/layout :: head}">
 </head>
+<style>
+    /* Estilos para el mensaje "No hay stock" */
+  .no-stock-overlay {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(255, 255, 255, 0.7);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+  }
+
+  .no-stock-text {
+      color: red;
+      font-size: 2em;
+  }
+
+  /* Estilos para desactivar la imagen cuando está fuera de stock */
+  .no-stock-overlay + .card .card-img {
+      filter: grayscale(100%);
+      opacity: 0.5;
+  }
+</style>
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
@@ -11,89 +36,40 @@
 <div class="container py-5">
     <div class="row">
         <div class="col-lg-2">
-            <h1 class="h2 pb-4 text-success">Categorías</h1>
+            <h1 class="h2 pb-4">Categories</h1>
             <ul class="list-unstyled templatemo-accordion">
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
-                        Productos
-                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                    </a>
-                    <ul id="collapseThree" class="collapse list-unstyled pl-3">
-                        <li class="pb-2">
-                            <a class="text-decoration-none" href="#" id="clothing">Ropa
-                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                            </a>
-                            <ul id="clothing-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'camisa'})}">Camisas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'camiseta'})}">Camisetas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'sudadera'})}">Sudaderas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'pantalon'})}">Pantalones</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'ropa deportiva'})}">Ropa deportiva</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'polo'})}">Polos</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'vestido'})}">Vestidos</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'falda'})}">Faldas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'chaqueta'})}">Chaquetas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'chaqueta Ligera'})}">Chaquetas ligeras</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'},type=${'otros'})}">Otros</a></li>
-                            </ul>
-                        </li>
-                        <li class="pb-2 " >
-                            <a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'})}" id="shoes"> Calzado
-                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                            </a>
-                            <ul id="shoes-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatos'})}">Zapatos</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatos clásicos'})}">Zapatos clásicos</C></a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatillas'})}">Zapatillas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'zapatillas deportivas'})}">Zapatillas deportivas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'sandalias'})}">Sandalías</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'botas'})}">Botas</a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'},type=${'tacones'})}">Tacones</a></li>
-                            </ul>
-                        </li>
-                        <li class="pb-2 ">
-                            <a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'})}" id="accces"> Accesorios
-                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                            </a>
-                            <ul id="accces-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
-                                <li><a class="text-dark text-decoration-none mr-3" th:href="@{/tienda(category=${'shoes'},type=${'cinturones'})}"> Cinturones </a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'},type=${'joyas'})}"> Joyas </a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'},type=${'carteras'})}"> Carteras </a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'},type=${'carteras'})}"> Monederos </a></li>
-                            </ul>
-                        </li>
-                        <li class="pb-2 ">
-                            <a class="text-decoration-none" th:href="@{/tienda(category=${'bags'})}" id="bags" >Bolsos
-                                <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
-                            </a>
-                            <ul id="bags-filter" class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
-                                <li><a class="text-dark text-decoration-none mr-3" th:href="@{/tienda(category=${'bags'},type=${'bolsos'})}"> Bolsos </a></li>
-                                <li><a class="text-decoration-none" th:href="@{/tienda(category=${'bags'},type=${'mochilas'})}"> Mochilas  </a></li>
-                            </ul>
-                        </li>
-                        <li class="pb-2 ">
-                            <a class="text-decoration-none" th:href="@{/tienda(category=${'watches'})}" >Relojes</a>
-                        </li> 
-                        <li class="pb-2 ">
-                            <a class="text-decoration-none" th:href="@{/tienda(category=${'glasses'})}">Gafas</a>
-                        </li>
-
-                    </ul>
-                </li>
+                <!-- Género -->
                 <li class="pb-3">
                     <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
                         Género
                         <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
-                    <ul class="collapse show list-unstyled pl-3" >
-                        <li><a class="text-decoration-none gender-link" href="#" data-gender="hombre">Hombre</a></li>
-                        <li><a class="text-decoration-none gender-link" href="#" data-gender="mujer">Mujer</a></li>
-                        <li><a class="text-decoration-none gender-link" href="#" data-gender="unisex">Unisex</a></li>
+                    <ul class="collapse show list-unstyled pl-3">
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="gender" data-value="hombre">Hombre</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="gender" data-value="mujer">Mujer</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="gender" data-value="unisex">Unisex</a></li>
+                    </ul>
+                </li>
+                <!-- Calzado -->
+                <li class="pb-3">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                        Calzado
+                        <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
+                    </a>
+                    <ul class="collapse list-unstyled pl-3">
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatos">Zapatos</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatos clásicos">Zapatos clásicos</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatillas">Zapatillas</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatillas deportivas">Zapatillas deportivas</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatillas casuales">Zapatillas casuales</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="botas">Botas</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="sandalías">Sandalías</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="botines">Botines</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="tacones">Tacones</a></li>
                     </ul>
                 </li>
             </ul>
         </div>
-
         <div class="col-lg-10">
             <div class="row">
                 <div class="col-md-6">
@@ -113,64 +89,46 @@
                     </ul>
                 </div>
             </div>
-            <div  class="container" id="productos-container">
+            <div class="container" id="productos-container">
                 <div class="row">
                     <!-- Iterar sobre la lista de productos -->
-                    <div class="col-md-4" th:each="product : ${products}">
-                        <div class="card mb-4  product-wap rounded-0">
+                    <div class="col-md-4" th:each="shoe : ${shoes}">
+                        <div class="card mb-4 product-wap rounded-0">
                             <div class="card rounded-0">
-                                <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
+                                <!-- Imagen del producto -->
+                                <img class="card-img" th:src="${shoe.getImagePrimary}" alt="Imagen del producto">
+                                <!-- Mensaje "No hay stock" -->
+                                <div th:if="${shoe.shoeStocks.?[stock > 0].size() == 0}" class="no-stock-overlay">
+                                    <div class="no-stock-text">No hay stock</div>
+                                </div>
+                                <!-- Contenido del producto -->
                                 <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                                     <ul class="list-unstyled">
-                                        <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
-                                        <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
+                                        <li><a class="btn btn-success text-white" href="#" th:onclick="addFavoriteProduct([[${shoe}]])"><i class="far fa-heart"></i></a></li>
+                                        <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${shoe.id})}"><i class="far fa-eye"></i></a></li>
                                     </ul>
                                 </div>
                             </div>
+                            <!-- Cuerpo del producto -->
                             <div class="card-body">
-                                <a class="h3 text-decoration-none" th:href="@{/producto/{id}(id=${product.id})}" th:text="${product.name}">Oupidatat non</a>
-                                <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
-                                    <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
-                                    <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
-                                        <!-- Iterar sobre las tallas de ropa -->
-                                        <th:block th:each="size : ${product.clothingSizes}">
-                                            <li>
-                                                <span th:text="${size.clothingSize.name()+'&nbsp;'}"></span>
-                                            </li>
-                                        </th:block>
-                                    </th:block>
-                                    <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
-                                    <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
-                                        <!-- Iterar sobre las tallas de zapatos -->
-                                        <th:block th:each="size : ${product.shoeSizes}">
-                                            <li>
-                                                <span th:text="${size.shoeSize.getSize()} +'&nbsp;'"></span>
-                                            </li>
-                                        </th:block>
-                                    </th:block>
-                                    <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Watch)}">
-                                        <!-- Mostrar el tipo de reloj -->
-                                        <li>
-                                            <span th:text="${product.watchType.type}"></span>
-                                        </li>
-                                    </th:block>
-                                    <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Glass)}">
-                                        <!-- Mostrar el tipo de reloj -->
-                                        <li>
-                                            <span th:text="${product.UVProtectionLevel.getDescription()}"></span>
+                                <a class="h3 text-decoration-none text-success" th:href="@{/producto/{id}(id=${shoe.id})}" th:text="${shoe.name}">Oupidatat non</a>
+                                <ul class="size-list w-100 list-unstyled mb-0">
+                                    <th:block th:each="stock : ${shoe.shoeStocks}">
+                                        <li th:if="${stock.stock > 0}">
+                                            <span th:text="${stock.size.shoeSize.size + '&nbsp;'}"></span>
                                         </li>
                                     </th:block>
                                 </ul>
                                 <ul class="list-unstyled d-flex justify-content-center mb-1">
                                     <li>
-                                        <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
-                                        <i class="fa fa-star" th:classappend="${product.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
-                                        <i class="fa fa-star" th:classappend="${product.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
-                                        <i class="fa fa-star" th:classappend="${product.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
-                                        <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
+                                        <i class="fa fa-star" th:classappend="${shoe.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
+                                        <i class="fa fa-star" th:classappend="${shoe.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
+                                        <i class="fa fa-star" th:classappend="${shoe.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
+                                        <i class="fa fa-star" th:classappend="${shoe.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
+                                        <i class="fa fa-star" th:classappend="${shoe.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
                                     </li>
                                 </ul>
-                                <p class="text-center mb-0" th:text="${#numbers.formatDecimal(product.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
+                                <p class="text-center mb-0" th:text="${#numbers.formatDecimal(shoe.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
                             </div>
                         </div>
                     </div>
@@ -300,74 +258,33 @@
     </div>
 </section>
 <!--End Brands-->
-
-
 <!-- Start Footer -->
 <footer th:replace="~{layout/layout :: footer}">
-
 </footer>
-<!-- End Footer -->
+<script src="assets/js/jquery-1.11.0.min.js"></script>
+<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
+<script src="assets/js/bootstrap.bundle.min.js"></script>
+<script src="assets/js/templatemo.js"></script>
+<script src="assets/js/custom.js"></script>
+<script src="assets/js/cartService.js"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
-        const ropaButton = document.getElementById("clothing");
-        const filtrosRopa = document.getElementById("clothing-filter");
+        const filterLinks = document.querySelectorAll(".filter-link");
 
-        ropaButton.addEventListener("click", function(event) {
-            event.preventDefault();
-            filtrosRopa.classList.toggle("show");
+        filterLinks.forEach(function(link) {
+            link.addEventListener("click", function(event) {
+                event.preventDefault();
+
+                const filterType = this.getAttribute("data-filter");
+                const filterValue = this.getAttribute("data-value");
+
+                // Actualiza la URL con el nuevo filtro
+                updateUrlParameter(filterType, filterValue);
+            });
         });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ropaButton = document.getElementById("shoes");
-        const filtrosRopa = document.getElementById("shoes-filter");
 
-        ropaButton.addEventListener("click", function(event) {
-            event.preventDefault();
-            filtrosRopa.classList.toggle("show");
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ropaButton = document.getElementById("accces");
-        const filtrosRopa = document.getElementById("accces-filter");
-
-        ropaButton.addEventListener("click", function(event) {
-            event.preventDefault();
-            filtrosRopa.classList.toggle("show");
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-        const ropaButton = document.getElementById("bags");
-        const filtrosRopa = document.getElementById("bags-filter");
-
-        ropaButton.addEventListener("click", function(event) {
-            event.preventDefault();
-            filtrosRopa.classList.toggle("show");
-        });
-    });
-</script>
-<script>
-    document.addEventListener("DOMContentLoaded", function() {
-     // Selecciona todos los enlaces de género
-     const genderLinks = document.querySelectorAll('.gender-link');
-
-     // Asigna un evento de clic a cada enlace de género
-     genderLinks.forEach(function(link) {
-         link.addEventListener('click', function(event) {
-             event.preventDefault(); // Evita la acción predeterminada del enlace
-             const gender = link.getAttribute('data-gender'); // Obtiene el valor del género
-             updateUrlParameter('gender', gender); // Actualiza el parámetro 'gender' en la URL
-         });
-     });
- });
-
- function updateUrlParameter(key, value) {
-     // Obtiene la URL actual
+        function updateUrlParameter(key, value) {
+                 // Obtiene la URL actual
      let urlString = window.location.href;
 
      // Reemplaza el valor del parámetro o agrega el nuevo parámetro si no existe
@@ -384,15 +301,36 @@
      // Redirige a la nueva URL
      window.location.href = urlString;
  }
+    });
 
 </script>
-<script src="assets/js/jquery-1.11.0.min.js"></script>
-<script src="assets/js/jquery-migrate-1.2.1.min.js"></script>
-<script src="assets/js/bootstrap.bundle.min.js"></script>
-<script src="assets/js/templatemo.js"></script>
-<script src="assets/js/custom.js"></script>
-<script src="assets/js/cartService.js"></script>
+<script>
+    function addFavoriteProduct(shoe) {
+
+        const favoriteProduct = {
+            user: null,
+            shoe: shoe
+        };
+
+        fetch('/favoritos', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(favoriteProduct)
+        })
+        .then(response => {
+            if (response.ok) {
+                console.log('Product added to favorites successfully');
+            } else {
+                console.error('Error adding product to favorites:', response.status);
+            }
+        })
+        .catch(error => {
+            console.error('Error adding product to favorites:', error);
+        });
+    }
+</script>
 <!-- End Script -->
 </body>
-
 </html>

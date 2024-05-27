@@ -40,8 +40,9 @@ public class UserServiceImpl implements IUserService {
             userUpdated.setMobile(user.getMobile());
             userUpdated.setEmail(user.getEmail());
             userUpdated.setUsername(user.getUsername());
+            return userRepository.save(userUpdated);
         }
-        return userRepository.save(user);
+        return null;
     }
 
     @Override

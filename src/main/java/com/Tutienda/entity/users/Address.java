@@ -2,6 +2,9 @@ package com.Tutienda.entity.users;
 
 import jakarta.persistence.*;
 import lombok.*;
+
+import java.io.Serializable;
+
 @Data
 @Builder
 @NoArgsConstructor
@@ -10,7 +13,7 @@ import lombok.*;
 @Setter
 @Entity
 @Table(name = "address_db")
-public class Address {
+public class Address implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

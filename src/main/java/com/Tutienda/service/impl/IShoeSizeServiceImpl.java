@@ -1,7 +1,7 @@
 package com.Tutienda.service.impl;
 
 
-import com.Tutienda.entity.ShoeSize;
+import com.Tutienda.entity.Size;
 import com.Tutienda.entity.enums.ShoeSizeEnum;
 import com.Tutienda.repository.IShoeSizeRepository;
 import com.Tutienda.service.IShoeSizeService;
@@ -17,7 +17,9 @@ public class IShoeSizeServiceImpl implements IShoeSizeService {
     }
 
     @Override
-    public List<ShoeSize> getAllShoeSizes(List<ShoeSizeEnum> shoeSizes) {
+    public List<Size> getAllShoeSizes(List<ShoeSizeEnum> shoeSizes) {
         return iShoeSizeRepository.findAllByShoeSizeIn(shoeSizes);
     }
+
+
 }

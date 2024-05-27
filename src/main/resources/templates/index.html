@@ -43,9 +43,6 @@
                             <div class="text-align-left">
                                 <h1 class="h1 text-success">Descubre lo que te hace único</h1>
                                 <h3 class="h2">Encuentra tu estilo con nosotros</h3>
-                                <p>
-                                    En Tutienda, te ofrecemos una experiencia de compra única, donde cada producto cuenta una historia y cada compra es una oportunidad para expresarte.
-                                </p>
                             </div>
                         </div>
                     </div>
@@ -59,7 +56,7 @@
                         </div>
                         <div class="col-lg-6 mb-0 d-flex align-items-center">
                             <div class="text-align-left">
-                                <h1 class="h1 text-success">¡Tu destino para una experiencia de compra sin contratiempos!</h1>
+                                <h1 class="h1 text-success">Tu destino para una experiencia de compra sin contratiempos</h1>
                                 <p>
                                     ¡Descubre la emoción de encontrar lo que necesitas y más en Tutienda!
                                 </p>
@@ -91,7 +88,7 @@
                 </a>
                 <div class="text-center mt-3 mb-3">
                 <a class="text-decoration-none" th:href="@{/tienda(category=${'watches'})}"  >
-                    <i class="h5 text-success">Relojes</i>
+                    <i class="h5 text-success">Zapatos</i>
                 </a>
                 </div>
             </div>
@@ -100,7 +97,7 @@
                     <img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
                     <a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'})}"  >
-                        <i class="h5 text-success">Calzado</i>
+                        <i class="h5 text-success">Zapatillas</i>
                     </a>
                 </div>
             </div>
@@ -110,7 +107,7 @@
                 </a>
                 <div class="text-center mt-3 mb-3">
                     <a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'})}"  >
-                        <i class="h5 text-success">Ropa</i>
+                        <i class="h5 text-success">Sandalías</i>
                     </a>
                 </div>
             </div>
@@ -119,7 +116,7 @@
                     <img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
                     <a class="text-decoration-none" th:href="@{/tienda(category=${'glasses'})}" >
-                        <i class="h5 text-success">Gafas</i>
+                        <i class="h5 text-success">Tacones</i>
                     </a>
                 </div>
             </div>
@@ -128,7 +125,7 @@
                     <img src="./assets/img/category_img_05.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
                     <a class="text-decoration-none" th:href="@{/tienda(category=${'bags'})}" >
-                        <i class="h5 text-success">Bolsos</i>
+                        <i class="h5 text-success">Botas</i>
                     </a>
                 </div>
             </div>
@@ -137,7 +134,7 @@
                     <img src="./assets/img/category_img_06.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
                     <a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'})}"  >
-                        <i class="h5 text-success">Accesorios </i>
+                        <i class="h5 text-success">Pantuflas</i>
                     </a>
                 </div>
             </div>
@@ -153,62 +150,38 @@
                 <h1 class="h1 text-success" ><strong>Mejor Valorados</strong></h1>
             </div>
         </div>
-        <div id="carousel-related-product" th:data-products="${products}">
-            <div class="p-2 pb-3" th:each="product : ${products}">
+        <div id="carousel-related-product" th:data-products="${shoes}">
+            <div class="p-2 pb-3" th:each="shoe : ${shoes}">
                 <div class="product-wap card rounded-0">
                     <div class="card rounded-0">
-                        <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
+                        <img class="card-img" th:src="${shoe.getImagePrimary}" alt="Imagen del producto">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
                                 <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
-                                <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
+                                <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${shoe.id})}"><i class="far fa-eye"></i></a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="card-body">
-                        <a class="h3 text-decoration-none" th:href="@{/producto/{id}(id=${product.id})}" th:text="${product.name}">Oupidatat non</a>
+                        <a class="h3 text-decoration-none" th:href="@{/producto/{id}(id=${shoe.id})}" th:text="${shoe.name}">Oupidatat non</a>
                         <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
-                            <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
-                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
-                                <!-- Iterar sobre las tallas de ropa -->
-                                <th:block th:each="size : ${product.clothingSizes}">
-                                    <li>
-                                        <span th:text="${size.clothingSize.name()+'&nbsp;'}"></span>
-                                    </li>
-                                </th:block>
-                            </th:block>
-                            <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
-                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
-                                <!-- Iterar sobre las tallas de zapatos -->
-                                <th:block th:each="size : ${product.shoeSizes}">
-                                    <li>
-                                        <span th:text="${size.shoeSize.getSize()} +'&nbsp;'"></span>
-                                    </li>
-                                </th:block>
-                            </th:block>
-                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Watch)}">
-                                <!-- Mostrar el tipo de reloj -->
-                                <li>
-                                    <span th:text="${product.watchType.type}"></span>
-                                </li>
-                            </th:block>
-                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Glass)}">
-                                <!-- Mostrar el tipo de reloj -->
-                                <li>
-                                    <span th:text="${product.UVProtectionLevel.getDescription()}"></span>
+                            <!-- Iterar sobre las tallas de zapatos -->
+                            <th:block th:each="stock : ${shoe.shoeStocks}">
+                                <li th:if="${stock.stock > 0}">
+                                    <span th:text="${stock.size.shoeSize.size + '&nbsp;'}"></span>
                                 </li>
                             </th:block>
                         </ul>
                         <ul class="list-unstyled d-flex justify-content-center mb-1">
                             <li>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
                             </li>
                         </ul>
-                        <p class="text-center mb-0" th:text="${#numbers.formatDecimal(product.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
+                        <p class="text-center mb-0" th:text="${#numbers.formatDecimal(shoe.price, 2, 'COMMA', 2, 'COMMA')} + ' €'"></p>
                     </div>
                 </div>
             </div>
@@ -219,7 +192,6 @@
 <!-- End Featured Product -->
     <!-- Start Footer -->
 <footer th:replace="~{layout/layout :: footer}">
-
 </footer>
 <script th:src="@{/assets/js/jquery-1.11.0.min.js}"></script>
 <script th:src="@{/assets/js/jquery-migrate-1.2.1.min.js}"></script>

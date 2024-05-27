@@ -7,12 +7,12 @@
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
-<section class="bg-light" th:object="${product}">
+<section class="bg-light" >
     <div class="container pb-5">
         <div class="row">
             <div class="col-lg-5 mt-5">
                 <div class="card mb-3">
-                    <img class="card-img img-fluid" th:src="${product.getImagePrimary}" alt="Card image cap" id="product-detail">
+                    <img class="card-img img-fluid" th:src="${shoe.getImagePrimary}" alt="Card image cap" id="product-detail">
                 </div>
                 <div class="row">
                     <!--Start Controls-->
@@ -31,13 +31,13 @@
                             <div class="carousel-item active item ">
                                 <div class="row">
                                     <!--Check if product has images and display up to 3-->
-                                    <div th:each="image, index : ${product.imageUrl}" th:if="${index.index < 3}" class="col-4">
+                                    <div th:each="image, index : ${shoe.imageUrl}" th:if="${index.index < 3}" class="col-4">
                                         <a href="#">
                                             <img class="card-img img-fluid" th:src="${image.getUrl()}" alt="'Product Image ' + ${index.index + 1}">
                                         </a>
                                     </div>
                                     <!--If less than 3 images, complete with empty columns-->
-                                    <div th:if="${#lists.size(product.imageUrl) < 3}" th:each="emptyColumn : ${#numbers.sequence(#lists.size(product.imageUrl), 2)}" class="col-4"></div>
+                                    <div th:if="${#lists.size(shoe.imageUrl) < 3}" th:each="emptyColumn : ${#numbers.sequence(#lists.size(shoe.imageUrl), 2)}" class="col-4"></div>
                                 </div>
                             </div>
                             <!--/.First slide-->
@@ -45,13 +45,13 @@
                             <div class="carousel-item item ">
                                 <div class="row">
                                     <!--Check if product has images and display up to 6-->
-                                    <div th:each="image, index : ${product.imageUrl}" th:if="${index.index >= 3 and index.index < 6}" class="col-4">
+                                    <div th:each="image, index : ${shoe.imageUrl}" th:if="${index.index >= 3 and index.index < 6}" class="col-4">
                                         <a href="#">
                                             <img class="card-img img-fluid" th:src="${image.getUrl()}" alt="'Product Image ' + ${index.index + 1}">
                                         </a>
                                     </div>
                                     <!--If less than 6 images, complete with empty columns-->
-                                    <div th:if="${#lists.size(product.imageUrl) < 6}" th:each="emptyColumn : ${#numbers.sequence(#lists.size(product.imageUrl), 5)}" class="col-4"></div>
+                                    <div th:if="${#lists.size(shoe.imageUrl) < 6}" th:each="emptyColumn : ${#numbers.sequence(#lists.size(shoe.imageUrl), 5)}" class="col-4"></div>
                                 </div>
                             </div>
                             <!--/.Second slide-->
@@ -74,65 +74,42 @@
             <div  class="col-lg-7 mt-5">
                 <div class="card">
                     <div class="card-body">
-                        <h1 class="h2" th:text="${product.name}">Active Wear</h1>
-                        <p class="h3 py-2" th:text="${product.price + ' €'}"></p>
+                        <h1 class="h2" th:text="${shoe.name}">Active Wear</h1>
+                        <p class="h3 py-2" th:text="${shoe.price + ' €'}"></p>
                         <h6>Description:</h6>
-                        <p  th:text="${product.description}"></p>
+                        <p  th:text="${shoe.description}"></p>
                         <ul class="list-inline">
                             <li class="list-inline-item">
-                                <h6>Color : <span th:text="${product.color}"></span> </h6>
+                                <h6>Color : <span th:text="${shoe.color}"></span> </h6>
                             </li>
 
                         </ul>
-                        <p class="py-2">
-                            <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
-                            <i class="fa fa-star" th:classappend="${product.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
-                            <i class="fa fa-star" th:classappend="${product.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
-                            <i class="fa fa-star" th:classappend="${product.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
-                            <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
-                            <span class="list-inline-item text-dark" th:text="${'Rating ' + product.rating + ' | ' + 36 + ' Comments'}"></span>
-                        </p>
                         <form action="" method="GET">
-                            <input type="hidden" name="product-title" value="Activewear">
+                            <input type="hidden" name="shoe-title" value="Activewear">
+                            <!-- Otros elementos del formulario -->
                             <div class="row">
                                 <div class="col-auto">
-                                    <ul class="w-100 list-unstyled d-flex justify-content-start mb-0">
-                                            <!-- Verificar si el producto es una instancia de Clothing (ropa) -->
-                                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Clothing)}">
-                                                <!-- Iterar sobre las tallas de ropa -->
-                                                <li class="list-inline-item">Talla :
-                                                    <input type="hidden" name="product-size" id="product-size" value="S">
-                                                </li>
-                                                <th:block th:each="size : ${product.clothingSizes}">
-                                                    <li class="list-inline-item">
-                                                        <span th:text="${size.clothingSize.name()}" class="btn btn-success btn-size"></span>
-                                                    </li>
-                                                </th:block>
-                                            </th:block>
-                                            <!-- Verificar si el producto es una instancia de Shoe (zapatos) -->
-                                            <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Shoe)}">
-                                                <!-- Iterar sobre las tallas de zapatos -->
-                                                <li class="list-inline-item">Talla :
-                                                    <input type="hidden" name="product-size" id="shoe-size " value="S">
-                                                </li>
-                                                <th:block th:each="size : ${product.shoeSizes}">
-                                                    <li class="list-inline-item">
-                                                        <span th:text="${size.shoeSize.name().replace('SIZE_', ' ')}" class="btn btn-success btn-size"></span>
-                                                    </li>
-                                                </th:block>
-                                            </th:block>
-                                        <th:block th:if="${product instanceof T(com.Tutienda.entity.product.Watch)}">
-                                            <!-- Mostrar el tipo de reloj -->
-                                            <li>
-                                                <span th:text="${product.watchType.type}"></span>
-                                            </li>
-                                        </th:block>
-                                        </ul>
+                                    <h6 class="list-inline-item">Talla</h6>
+                                    <input type="hidden" name="shoe-title" value="Activewear">
+                                    <input type="hidden" name="shoe-size" id="shoe-size">
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-auto">
+                                    <ul class="w-100 list-unstyled d-flex flex-wrap justify-content-start mb-0 shoe-sizes">
+                                        <!-- Iterar sobre las tallas de zapatos -->
+                                        <th:block th:each="stock : ${shoe.shoeStocks}">
+                                            <li class="list-inline-item">
+                                                <span th:text="${stock.size.shoeSize.size}" class="btn btn-success btn-size" th:onclick="selectSize([[${stock.size.shoeSize.size}]])"></span>
+                                            </li>
+                                        </th:block>
+                                    </ul>
+                                </div>
+                            </div>
+                            <!-- Otros elementos del formulario -->
                             <div class="row pb-3 mt-3">
                                 <div class="col d-grid">
-                                    <a class="btn btn-success btn-lg" th:onclick="addToCart([[${product}]])">
+                                    <a class="btn btn-success btn-lg"  th:onclick="addToCart([[${shoe}]],getSelectedSize())">
                                         <i class="fas fa-cart-plus"></i> Añadir a la cesta
                                     </a>
                                 </div>
@@ -143,6 +120,31 @@
                                 </div>
                             </div>
                         </form>
+                        <div>
+                            <p class="py-2">
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
+                                <span class="list-inline-item text-dark" th:text="${'Rating ' + shoe.rating + ' | ' + 36 + ' Comments'}"></span>
+                            </p>
+                        </div>
+                        <div class="mt-4">
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-truck fa-lg text-success me-2"></i>
+                                <span>Envío estándar gratis, tarda 15 días</span>
+                            </div>
+                            <div class="d-flex align-items-center mb-2">
+                                <i class="fas fa-store fa-lg text-success me-2"></i>
+                                <span>Envío y devolución gratuitos</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-undo fa-lg text-success me-2"></i>
+                                <span>Derecho de devolución de 100 días</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
             </div>
@@ -156,30 +158,30 @@
             <h4>Productos relacionados</h4>
         </div>
         <!--Start Carousel Wrapper-->
-        <div id="carousel-related-product" th:data-products="${products}">
-            <div class="p-2 pb-3" th:each="product : ${products}">
+        <div id="carousel-related-product" th:data-products="${shoes}">
+            <div class="p-2 pb-3" th:each="shoe : ${shoes}">
                 <div class="product-wap card rounded-0">
                     <div class="card rounded-0">
-                        <img class="card-img" th:src="${product.getImagePrimary}" alt="Imagen del producto">
+                        <img class="card-img" th:src="${shoe.getImagePrimary}" alt="Imagen del producto">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
                                 <li><a class="btn btn-success text-white" href="shop-single.html"><i class="far fa-heart"></i></a></li>
-                                <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${product.id})}"><i class="far fa-eye"></i></a></li>
+                                <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${shoe.id})}"><i class="far fa-eye"></i></a></li>
                             </ul>
                         </div>
                     </div>
                     <div class="card-body">
-                        <a th:href="@{/producto/{id}(id=${product.id})}" class="h3 text-decoration-none" th:text="${product.name}"></a>
+                        <a th:href="@{/producto/{id}(id=${shoe.id})}" class="h3 text-decoration-none" th:text="${shoe.name}"></a>
                         <ul class="list-unstyled d-flex justify-content-center mb-1">
                             <li>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
-                                <i class="fa fa-star" th:classappend="${product.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 1} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 2} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 3} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 4} ? 'text-warning' : 'text-secondary'"></i>
+                                <i class="fa fa-star" th:classappend="${shoe.rating >= 5} ? 'text-warning' : 'text-secondary'"></i>
                             </li>
                         </ul>
-                        <p class="text-center mb-0" th:text="${product.price}">$20.00</p>
+                        <p class="text-center mb-0" th:text="${shoe.price}">$20.00</p>
                     </div>
                 </div>
             </div>
@@ -197,8 +199,9 @@
 <script th:src="@{/assets/js/bootstrap.bundle.min.js}"></script>
 <script th:src="@{/assets/js/templatemo.js}"></script>
 <script th:src="@{/assets/js/custom.js}"></script>
-<script src="/assets/js/cartService.js"></script>
+<script th:src="@{/assets/js/cartService.js}"></script>
 <script th:src="@{/assets/js/slick.min.js}"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script th:inline="javascript">
     $(document).ready(function() {
         $('#carousel-related-product').slick({
@@ -236,6 +239,15 @@
     function goBack() {
         window.history.back();
     }
+
+    function selectSize(size) {
+    document.getElementById('shoe-size').value = size; // Establece el valor de la talla seleccionada en el input hidden
+}
+
+function getSelectedSize() {
+    return document.getElementById('shoe-size').value; // Obtiene la talla seleccionada
+}
 </script>
+
 </body>
 </html>

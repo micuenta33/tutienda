@@ -1,6 +1,11 @@
 package com.Tutienda.entity.enums;
 
-public enum ShoeSizeEnum {
+import lombok.Getter;
+
+import java.io.Serializable;
+
+@Getter
+public enum ShoeSizeEnum  {
     SIZE_35("35"),
     SIZE_36("36"),
     SIZE_37("37"),
@@ -18,10 +23,6 @@ public enum ShoeSizeEnum {
 
     ShoeSizeEnum(String size) {
         this.size = size;
-    }
-
-    public String getSize() {
-        return size;
     }
 
     public  int getSizeAsInt() {

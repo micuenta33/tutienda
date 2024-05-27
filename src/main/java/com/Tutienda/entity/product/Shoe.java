@@ -1,54 +1,49 @@
 package com.Tutienda.entity.product;
 
-import com.Tutienda.entity.ShoeSize;
+import com.Tutienda.entity.Size;
+import com.Tutienda.entity.ShoeStock;
+import com.Tutienda.entity.enums.Gender;
+import com.Tutienda.entity.ImageUrl;
 import com.Tutienda.entity.enums.ShoeTypeEnum;
 import jakarta.persistence.*;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import java.io.Serializable;
+import java.time.LocalDateTime;
 import java.util.List;
+@AllArgsConstructor
+@NoArgsConstructor
+@Builder
 @Getter
 @Setter
 @Entity
 @Table(name = "shoes")
-@DiscriminatorValue("shoes")
-public class Shoe extends Product {
-    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-    @JoinTable(name = "product_shoes_sizes",
-            joinColumns = @JoinColumn(name = "product_id"),
-            inverseJoinColumns = @JoinColumn(name = "Shoe_Size_id"))
-    private List<ShoeSize> shoeSizes;
+public  class Shoe implements Serializable {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String imagePrimary;
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+    @JoinColumn(name = "shoe_id")
+    private List<ImageUrl> imageUrl;
+    private String name;
+    private String brand;
+    private int rating;
+    private double price;
+    @Column(length = 10000)
+    private String description;
+    @Enumerated(EnumType.STRING)
+    private Gender gender;
+    private String color;
+    private LocalDateTime createdAt;
+//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+////    @JoinTable(name = "shoes_sizes",
+////            joinColumns = @JoinColumn(name = "Shoe_id"),
+////            inverseJoinColumns = @JoinColumn(name = "size_id"))
+////    private List<Size> sizes;
     @Enumerated(EnumType.STRING)
     private ShoeTypeEnum type;
-    private Integer stockSize35;
-    private Integer stockSize36;
-    private Integer stockSize37;
-    private Integer stockSize38;
-    private Integer stockSize39;
-    private Integer stockSize40;
-    private Integer stockSize41;
-    private Integer stockSize42;
-    private Integer stockSize43;
-    private Integer stockSize44;
-    private Integer stockSize45;
-    private Integer stockSize46;
-
-    @Override
-    protected Integer stockTotal() {
-        Integer total = 0;
-        total += this.stockSize35;
-        total += this.stockSize36;
-        total += this.stockSize37;
-        total += this.stockSize38;
-        total += this.stockSize39;
-        total += this.stockSize40;
-        total += this.stockSize41;
-        total += this.stockSize42;
-        total += this.stockSize43;
-        total += this.stockSize44;
-        total += this.stockSize45;
-        total += this.stockSize46;
-        return total;
-    }
-
+    @OneToMany(mappedBy = "shoe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<ShoeStock> shoeStocks;
 }
