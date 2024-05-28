@@ -37,17 +37,6 @@ public class PurchaseController {
         }
         return "cart";
     }
-
-    @PostMapping("/purchase")
-    public ResponseEntity<?> purchase(@RequestBody Purchase purchase) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
-            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-            String username = userDetails.getUsername();
-            purchaseService.savePurchase(purchase, username);
-        }
-        return ResponseEntity.ok("ok");
-    }
     @GetMapping("/purchases")
     public String getPurchase(Model model) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -58,8 +47,19 @@ public class PurchaseController {
             model.addAttribute("user",user);
             model.addAttribute("purchases",purchaseService.getPurchaseByUser(user));
         }
-        return "/purchases";
+        return "purchases";
     }
+    @PostMapping("/purchase")
+    public ResponseEntity<?> purchase(@RequestBody Purchase purchase) {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+            purchaseService.savePurchase(purchase, username);
+        }
+        return ResponseEntity.ok("ok");
+    }
+
     @GetMapping("/purchases/{id}")
     public String getPurchaseByUser(@PathVariable Long id, Model model) {
         model.addAttribute("purchase",purchaseService.getPurchaseById(id));
