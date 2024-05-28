@@ -33,8 +33,6 @@ class CarItem {
 const cart = Cart.getInstance();
 
 function addToCart(shoe,size) {
-    console.log('shoe added to cart:', shoe);
-    console.log('size added to cart:', size);
   if (size.trim() === '') {
           Swal.fire({
               icon: 'warning',
@@ -144,24 +142,27 @@ function decrementQuantity(index) {
 
 // Función para calcular el total del carrito
 function calculateTotalCart() {
-     // Recuperar el carrito del localStorage
-       const storedCart = JSON.parse(localStorage.getItem('cart'));
-       let total = 0;
+    // Recuperar el carrito del localStorage
+    const storedCart = JSON.parse(localStorage.getItem('cart'));
+    let total = 0;
 
-       // Verificar si hay un carrito almacenado
-       if (storedCart && storedCart.carItems) {
-           // Iterar sobre los elementos del carrito
-           for (const item of storedCart.carItems) {
-               // Multiplicar el precio por la cantidad y sumar al total
-               total += item.price * item.quantity;
-           }
-       }
-       console.log(total)
-       // Formatear el total como moneda
-       const formattedTotal = total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
-       // Retornar el total formateado del carrito
-       return formattedTotal;
+    // Verificar si hay un carrito almacenado
+    if (storedCart && storedCart.carItems) {
+        // Iterar sobre los elementos del carrito
+        for (const item of storedCart.carItems) {
+            // Multiplicar el precio por la cantidad y sumar al total
+            total += item.price * item.quantity;
+        }
+    }
+   total = parseFloat(total.toFixed(2));
+    console.log(total)
+    // Redondear el total a dos decimales
+    // Formatear el total como moneda
+    const formattedTotal = total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
+    // Retornar el total formateado del carrito
+    return formattedTotal;
 }
+
 
 // Función para actualizar el total del carrito en la interfaz de usuario
 function updateTotalCart() {
@@ -207,7 +208,6 @@ function updateCartQuantityFromLocalStorage() {
 
 function sendCartDataToBackend(address) {
     const cartData = JSON.parse(localStorage.getItem('cart'));
-
     // Verificar si el carrito está vacío
     if (!cartData || !cartData.carItems || cartData.carItems.length === 0) {
         Swal.fire({
@@ -242,11 +242,11 @@ function sendCartDataToBackend(address) {
             size: item.size, // Agregar la talla aquí
             totalPrice: item.quantity * item.price  // Calcular el precio total aquí
         })),
-        totalPurchase: calculateTotalCart(),
+        totalPurchase: parseFloat(calculateTotalCart().toFixed(2)),
         date: new Date().toISOString()
     };
-    console.log('purchase', purchaseData);
 
+    console.log('purchase', purchaseData);
     // Crear una solicitud HTTP POST
     fetch('/purchase', {
         method: 'POST',
@@ -267,7 +267,7 @@ function sendCartDataToBackend(address) {
                 timer: 2000
             }).then(() => {
                 // Redirigir a la página principal
-                window.location.href = '/tienda';
+//                window.location.href = '/tienda';
             });
         } else {
              Swal.fire({

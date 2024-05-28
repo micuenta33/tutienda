@@ -40,7 +40,6 @@ public class PurchaseController {
 
     @PostMapping("/purchase")
     public ResponseEntity<?> purchase(@RequestBody Purchase purchase) {
-        System.out.println(purchase);
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
