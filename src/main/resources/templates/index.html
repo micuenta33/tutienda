@@ -83,57 +83,57 @@
         </div>
         <div class="row">
             <div class="col-12 col-md-4 p-5 mt-3 fila">
-                <a th:href="@{/tienda(category=${'watches'})}">
+                <a th:href="@{/tienda(type=${'zapatos'})}">
                     <img src="./assets/img/category_img_01.jpg" class="rounded-circle img-fluid border">
                 </a>
                 <div class="text-center mt-3 mb-3">
-                <a class="text-decoration-none" th:href="@{/tienda(category=${'watches'})}"  >
+                <a class="text-decoration-none" th:href="@{/tienda(type=${'zapatos'})}"  >
                     <i class="h5 text-success">Zapatos</i>
                 </a>
                 </div>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3 fila" >
-                <a th:href="@{/tienda(category=${'shoes'})}">
+                <a th:href="@{/tienda(type=${'zapatillas'})}">
                     <img src="./assets/img/category_img_02.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
-                    <a class="text-decoration-none" th:href="@{/tienda(category=${'shoes'})}"  >
+                    <a class="text-decoration-none" th:href="@{/tienda(type=${'zapatillas'})}"  >
                         <i class="h5 text-success">Zapatillas</i>
                     </a>
                 </div>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3 fila">
-                <a th:href="@{/tienda(category=${'clothing'})}">
+                <a th:href="@{/tienda(type=${'sandalia'})}" >
                     <img src="./assets/img/category_img_04.jpg" class="rounded-circle img-fluid border">
                 </a>
                 <div class="text-center mt-3 mb-3">
-                    <a class="text-decoration-none" th:href="@{/tienda(category=${'clothing'})}"  >
+                    <a class="text-decoration-none" th:href="@{/tienda(type=${'sandalia'})}"  >
                         <i class="h5 text-success">Sandalías</i>
                     </a>
                 </div>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3 fila">
-                <a th:href="@{/tienda(category=${'glasses'})}">
+                <a th:href="@{/tienda(type=${'tacones'})}">
                     <img src="./assets/img/category_img_03.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
-                    <a class="text-decoration-none" th:href="@{/tienda(category=${'glasses'})}" >
+                    <a class="text-decoration-none" th:href="@{/tienda(type=${'tacones'})}" >
                         <i class="h5 text-success">Tacones</i>
                     </a>
                 </div>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3 fila">
-                <a th:href="@{/tienda(category=${'bags'})}">
+                <a  th:href="@{/tienda(type=${'botas'})}">
                     <img src="./assets/img/category_img_05.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
-                    <a class="text-decoration-none" th:href="@{/tienda(category=${'bags'})}" >
+                    <a class="text-decoration-none" th:href="@{/tienda(type=${'botas'})}" >
                         <i class="h5 text-success">Botas</i>
                     </a>
                 </div>
             </div>
             <div class="col-12 col-md-4 p-5 mt-3 fila">
-                <a th:href="@{/tienda(category=${'jewelry'})}">
+                <a th:href="@{/tienda(type=${'pantuflas'})}">
                     <img src="./assets/img/category_img_06.jpg" class="rounded-circle img-fluid border"></a>
                 <div class="text-center mt-3 mb-3">
-                    <a class="text-decoration-none" th:href="@{/tienda(category=${'jewelry'})}"  >
+                    <a class="text-decoration-none" th:href="@{/tienda(type=${'pantuflas'})}"  >
                         <i class="h5 text-success">Pantuflas</i>
                     </a>
                 </div>
@@ -141,7 +141,6 @@
         </div>
     </section>
     <!-- End Categories of The Month -->
-
     <!-- Start Featured Product -->
 <section id="related-products-section" class="bg-light">
     <div class="container  py-5">
@@ -157,7 +156,7 @@
                         <img class="card-img" th:src="${shoe.getImagePrimary}" alt="Imagen del producto">
                         <div class="card-img-overlay rounded-0 product-overlay d-flex align-items-center justify-content-center">
                             <ul class="list-unstyled">
-                                <li><a class="btn btn-success text-white" href="#"><i class="far fa-heart"></i></a></li>
+                                <li><a class="btn btn-success text-white" href="#" th:onclick="addFavoriteProduct([[${shoe}]])"><i class="far fa-heart"></i></a></li>
                                 <li><a class="btn btn-success text-white mt-2" th:href="@{/producto/{id}(id=${shoe.id})}"><i class="far fa-eye"></i></a></li>
                             </ul>
                         </div>
@@ -200,6 +199,7 @@
 <script th:src="@{/assets/js/custom.js}"></script>
 <script th:src="@{/assets/js/slick.min.js}"></script>
 <script th:src="@{/assets/js/cartService.js}"></script>
+<script th:src="@{/assets/js/products-favorite.js}"></script>
 <!-- Agrega SweetAlert JS -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 <script>

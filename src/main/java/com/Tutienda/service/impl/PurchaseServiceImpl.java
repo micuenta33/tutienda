@@ -17,8 +17,6 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 import java.util.Optional;
 
-import static org.hibernate.internal.util.collections.ArrayHelper.forEach;
-
 @Service
 public class PurchaseServiceImpl implements IPurchaseService {
     private final IUserService userService;
@@ -37,35 +35,68 @@ public class PurchaseServiceImpl implements IPurchaseService {
 
     @Override
     @Transactional
-    public void savePurchase(Purchase purchase, String username) {
-        Optional<User> user = userService.getUserByUsername(username);
-        if (user.isPresent()) {
-            purchase.setUser(user.get());
-            purchase.setDate(purchase.getDate());
-            purchase.setTotalPurchase(purchase.getTotalPurchase());
-            Purchase savedPurchase = purchaseRepository.save(purchase);
-            for (Item item : savedPurchase.getItems()) {
-                Optional<Shoe> optionalShoe = shoeService.findById(item.getShoe().getId());
-                if (optionalShoe.isPresent()) {
-                    Shoe shoe = optionalShoe.get();
+    public boolean savePurchase(Purchase purchase, String username) {
+        if (verifyExistsShoeStock(purchase.getItems())) {
+            Optional<User> user = userService.getUserByUsername(username);
+            if (user.isPresent()) {
+                purchase.setUser(user.get());
+                purchase.setDate(purchase.getDate());
+                purchase.setTotalPurchase(purchase.getTotalPurchase());
+                Purchase savedPurchase = purchaseRepository.save(purchase);
+                if (saveItems(savedPurchase)) {
+                    return true;
+                }
+            } else {
+                throw new RuntimeException("User with username " + username + " not found");
+            }
+        }
+        return false;
+    }
 
-                    for (ShoeStock stock : shoe.getShoeStocks()) {
-                        if (stock.getSize().getShoeSize().getSizeAsInt() == item.getSize()) { // Verificar la talla
-                            int newStock = stock.getStock() - item.getQuantity();
-                            stock.setStock(Math.max(newStock, 0)); // Asegurar que el stock no sea negativo
-                            shoeStockRepository.save(stock);
+    private boolean verifyExistsShoeStock(List<Item> items) {
+        for (Item item : items) {
+            Optional<Shoe> optionalShoe = shoeService.findById(item.getShoe().getId());
+            if (optionalShoe.isPresent()) {
+                Shoe shoe = optionalShoe.get();
+                for (ShoeStock stock : shoe.getShoeStocks()) {
+                    if (stock.getSize().getShoeSize().getSizeAsInt() == item.getSize()) {
+                        if (stock.getStock() < item.getQuantity()) {
+                            return false;
                         }
                     }
-                    item.setPurchase(savedPurchase);
-                    itemRepository.save(item);
-                } else {
-                    throw new RuntimeException("Shoe with ID " + item.getShoe().getId() + " not found");
                 }
             }
-        } else {
-            throw new RuntimeException("User with username " + username + " not found");
+        }
+        return true;
+    }
+
+    private boolean saveItems(Purchase savedPurchase) {
+        for (Item item : savedPurchase.getItems()) {
+            Optional<Shoe> optionalShoe = shoeService.findById(item.getShoe().getId());
+            if (optionalShoe.isPresent()) {
+                Shoe shoe = optionalShoe.get();
+                updateShoeStock(item, shoe);
+                item.setPurchase(savedPurchase);
+                itemRepository.save(item);
+            } else {
+                throw new RuntimeException("Shoe with ID " + item.getShoe().getId() + " not found");
+            }
+        }
+        return true;
+    }
+
+    private void updateShoeStock(Item item, Shoe shoe) {
+        for (ShoeStock stock : shoe.getShoeStocks()) {
+            if (stock.getSize().getShoeSize().getSizeAsInt() == item.getSize()) {
+                int newStock = stock.getStock() - item.getQuantity();
+                stock.setStock(newStock); // Asegurar que el stock no sea negativo
+                shoeStockRepository.save(stock);
+            }
         }
     }
+
+
+
 
     @Override
     public List<Purchase> getPurchaseByUser(User user) {

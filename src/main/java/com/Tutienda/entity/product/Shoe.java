@@ -1,5 +1,6 @@
 package com.Tutienda.entity.product;
 
+import com.Tutienda.entity.Rating;
 import com.Tutienda.entity.Size;
 import com.Tutienda.entity.ShoeStock;
 import com.Tutienda.entity.enums.Gender;
@@ -28,7 +29,7 @@ public  class Shoe implements Serializable {
     private List<ImageUrl> imageUrl;
     private String name;
     private String brand;
-    private int rating;
+    private double rating;
     private double price;
     @Column(length = 10000)
     private String description;
@@ -36,14 +37,25 @@ public  class Shoe implements Serializable {
     private Gender gender;
     private String color;
     private LocalDateTime createdAt;
-//    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-////    @JoinTable(name = "shoes_sizes",
-////            joinColumns = @JoinColumn(name = "Shoe_id"),
-////            inverseJoinColumns = @JoinColumn(name = "size_id"))
-////    private List<Size> sizes;
     @Enumerated(EnumType.STRING)
     private ShoeTypeEnum type;
     @OneToMany(mappedBy = "shoe", cascade = CascadeType.ALL, orphanRemoval = true)
     @ToString.Exclude
     private List<ShoeStock> shoeStocks;
+
+    @OneToMany(mappedBy = "shoe", cascade = CascadeType.ALL, orphanRemoval = true)
+    @ToString.Exclude
+    private List<Rating> ratings;
+
+    @PrePersist
+    public void prePersist() {
+        this.createdAt = LocalDateTime.now();
+    }
+    public void updateRating() {
+        if (ratings == null || ratings.isEmpty()) {
+            this.rating = 0;
+        } else {
+            this.rating = Math.round(ratings.stream().mapToInt(Rating::getRatingValue).average().orElse(0.0));
+        }
+    }
 }

@@ -42,23 +42,46 @@ function addToCart(shoe,size) {
           });
           return; // Salir de la función si no se ha seleccionado ninguna talla
       }
+
     // Verificar si el producto ya está en el carrito con la misma talla
        var existingItem = findCartItemByProductAndSize(shoe, size);
-
     if (existingItem !== null) {
-        // Si el producto ya está en el carrito, incrementar la cantidad
+     // Si el producto ya está en el carrito, incrementar la cantidad
+     const currentStock = checkStock(shoe, size);
+     console.log(currentStock)
+     if(existingItem.quantity < currentStock){
         existingItem.quantity++;
+         Swal.fire({
+                        icon: 'success',
+                        title: '¡Producto añadido!',
+                        text: 'El producto ha sido añadido al carrito.',
+                        confirmButtonText: 'Entendido'
+                    });
+      }else{
+       Swal.fire({
+                  icon: 'warning',
+                  title: 'Stock insuficiente',
+                  text: `No hay más unidades disponibles de la talla ${size}.`,
+                  confirmButtonText: 'Entendido'
+              });
+      }
     } else {
         // Si el producto no está en el carrito, agregarlo como nuevo CarItem
    var newItem = new CarItem(shoe, 1, shoe.price, size);
         cart.carItems.push(newItem);
         // Actualizar la cantidad total de productos en el carrito
         cart.quantityProduct++;
+         Swal.fire({
+                    icon: 'success',
+                    title: '¡Producto añadido!',
+                    text: 'El producto ha sido añadido al carrito.',
+                    confirmButtonText: 'Entendido'
+                });
     }
     localStorage.setItem('cart', JSON.stringify(cart));
-    console.log('Cart updated:', cart);
     renderCartItems(); // Renderizar los elementos del carrito en la vista
 }
+
 
 // Función de utilidad para buscar un CarItem por producto dentro del carrito
 function findCartItemByProductAndSize(shoe, size) {
@@ -117,14 +140,31 @@ function removeItemFromCart(index) {
     localStorage.setItem('cart', JSON.stringify(cart));
     renderCartItems(); // Renderizar los elementos del carrito en la vista
 }
-
 // Función para incrementar la cantidad de un producto en el carrito
 function incrementQuantity(index) {
-    cart.carItems[index].quantity++;
-    updateTotalCart();
-    updateCartQuantityFromLocalStorage();
-    localStorage.setItem('cart', JSON.stringify(cart));
-    renderCartItems(); // Renderizar los elementos del carrito en la vista
+    const item = cart.carItems[index];
+    const currentStock = checkStock(item.shoe, item.size); // Usar la función checkStock para obtener el stock actual
+    if (item.quantity < currentStock) {
+        item.quantity++;
+        updateTotalCart();
+        updateCartQuantityFromLocalStorage();
+        localStorage.setItem('cart', JSON.stringify(cart));
+        renderCartItems(); // Renderizar los elementos del carrito en la vista
+    } else {
+        Swal.fire({
+            icon: 'warning',
+            title: 'Stock insuficiente',
+            text: `No hay más unidades disponibles de la talla ${item.size}.`,
+            confirmButtonText: 'Entendido'
+        });
+    }
+}
+function checkStock(shoe, size) {
+    const sizeFormatted = `SIZE_${size}`; // Formatear la talla
+    const shoeStocks = shoe.shoeStocks; // Obtener los stocks del zapato
+    // Buscar el stock de la talla correspondiente
+    const stockInfo = shoeStocks.find(stock => stock.size.shoeSize === sizeFormatted);
+    return stockInfo ? stockInfo.stock : 0; // Retornar el stock si se encuentra, de lo contrario 0
 }
 
 // Función para decrementar la cantidad de un producto en el carrito
@@ -155,8 +195,6 @@ function calculateTotalCart() {
         }
     }
    total = parseFloat(total.toFixed(2));
-    console.log(total)
-    // Redondear el total a dos decimales
     // Formatear el total como moneda
     const formattedTotal = total.toLocaleString('es-ES', { style: 'currency', currency: 'EUR', minimumFractionDigits: 2 });
     // Retornar el total formateado del carrito
@@ -245,8 +283,6 @@ function sendCartDataToBackend(address) {
         totalPurchase: parseFloat(calculateTotalCart().toFixed(2)),
         date: new Date().toISOString()
     };
-
-    console.log('purchase', purchaseData);
     // Crear una solicitud HTTP POST
     fetch('/purchase', {
         method: 'POST',
@@ -267,7 +303,7 @@ function sendCartDataToBackend(address) {
                 timer: 2000
             }).then(() => {
                 // Redirigir a la página principal
-//                window.location.href = '/tienda';
+                window.location.href = '/tienda';
             });
         } else {
              Swal.fire({

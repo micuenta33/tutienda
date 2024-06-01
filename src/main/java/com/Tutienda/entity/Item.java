@@ -28,4 +28,5 @@ public class Item  {
     private Integer size;
     private int quantity;
     private double totalPrice;
+    private boolean hasRated;
 }

@@ -1,32 +1,31 @@
 <!DOCTYPE html>
 <html lang="Spanish" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-
 <head th:replace="~{layout/layout :: head}">
 </head>
 <style>
     /* Estilos para el mensaje "No hay stock" */
-  .no-stock-overlay {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(255, 255, 255, 0.7);
-      display: flex;
-      justify-content: center;
-      align-items: center;
-  }
+    .no-stock-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: rgba(255, 255, 255, 0.7);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
 
-  .no-stock-text {
-      color: red;
-      font-size: 2em;
-  }
+    .no-stock-text {
+        color: red;
+        font-size: 2em;
+    }
 
-  /* Estilos para desactivar la imagen cuando está fuera de stock */
-  .no-stock-overlay + .card .card-img {
-      filter: grayscale(100%);
-      opacity: 0.5;
-  }
+    /* Estilos para desactivar la imagen cuando está fuera de stock */
+    .no-stock-overlay + .card .card-img {
+        filter: grayscale(100%);
+        opacity: 0.5;
+    }
 </style>
 <body>
 <header th:replace="~{layout/layout :: header}">
@@ -39,33 +38,33 @@
             <h1 class="h2 pb-4 text-success">Categorías</h1>
             <ul class="list-unstyled templatemo-accordion">
                 <!-- Género -->
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                <li class="pb-3 shop-top-menu">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#" id="toggle-gender">
                         Género
                         <i class="fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
-                    <ul class="collapse show list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
+                    <ul class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1" id="gender-list">
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="gender" data-value="hombre">Hombre</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="gender" data-value="mujer">Mujer</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="gender" data-value="unisex">Unisex</a></li>
                     </ul>
                 </li>
                 <!-- Calzado -->
-                <li class="pb-3">
-                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#">
+                <li class="pb-3 shop-top-menu">
+                    <a class="collapsed d-flex justify-content-between h3 text-decoration-none" href="#" id="toggle-footwear">
                         Calzado
                         <i class="pull-right fa fa-fw fa-chevron-circle-down mt-1"></i>
                     </a>
-                    <ul class="collapse show list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1">
+                    <ul class="collapse list-unstyled pl-3 list-inline shop-top-menu pb-3 pt-1" id="footwear-list">
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatos">Zapatos</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatos clásicos">Zapatos clásicos</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatillas">Zapatillas</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatillas deportivas">Zapatillas deportivas</a></li>
-                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="zapatillas casuales">Zapatillas casuales</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="botas">Botas</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="sandalías">Sandalías</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="botines">Botines</a></li>
                         <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="tacones">Tacones</a></li>
+                        <li><a class="text-decoration-none filter-link" href="#" data-filter="type" data-value="otros">Otros</a></li>
                     </ul>
                 </li>
             </ul>
@@ -265,6 +264,7 @@
 <script src="assets/js/templatemo.js"></script>
 <script src="assets/js/custom.js"></script>
 <script src="assets/js/cartService.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener("DOMContentLoaded", function() {
         const filterLinks = document.querySelectorAll(".filter-link");
@@ -302,33 +302,6 @@
     });
 
 </script>
-<script>
-    function addFavoriteProduct(shoe) {
-
-        const favoriteProduct = {
-            user: null,
-            shoe: shoe
-        };
-
-        fetch('/favoritos', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(favoriteProduct)
-        })
-        .then(response => {
-            if (response.ok) {
-                console.log('Product added to favorites successfully');
-            } else {
-                console.error('Error adding product to favorites:', response.status);
-            }
-        })
-        .catch(error => {
-            console.error('Error adding product to favorites:', error);
-        });
-    }
-</script>
-<!-- End Script -->
+<script src="assets/js/products-favorite.js"></script>
 </body>
 </html>

@@ -57,7 +57,7 @@
                 <input id="code" placeholder="Enter your code">
             </form>
             <!-- Información de la dirección de envío -->
-            <div th:if="${user.address}">
+            <div th:if="${user.address != null}">
                 <h5><b>Dirección de Envío</b></h5>
                 <p th:text="${user.address.street} + ' ' + ${user.address.number} + ' ' + ${user.address.floor} + ' ' + ${user.address.door}"></p>
                 <p>

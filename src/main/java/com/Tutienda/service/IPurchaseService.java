@@ -6,7 +6,7 @@ import com.Tutienda.entity.users.User;
 import java.util.List;
 
 public interface IPurchaseService {
-    void savePurchase(Purchase purchase, String username);
+    boolean savePurchase(Purchase purchase, String username);
 
     List<Purchase> getPurchaseByUser(User user);
 

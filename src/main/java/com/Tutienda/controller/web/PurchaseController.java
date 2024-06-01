@@ -3,6 +3,7 @@ package com.Tutienda.controller.web;
 import com.Tutienda.entity.Purchase;
 import com.Tutienda.entity.users.User;
 import com.Tutienda.service.IPurchaseService;
+import com.Tutienda.service.IRatingService;
 import com.Tutienda.service.IUserService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -20,10 +21,12 @@ public class PurchaseController {
 
     private final IPurchaseService purchaseService;
     private final IUserService userService;
+    private final IRatingService ratingService;
 
-    public PurchaseController(IPurchaseService purchaseService, IUserService userService) {
+    public PurchaseController(IPurchaseService purchaseService, IUserService userService, IRatingService ratingService) {
         this.purchaseService = purchaseService;
         this.userService = userService;
+        this.ratingService = ratingService;
     }
 
     @GetMapping("/cart")
@@ -55,15 +58,26 @@ public class PurchaseController {
         if (authentication != null && authentication.isAuthenticated() && !authentication.getPrincipal().equals("anonymousUser")) {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String username = userDetails.getUsername();
-            purchaseService.savePurchase(purchase, username);
+           if (purchaseService.savePurchase(purchase, username)) {
+               return ResponseEntity.ok("ok");
+           }
         }
-        return ResponseEntity.ok("ok");
+        return ResponseEntity.badRequest().build();
     }
 
     @GetMapping("/purchases/{id}")
     public String getPurchaseByUser(@PathVariable Long id, Model model) {
-        model.addAttribute("purchase",purchaseService.getPurchaseById(id));
-        model.addAttribute("user",userService.getUserById(purchaseService.getPurchaseById(id).getUser().getId()).orElseThrow());
+        Purchase purchase = purchaseService.getPurchaseById(id);
+        User user = userService.getUserById(purchase.getUser().getId()).orElseThrow();
+
+        // Asume que purchaseService.getPurchaseById(id) y userService.getUserById(id) ya están implementados
+        purchase.getItems().forEach(item -> {
+            boolean hasRated = ratingService.hasRated(user, item.getShoe());
+            item.setHasRated(hasRated); // Supone que has agregado este campo en el item
+            System.out.println(item);
+        });
+        model.addAttribute("purchase", purchase);
+        model.addAttribute("user", user);
         return "/purchases_details";
     }
 

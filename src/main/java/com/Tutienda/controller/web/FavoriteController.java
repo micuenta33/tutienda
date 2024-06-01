@@ -4,6 +4,7 @@ import com.Tutienda.entity.FavoriteProduct;
 import com.Tutienda.entity.users.User;
 import com.Tutienda.service.IFavoriteProductService;
 import com.Tutienda.service.IUserService;
+import org.apache.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -39,15 +40,23 @@ public class FavoriteController {
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             String username = userDetails.getUsername();
             User user = userService.getUserByUsername(username).orElseThrow();
+           List<FavoriteProduct> favoriteProducts = iFavoriteProductService.findAllByUserId(user.getId());
+            for (FavoriteProduct favoriteProduct1 : favoriteProducts) {
+                if (favoriteProduct1.getShoe().getId() == favoriteProduct.getShoe().getId()) {
+                    return ResponseEntity.status(HttpStatus.SC_CONFLICT).build();
+                }
+            }
             favoriteProduct.setUser(user);
             iFavoriteProductService.save(favoriteProduct);
             return ResponseEntity.ok("ok");
         }
         return ResponseEntity.badRequest().build();
     }
+
+
     @DeleteMapping("/favoritos/{id}")
     public ResponseEntity<?> deleteFavorite(@PathVariable Long id) {
-           iFavoriteProductService.delete(id);
+        iFavoriteProductService.delete(id);
         return ResponseEntity.ok("ok");
     }
 

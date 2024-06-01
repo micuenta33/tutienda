@@ -2,14 +2,12 @@ package com.Tutienda.entity.enums;
 
 import lombok.Getter;
 
-import java.io.Serializable;
-
 @Getter
 public enum ShoeTypeEnum  {
     ZAPATOS("Zapatos"),
     ZAPATOS_CLÁSICO("Zapatos clásicos"),
     ZAPATILLAS("Zapatillas"),
-    ZAPATILLAS_DEPORTES("Zapatillas deportivas"),
+    ZAPATILLAS_CASUALES("Zapatillas casuales"),
     SANDALIAS("Sandalías"),
     BOTINES("Botines"),
     TACONES("Tacones"),
