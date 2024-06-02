@@ -26,20 +26,19 @@ import java.util.Map;
 @Controller
 public class AuthController {
     private final IUserService userService;
-    private final PasswordEncoder passwordEncoder;
 
-    public AuthController(IUserService userService, PasswordEncoder passwordEncoder) {
+    public AuthController(IUserService userService) {
         this.userService = userService;
-        this.passwordEncoder = passwordEncoder;
     }
 
     @GetMapping("/iniciar-sesion")
     public String getLogin(@RequestParam(value = "error", required = false) String error,
                            @RequestParam(value = "logout", required = false) String logout,
                            Model model, Principal principal, RedirectAttributes flash) {
+
         if(principal!=null){
             flash.addFlashAttribute("info","Ya ha iniciado sesión antes");
-            return "redirect:/tienda";
+            return "redirect:/";
         }
         if(error != null){
             model.addAttribute("error","Nombre de usuario o la contraseña incorrecta");
@@ -62,27 +61,11 @@ public class AuthController {
         return "users/register";
     }
     @PostMapping("/registro")
-    public String register( @ModelAttribute("user") @Valid User user,BindingResult result, Model model, RedirectAttributes flash ) throws Exception {
-
+    public String register( @ModelAttribute("user") @Valid User user,BindingResult result, Model model, RedirectAttributes flash )  {
         if (result.hasErrors()) {
-//            Map<String, String> errors = new HashMap<>();
-//            result.getFieldErrors().forEach(error -> errors.put(error.getField(), error.getDefaultMessage()));
-//            model.addAttribute("errors", errors);
             return "users/register";
         }
-
-            Role role1 = new Role(RoleEnum.ADMIN);
-            Role role2 = new Role(RoleEnum.USER);
-            role1.setUser(user);
-            role2.setUser(user);
-            user.setRoles(new HashSet<Role>(){{add(role1);}{add(role2);}});
-            user.setPassword(passwordEncoder.encode(user.getPassword()));
-        try {
-            userService.createUser(user);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-
+        userService.createUser(user);
         return "redirect:/iniciar-sesion";
     }
 

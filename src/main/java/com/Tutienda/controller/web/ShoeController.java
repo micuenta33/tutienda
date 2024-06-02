@@ -11,6 +11,7 @@ import com.Tutienda.service.IShoeSizeService;
 import com.Tutienda.service.IUploadFileService;
 import com.Tutienda.util.paginator.PageRender;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +25,7 @@ import java.util.*;
 
 @Controller
 public class ShoeController {
+
     private final IShoeService iShoeService;
     private final IUploadFileService iUploadFileService;
     private final   IShoeSizeRepository iShoeSizeRepository;
@@ -79,12 +81,13 @@ public class ShoeController {
         List<ShoeStock> filteredShoeStocks = shoe.getShoeStocks().stream()
                 .filter(shoeStock -> shoeStock.getStock() > 0)
                 .toList();
-
         // Establecer la lista filtrada en el objeto Shoe
         shoe.setShoeStocks(filteredShoeStocks);
-
+        // Dividir la descripción en líneas
+        List<String> descriptionLines = Arrays.asList(shoe.getDescription().split("\n"));
         model.addAttribute("shoe", shoe);
-        model.addAttribute("shoes", iShoeService.findAll());
+        model.addAttribute("descriptionLines", descriptionLines);
+        model.addAttribute("shoes", iShoeService.findAllByType(shoe.getType()));
         return "shop-single";
     }
 
@@ -100,10 +103,10 @@ public class ShoeController {
     }
 
     @PostMapping("/agregar/calzado")
-    public String saveShoe(@ModelAttribute("shoe") Shoe shoe,
+    public String saveShoe(@Valid @ModelAttribute("shoe") Shoe shoe,
                            @RequestParam("images") List<MultipartFile> images,
                            @RequestParam Map<String, String> formParams,
-                           @RequestParam(name = "imag",required = false) MultipartFile imag,
+                           @RequestParam(name = "imag") MultipartFile imag,
                            Model model) throws IOException {
 // Crear un mapa para almacenar los ID de talla y sus respectivos stocks
         Map<Long, Integer> sizeStockMap = new HashMap<>();
@@ -155,7 +158,6 @@ public class ShoeController {
             // Guardar ShoeStock
             shoeStockRepository.save(shoeStock);
         }
-
         return "redirect:/producto/" + savedShoe.getId();
     }
 

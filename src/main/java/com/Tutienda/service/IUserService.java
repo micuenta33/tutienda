@@ -8,7 +8,7 @@ import com.Tutienda.entity.users.User;
 import java.util.Optional;
 
 public interface IUserService {
-    User createUser(User user) throws Exception;
+    User createUser(User user);
     Optional<User> getUserByUsername(String name);
     User updateUser(User user);
     void deleteUser(User usuario);

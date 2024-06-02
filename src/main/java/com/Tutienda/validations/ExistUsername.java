@@ -8,11 +8,11 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
-@Constraint(validatedBy = ExistEmailValidation.class )
+@Constraint(validatedBy = ExistUsernameValidation.class)
 @Target(ElementType.FIELD)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface ExistEmail {
-    String message() default "Ya existe un usuario con este correo electronico";
+public @interface ExistUsername {
+    String message() default "Ya existe un usuario con este nombre de usuario";
 
     Class<?>[] groups() default {};
 

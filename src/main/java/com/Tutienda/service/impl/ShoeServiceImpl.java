@@ -1,5 +1,6 @@
 package com.Tutienda.service.impl;
 
+import com.Tutienda.entity.enums.ShoeTypeEnum;
 import com.Tutienda.entity.product.*;
 
 
@@ -26,12 +27,6 @@ public class ShoeServiceImpl implements IShoeService {
 
     public ShoeServiceImpl(IShoeRepository productRepository) {
         this.productRepository = productRepository;
-    }
-
-    @Override
-    @Transactional(readOnly = true)
-    public Page<Shoe> findAll(Pageable pageable) {
-        return productRepository.findAll(pageable);
     }
 
 
@@ -61,15 +56,19 @@ public class ShoeServiceImpl implements IShoeService {
 
     @Override
     @Transactional
-    public Shoe save(Shoe product) {
-        product.setCreatedAt(LocalDateTime.now());
-        return productRepository.save(product);
+    public Shoe save(Shoe shoe) {
+        return productRepository.save(shoe);
     }
 
     @Override
     @Transactional
     public void deleteById(Long id) {
         productRepository.deleteById(id);
+    }
+
+    @Override
+    public List<Shoe> findAllByType(ShoeTypeEnum type) {
+        return productRepository.findAllByType(type);
     }
 
     @Override
@@ -84,10 +83,4 @@ public class ShoeServiceImpl implements IShoeService {
     public List<Shoe> findByBestRatingGreaterThanEqual(Integer rating) {
         return productRepository.findByRatingGreaterThanEqual(rating);
     }
-
-    @Override
-    public List<Shoe> findByName(String term) {
-        return productRepository.findByNameContainingIgnoreCase(term);
-    }
-
 }

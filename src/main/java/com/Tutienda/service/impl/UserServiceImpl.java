@@ -2,12 +2,16 @@ package com.Tutienda.service.impl;
 
 
 import com.Tutienda.entity.users.Address;
+import com.Tutienda.entity.users.Role;
+import com.Tutienda.entity.users.RoleEnum;
 import com.Tutienda.entity.users.User;
 import com.Tutienda.repository.IAddressRepository;
 import com.Tutienda.repository.IUserRepository;
 import com.Tutienda.service.IUserService;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.Optional;
 
 @Service
@@ -15,14 +19,22 @@ public class UserServiceImpl implements IUserService {
 
     private final IUserRepository userRepository;
     private final IAddressRepository addressRepository;
+    private final PasswordEncoder passwordEncoder;
 
-    public UserServiceImpl(IUserRepository userRepository, IAddressRepository addressRepository) {
-        this.userRepository = userRepository;
+    public UserServiceImpl(IAddressRepository addressRepository, IUserRepository userRepository, PasswordEncoder passwordEncoder) {
         this.addressRepository = addressRepository;
+        this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
-    public User createUser(User user) throws Exception {
+    public User createUser(User user)  {
+        Role role1 = new Role(RoleEnum.ADMIN);
+        Role role2 = new Role(RoleEnum.USER);
+        role1.setUser(user);
+        role2.setUser(user);
+        user.setRoles(new HashSet<Role>(){{add(role1);}{add(role2);}});
+        user.setPassword(passwordEncoder.encode(user.getPassword()));
         return userRepository.save(user);
     }
 

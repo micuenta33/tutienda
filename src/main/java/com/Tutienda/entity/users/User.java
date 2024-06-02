@@ -1,10 +1,12 @@
 package com.Tutienda.entity.users;
 
 import com.Tutienda.validations.ExistEmail;
+import com.Tutienda.validations.ExistUsername;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Pattern;
 import lombok.*;
 
 import java.io.Serializable;
@@ -30,12 +32,18 @@ public class User implements Serializable {
     @Column(unique = true, length = 100)
     @NotEmpty
     @Email
+    @ExistEmail
     private String email;
     @Column(unique = true,length = 30)
+    @NotEmpty
+    @ExistUsername
     private String username;
     @Column(length = 60)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @NotEmpty
+    @Pattern(regexp = "^.{6,}$", message = "La contrasenya ha de tener al menos 6 caracteres")
     private String password;
+    @NotEmpty
     private String mobile;
     private String fix;
     @OneToOne( cascade = CascadeType.ALL, fetch = FetchType.EAGER, orphanRemoval = true)

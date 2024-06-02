@@ -1,12 +1,13 @@
 package com.Tutienda.entity.product;
 
 import com.Tutienda.entity.Rating;
-import com.Tutienda.entity.Size;
 import com.Tutienda.entity.ShoeStock;
 import com.Tutienda.entity.enums.Gender;
 import com.Tutienda.entity.ImageUrl;
 import com.Tutienda.entity.enums.ShoeTypeEnum;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.Size;
 import lombok.*;
 
 import java.io.Serializable;
@@ -23,15 +24,19 @@ public  class Shoe implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @NotEmpty
     private String imagePrimary;
     @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     @JoinColumn(name = "shoe_id")
     private List<ImageUrl> imageUrl;
+    @NotEmpty
     private String name;
+    @NotEmpty
     private String brand;
     private double rating;
     private double price;
     @Column(length = 10000)
+    @Size(min = 50, max = 1000 , message = "La descripción debe tener entre 50 y 1000 caracteres")
     private String description;
     @Enumerated(EnumType.STRING)
     private Gender gender;

@@ -5,6 +5,9 @@ import jakarta.persistence.Embeddable;
 import lombok.*;
 
 import java.io.Serializable;
+
+@EqualsAndHashCode
+@ToString
 @Getter
 @Setter
 @AllArgsConstructor

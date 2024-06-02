@@ -2,8 +2,29 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout/layout :: head}">
 </head>
-<link rel="stylesheet" type="text/css" href="/assets/css/slick.min.css" th:href="@{/assets/css/slick.min.css}">
-<link rel="stylesheet" type="text/css" href="/assets/css/slick-theme.css" th:href="@{/assets/css/slick-theme.css}">
+<link rel="stylesheet" type="text/css" th:href="@{/assets/css/slick.min.css}">
+<link rel="stylesheet" type="text/css"  th:href="@{/assets/css/slick-theme.css}">
+<style>
+    .price-highlight {
+          color: #3CB430; /* Rojo brillante */
+          font-weight: bold;
+          text-shadow: 1px 1px 2px #000000; /* Sombra para hacer el texto más visible */
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          height: 100%; /* Asegura que el contenedor use toda la altura disponible */
+      }
+      .description-container {
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+      }
+  #price-container .price-highlight p {
+        font-size: 50px !important;
+        font-weight: bold; /* Añadir grosor a la fuente */
+        text-align: center; /* Centrar el texto */
+}
+</style>
 <body>
 <header th:replace="~{layout/layout :: header}">
 </header>
@@ -75,14 +96,26 @@
                 <div class="card">
                     <div class="card-body">
                         <h1 class="h2" th:text="${shoe.name}">Active Wear</h1>
-                        <p class="h3 py-2" th:text="${shoe.price + ' €'}"></p>
-                        <h6>Description:</h6>
-                        <p  th:text="${shoe.description}"></p>
+                        <div class="row">
+                            <div class="col-8 description-container">
+                                <h6>Descripción:</h6>
+                                <ul>
+                                    <li th:each="descLine : ${descriptionLines}" th:text="${descLine}"></li>
+                                </ul>
+                            </div>
+                            <div class="col-4">
+                                <div class="card-body" id="price-container">
+                                    <div class="price-highlight">
+                                        <p th:text="${shoe.price + ' €'}"></p>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         <ul class="list-inline">
                             <li class="list-inline-item">
-                                <h6>Color : <span th:text="${shoe.color}"></span> </h6>
+                                <h6>Color : <span th:text="${shoe.color}"></span></h6>
                             </li>
-
                         </ul>
                         <form action="" method="GET">
                             <input type="hidden" name="shoe-title" value="Activewear">
@@ -97,6 +130,7 @@
                             <div class="row">
                                 <div class="col-auto">
                                     <ul class="w-100 list-unstyled d-flex flex-wrap justify-content-start mb-0 shoe-sizes">
+                                        <h6 class="text-danger" th:if="${#lists.size(shoe.shoeStocks) == 0}">No hay tallas disponibles en este momento </h6>
                                         <!-- Iterar sobre las tallas de zapatos -->
                                         <th:block th:each="stock : ${shoe.shoeStocks}">
                                             <li class="list-inline-item">
@@ -122,9 +156,9 @@
                             <!-- Otros elementos del formulario -->
                             <div class="row pb-3 mt-3">
                                 <div class="col d-grid">
-                                    <a class="btn btn-success btn-lg"  th:onclick="addToCart([[${shoe}]],getSelectedSize())">
+                                    <button class="btn btn-success btn-lg"  th:onclick="addToCart([[${shoe}]],getSelectedSize())" th:disabled="${#lists.size(shoe.shoeStocks) == 0}">
                                         <i class="fas fa-cart-plus"></i> Añadir a la cesta
-                                    </a>
+                                    </button>
                                 </div>
                                 <div class="col d-grid">
                                     <a class="btn btn-success btn-lg" th:onclick="addFavoriteProduct([[${shoe}]])" >

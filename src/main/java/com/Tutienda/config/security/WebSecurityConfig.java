@@ -39,7 +39,7 @@ public class WebSecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(authz->
                         authz.requestMatchers(resources).permitAll()
-                                .requestMatchers("/","/tienda","/producto/**","/registro","/iniciar-sesion","/sobre-nosotros","/contacto","/error").permitAll()
+                                .requestMatchers("/","/tienda","/producto/**","/registro","/iniciar-sesion","/sobre-nosotros","/contacto","/error/**").permitAll()
                                 .requestMatchers("/agregar/**").hasAuthority("ADMIN")
                                 .anyRequest().authenticated())
                 .formLogin((form) -> form
